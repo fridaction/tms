@@ -178,6 +178,7 @@
     <p class="sub">Open a competency and tap an OB to cycle: <b>std → + → −</b> (tap again to clear). Tap the <b>i</b> for the OB definition.</p>
     <label>Current event</label>
     <select id="curEvent" onchange="renderCapture()"></select>
+    <div id="evLib" style="margin-top:8px"></div>
     <div id="crewbar" class="crewbar"></div>
     <div class="hint"><b>Describe what you saw</b> (optional) → tap a suggested OB to jump &amp; mark it.</div>
     <textarea id="obsNote" placeholder="e.g. good raw-data tracking, but slow checklist"></textarea>
@@ -377,13 +378,13 @@ function renderCrewbar(){
   bar.innerHTML=[0,1].map(i=>`<div class="crewbtn ${S.curT===i?'on':''}" onclick="setCurT(${i})"><span class="who">${tname(i)}</span><span class="rl ${roleOf(i)==='PM'?'pm':''}">${roleOf(i)}</span></div>`).join("")
     +`<button class="btn ghost sm" onclick="swapRoles()">⇄ Swap roles</button>`;
 }
-function setCurT(i){S.curT=i;openForTrainee();renderCrewbar();renderAccordion();}
+function setCurT(i){S.curT=i;openForTrainee();renderCrewbar();renderAccordion();renderEvLib();}
 function swapRoles(){S.pf=1-S.pf;save();renderCrewbar();renderAccordion();}
 function openForTrainee(){capOpen=new Set();Object.keys(OBDATA).forEach(k=>{if(S.obs.some(o=>o.eventId===S.curEvent&&o.traineeId===tid(S.curT)&&COMPOF[o.code]===k))capOpen.add(k);});}
 function renderCapture(){
   S.curEvent=document.getElementById("curEvent").value;
   document.getElementById("obsNote").value="";document.getElementById("obSug").innerHTML="";
-  openForTrainee();renderCrewbar();renderAccordion();save();
+  openForTrainee();renderCrewbar();renderAccordion();renderEvLib();save();
 }
 function getCap(c){return S.obs.find(o=>o.eventId===S.curEvent&&o.traineeId===tid(S.curT)&&o.code===c);}
 function cycleCap(c){const e=getCap(c);const cur=e?e.val:"";const nx={"":"0","0":"+","+":"-","-":""}[cur];
@@ -395,6 +396,38 @@ function cycleCap(c){const e=getCap(c);const cur=e?e.val:"";const nx={"":"0","0"
 function setCapImp(c,i){const e=getCap(c);if(e){e.imp=i;renderAccordion();save();}}
 function setCapNote(c,v){const e=getCap(c);if(e){e.note=v;save();}}
 function toggleComp(k){if(capOpen.has(k))capOpen.delete(k);else capOpen.add(k);renderAccordion();}
+const EVLIB={"Raw data VOR":{"n":2,"ob":[["0.2",100],["0.6",100],["0.7",100],["1.3",100],["1.7",100],["1.4",100],["4.1",100],["4.5",100],["4.2",100],["8.2",100],["8.5",100],["0.5",50],["1.2",50],["1.1",50]]},"Raw data ILS":{"n":3,"ob":[["4.1",100],["4.5",100],["4.4",67],["4.3",67]]},"Go-around":{"n":17,"ob":[["3.6",82],["6.6",71],["1.7",71],["3.5",71],["1.2",59],["4.4",53],["1.4",53],["1.5",47],["4.1",35],["1.3",35],["7.2",35],["0.7",35]]},"Crosswind landing":{"n":2,"ob":[["4.1",100],["4.5",100],["4.3",50]]},"Windshear":{"n":7,"ob":[["1.2",71],["3.6",71],["1.3",57],["3.1",57],["7.2",57],["1.7",57],["8.1",43],["0.7",43],["1.5",43],["7.3",43]]},"ENG failure (en route)":{"n":2,"ob":[["2.4",100],["2.3",100],["1.1",100],["1.2",100],["8.1",100],["8.4",50],["8.7",50],["5.5",50],["4.1",50],["4.5",50],["7.1",50],["7.3",50],["6.1",50],["7.6",50]]},"Diversion":{"n":4,"ob":[["8.2",75],["8.1",50],["5.4",50],["5.2",50],["8.5",50],["2.9",50],["8.7",50]]},"2D approach":{"n":4,"ob":[["3.1",100],["1.4",100],["1.5",75],["1.2",75],["3.6",75],["3.5",75],["4.1",50],["4.5",50],["7.1",50],["1.7",50],["1.3",50]]},"MEL":{"n":3,"ob":[["1.1",67],["1.7",67]]},"Predictive Windshear":{"n":4,"ob":[["1.2",75],["1.3",75],["0.1",75],["3.1",75],["7.3",75],["6.1",50]]},"ECAM":{"n":8,"ob":[["1.4",100],["8.2",100],["1.2",88],["8.5",75],["3.5",75],["1.5",75],["3.6",62],["1.7",62],["1.3",50],["7.6",50],["5.4",50],["6.5",38],["2.9",38],["5.3",38]]},"TCAS":{"n":3,"ob":[["3.4",67],["2.2",67],["2.3",67]]},"Briefing & preparation":{"n":7,"ob":[["0.1",86],["0.7",71],["0.6",57],["0.2",57],["0.5",57],["1.1",43]]},"3D approach":{"n":6,"ob":[["1.2",67],["2.3",67],["1.3",67],["3.5",50],["3.6",50],["8.2",50],["2.9",50],["6.1",50],["7.6",50],["1.7",50],["1.4",50]]},"Normal take-off":{"n":6,"ob":[["1.7",100],["1.3",83],["1.4",67],["0.7",67],["3.5",67]]},"EFATO":{"n":4,"ob":[["1.2",100],["4.1",100],["6.1",100],["4.5",100],["4.3",75],["1.7",75],["0.7",50],["0.6",50],["0.5",50],["0.1",50],["5.1",50],["1.3",50],["1.4",50],["3.4",50]]},"OEI approach & landing":{"n":4,"ob":[["4.1",100],["1.7",100],["1.5",100],["7.2",75],["4.2",50],["6.1",50],["4.3",50]]},"Visual circuit":{"n":4,"ob":[["4.1",100],["7.3",100],["4.5",75],["1.7",75],["7.2",75],["4.2",50],["0.7",50],["4.3",50]]},"Landing":{"n":4,"ob":[["4.1",100],["4.3",75],["1.7",50],["4.2",50],["4.5",50]]},"Rejected take-off (RTO)":{"n":4,"ob":[["6.6",100],["1.2",100],["1.7",75],["2.9",75],["1.3",75],["0.7",50],["2.3",50],["7.1",50],["7.4",50],["8.7",50]]},"ETOPS":{"n":2,"ob":[["0.7",100],["0.5",100],["0.6",100],["0.2",50],["1.7",50],["0.4",50]]},"Emergency descent":{"n":3,"ob":[["1.2",100],["1.4",100],["1.7",100],["1.5",100],["3.5",100],["3.6",100],["3.1",100],["7.1",100],["7.2",100],["7.3",100],["8.7",100],["0.7",67],["1.3",67],["3.4",67]]},"RNP AR approach":{"n":4,"ob":[["1.7",100],["3.5",100],["3.6",100],["3.4",75],["8.4",75],["1.4",75],["3.1",75],["0.7",50],["0.1",50],["1.2",50],["1.1",50],["7.2",50],["8.2",50],["6.1",50]]},"Flight control failure":{"n":2,"ob":[["0.7",100],["0.1",100],["1.1",100],["1.7",100],["1.5",100],["3.5",100],["3.1",100],["4.1",100],["4.6",100],["4.7",100],["7.1",100],["8.7",100],["1.2",100],["7.2",50]]},"Loss of braking":{"n":2,"ob":[["1.2",100],["1.1",100],["1.4",100],["1.5",100],["3.5",100],["6.6",100],["8.7",50]]},"Fuel Failure":{"n":2,"ob":[["1.7",50],["1.5",50],["1.4",50],["1.2",50],["3.6",50],["3.5",50],["3.4",50],["6.1",50],["6.3",50],["6.2",50],["6.6",50],["7.1",50],["7.4",50],["6.5",50]]},"Failure management":{"n":2,"ob":[["1.2",100],["1.4",100],["1.7",100],["1.5",100],["2.9",100],["3.5",100],["6.7",100],["6.6",100],["6.1",100],["8.5",50],["8.2",50],["1.3",50],["2.4",50],["2.3",50]]}};
+const EVRULES=[[/brief|prepar/,"Briefing & preparation"],[/failure management|fail.*mgmt/,"Failure management"],
+[/oei.*(app|land)|single.*engine.*land/,"OEI approach & landing"],[/visual.*(circuit|pattern)/,"Visual circuit"],
+[/efato|eng.*fail.*(t\/?o|take.?off)|take.?off.*fail/,"EFATO"],[/eng.*fail|engine fail/,"ENG failure (en route)"],
+[/rejected|rto\b/,"Rejected take-off (RTO)"],[/take.?off/,"Normal take-off"],[/predictive/,"Predictive Windshear"],
+[/etops|edto/,"ETOPS"],[/emerg.*desc|desc.*urgen/,"Emergency descent"],[/rnp/,"RNP AR approach"],[/\bmel\b/,"MEL"],
+[/ecam/,"ECAM"],[/tcas|resolution advisory/,"TCAS"],[/overweight/,"Overweight landing preparation"],
+[/flight control|control fail|fctl/,"Flight control failure"],[/brak/,"Loss of braking"],[/gpws|terrain/,"GPWS"],
+[/fuel/,"Fuel Failure"],[/normal ils|ils.*landing/,"Normal ILS approach & landing"],[/raw.*vor|vor.*raw/,"Raw data VOR"],
+[/raw.*ils|ils.*raw/,"Raw data ILS"],[/single.*engine.*app|oei.*app/,"Single-engine approach"],
+[/2d|npa|non.?precision/,"2D approach"],[/3d\b/,"3D approach"],[/go.?around/,"Go-around"],[/windshear/,"Windshear"],
+[/diversion/,"Diversion"],[/crosswind.*land/,"Crosswind landing"],[/land.*oei|oei.*land/,"Landing OEI"],
+[/landing/,"Landing"],[/taxi/,"Taxi"]];
+function normEvent(n){n=(n||"").toLowerCase().trim();for(var i=0;i<EVRULES.length;i++){if(EVRULES[i][0].test(n))return EVRULES[i][1];}return "";}
+function renderEvLib(){
+  var box=document.getElementById("evLib"); if(!box) return;
+  var e=S.events.find(function(x){return x.id===S.curEvent;});
+  var key=e?normEvent(e.name):"";
+  var L=key?EVLIB[key]:null;
+  if(!L){box.innerHTML="";return;}
+  box.innerHTML='<div class="hint" style="margin-bottom:6px"><b>Souvent marqu\u00e9s sur cet event</b> \u2014 '
+    +L.n+' s\u00e9ance'+(L.n>1?'s':'')+' du pilote \u00b7 tapez pour marquer <b>std</b>, retapez pour cycler</div><div class="obsug">'
+    + L.ob.map(function(x){
+        var c=x[0], f=x[1], cur=getCap(c);
+        var sign=cur?(cur.val==="0"?"std":cur.val):"";
+        return '<span class="sg'+(cur?' sel':'')+'" onclick="libMark(\''+c+'\')" title="'+(OBTITLE[c]||"").replace(/"/g,"&quot;")+'">'
+          +'<span class="c">'+c+'</span> '+f+'%'+(sign?' <b>'+sign+'</b>':'')+'</span>';
+      }).join("") + '</div>';
+}
+function libMark(c){capOpen.add(COMPOF[c]);cycleCap(c);renderEvLib();}
+
+KW.push.apply(KW,[["stop","6.6"],["abort","6.6"],["v1","6.6"],["reject","6.6"],["brief","2.3"],["debrief","2.3"],["config","1.2"],["gear","1.2"],["flap","1.2"],["thrust","4.4"],["power","4.4"],["pitch","4.1"],["bank","4.1"],["rudder","4.1"],["trim","4.5"],["asymmetric","4.1"],["drift","4.2"],["track","4.2"],["altitude","7.2"],["level off","7.2"],["stabil","7.2"],["unstable","7.2"],["minima","6.6"],["atc","2.2"],["radio","2.2"],["read back","2.2"],["mayday","2.2"],["pan","2.2"],["fms","3.1"],["mcdu","3.1"],["fma","3.2"],["mode","3.5"],["managed","3.6"],["selected","3.6"],["task shar","5.1"],["support","8.4"],["assist","8.4"],["cross.?check","8.7"],["monitor","8.7"],["terrain","7.3"],["weather","7.3"],["wind","7.3"],["runway","7.3"],["fuel","6.2"],["divert","6.6"],["etops","0.3"],["mel","0.5"],["qrh","1.1"],["memory","1.2"],["status","7.1"]].map(function(p){return [p[0],[p[1]]];}));
 let SUG=[];
 function detectValence(t){
   const negd=/\b(?:did ?n.?t|do ?n.?t|does ?n.?t|without|never|no|not)\s+(?:rush\w*|hesitat\w*|delay\w*|struggl\w*|forget|forgot|miss\w*|lose|lost)\b/g;
