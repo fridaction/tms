@@ -51,6 +51,9 @@
   .crewbtn .who{font-size:13px;font-weight:700;color:var(--navy)}
   .crewbtn .rl{font-size:10px;font-weight:800;color:#fff;background:var(--std);border-radius:20px;padding:1px 7px;margin-left:4px}
   .crewbtn .rl.pm{background:var(--amber)}
+  .crewbtn .rl.mix{background:#8a94a6;letter-spacing:.3px}
+  .pfb{font-size:10px;font-weight:800;color:#fff;background:var(--std);border-radius:20px;padding:2px 8px;cursor:pointer;white-space:nowrap;user-select:none}
+  .pfb.b{background:var(--amber)}
   .mseg{display:inline-flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;flex-shrink:0}
   .mseg button{border:none;background:#fff;font:inherit;font-weight:700;font-size:12px;padding:5px 12px;cursor:pointer;color:var(--muted);border-left:1px solid var(--line)}
   .mseg button:first-child{border-left:none}
@@ -113,6 +116,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TMS">
 <meta name="theme-color" content="#0b1f3a">
+
 </head>
 <body>
 <div id="consent" class="modal"><div class="mbox">
@@ -308,18 +312,46 @@ Object.entries(OBDATA).forEach(([k,[,obs]])=>obs.forEach(([c,t])=>{OBTITLE[c]=t;
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
 const KW=[["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp7";
+const APP_VER="mvp8";
 let S=blank();let capOpen=new Set();
-function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],grades:{},actuallos:"",overall:""};}
+function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],grades:{},actuallos:"",overall:""};}
 function hasB(){return (S.trainees[1].name||"").trim()!=="";}
-function roleOf(idx){return idx===S.pf?"PF":"PM";}
-function roleStart(idx){return idx===(S.pf0!=null?S.pf0:S.pf)?"PF":"PM";}
+
+/* --- PF/PM is a property of (trainee x event), not a global toggle ---------
+   S.evPf maps eventId -> index of the trainee flying that event. An event with
+   no explicit entry inherits from the last event that has one, so a single swap
+   carries forward the way a real crew swap does. S.pf0 is the session default. */
+function pfForEvent(evId){
+  const base=(S.pf0!=null?S.pf0:0);
+  const map=S.evPf||{};
+  if(map[evId]!=null)return map[evId];
+  const i=(S.events||[]).findIndex(e=>e.id===evId);
+  for(let j=i-1;j>=0;j--){const v=map[S.events[j].id];if(v!=null)return v;}
+  return base;
+}
+function roleOf(idx,evId){return idx===pfForEvent(evId===undefined?S.curEvent:evId)?"PF":"PM";}
+function roleStart(idx){return roleOf(idx,(S.events&&S.events[0])?S.events[0].id:null);}
+/* Roles are derived, never typed in. Recompute every stored obs whenever the
+   crew assignment changes, so a mid-session swap can't leave stale roles. */
+function syncObsRoles(){
+  const idxOf={};(S.trainees||[]).forEach((t,i)=>{idxOf[t.id]=i;});
+  (S.obs||[]).forEach(o=>{const i=idxOf[o.traineeId];if(i!=null)o.role=roleOf(i,o.eventId);});
+}
+function setEvPf(evId,idx){S.evPf=S.evPf||{};S.evPf[evId]=idx;syncObsRoles();save();}
+function roleMix(idx){
+  const t=tid(idx),c={};
+  (S.obs||[]).filter(o=>o.traineeId===t).forEach(o=>{const r=o.role||"?";c[r]=(c[r]||0)+1;});
+  const keys=Object.keys(c).sort();
+  if(!keys.length)return roleStart(idx);
+  if(keys.length===1)return keys[0];
+  return keys.map(k=>k+" "+c[k]).join(" · ");
+}
 function tid(idx){return S.trainees[idx].id;}
 function tname(idx){return (S.trainees[idx].name||"").trim()||(idx===0?"A":"B");}
 function save(){
   S.trainees[0].name=val("tA");S.trainees[1].name=val("tB");
   const pfSel=+val("pf");if(S.pf0==null)S.pf0=S.pf||0;
-  if(pfSel!==S.pf0){S.pf0=pfSel;S.pf=pfSel;}
+  if(pfSel!==S.pf0){S.pf0=pfSel;S.pf=pfSel;syncObsRoles();}
   S.reqlos=val("reqlos");S.stype=val("stype");S.date=val("date");S.icode=val("icode")||S.icode||"";S.appVer=APP_VER;
   S.actuallosByT=S.actuallosByT||{};S.overallByT=S.overallByT||{};
   S.actuallosByT[tid(S.dbT)]=val("actuallos");S.overallByT[tid(S.dbT)]=val("overall");
@@ -328,6 +360,9 @@ function save(){
   try{localStorage.setItem("tms_mvp5",JSON.stringify(S));}catch(e){}
 }
 function migrate(x){x.actuallosByT=x.actuallosByT||{};x.overallByT=x.overallByT||{};if(x.pf0==null)x.pf0=x.pf||0;
+  /* Pre-mvp8 sessions had one global PF. Keep the roles already recorded on the
+     observations as-is; only seed the default so nothing shifts under the user. */
+  x.evPf=x.evPf||{};
   if(x.overall&&!Object.values(x.overallByT).some(Boolean)&&!/: /.test(x.overall))(x.trainees||[]).forEach(t=>x.overallByT[t.id]=x.overall);
   if(x.actuallos&&!Object.values(x.actuallosByT).some(Boolean)&&!/: /.test(x.actuallos))(x.trainees||[]).forEach(t=>x.actuallosByT[t.id]=x.actuallos);
   return x;}
@@ -357,10 +392,13 @@ function renderSetupEvents(){
   const box=document.getElementById("setupEvents");
   if(!S.events.length){box.innerHTML='<div class="empty">No events yet — add the exercises of the session.</div>';return;}
   box.innerHTML=S.events.map((e,i)=>{const n=S.obs.filter(o=>o.eventId===e.id).length;
+    const pf=pfForEvent(e.id);
     return `<div class="evrow"><span class="nm">${e.name}</span><span class="cnt">${n} obs</span>`+
+      (hasB()?`<span class="pfb ${pf===1?'b':''}" onclick="toggleEvPf('${e.id}')" title="Who is flying this event? Tap to swap.">PF ${tname(pf)}</span>`:"")+
       `<span class="mv" onclick="moveEvent(${i},-1)">▲</span><span class="mv" onclick="moveEvent(${i},1)">▼</span>`+
       `<span class="rm" onclick="delEvent('${e.id}')">✕</span></div>`;}).join("");
 }
+function toggleEvPf(evId){setEvPf(evId,1-pfForEvent(evId));renderSetupEvents();}
 function moveEvent(i,dir){const j=i+dir;if(j<0||j>=S.events.length)return;const t=S.events[i];S.events[i]=S.events[j];S.events[j]=t;save();renderSetupEvents();}
 function delEvent(id){S.events=S.events.filter(e=>e.id!==id);S.obs=S.obs.filter(o=>o.eventId!==id);save();renderSetupEvents();}
 
@@ -375,11 +413,19 @@ function renderCaptureEvents(){
 function renderCrewbar(){
   const bar=document.getElementById("crewbar");
   if(!hasB()){bar.innerHTML="";return;}
-  bar.innerHTML=[0,1].map(i=>`<div class="crewbtn ${S.curT===i?'on':''}" onclick="setCurT(${i})"><span class="who">${tname(i)}</span><span class="rl ${roleOf(i)==='PM'?'pm':''}">${roleOf(i)}</span></div>`).join("")
-    +`<button class="btn ghost sm" onclick="swapRoles()">⇄ Swap roles</button>`;
+  bar.innerHTML=[0,1].map(i=>{const r=roleOf(i,S.curEvent);
+    return `<div class="crewbtn ${S.curT===i?'on':''}" onclick="setCurT(${i})"><span class="who">${tname(i)}</span><span class="rl ${r==='PM'?'pm':''}">${r}</span></div>`;}).join("")
+    +`<button class="btn ghost sm" onclick="swapRoles()" title="Changes who is flying, from this event onwards. To pick who you are marking, tap their name.">⇄ Swap PF/PM<br><span class="small" style="font-weight:400">this event onwards</span></button>`;
 }
 function setCurT(i){S.curT=i;openForTrainee();renderCrewbar();renderAccordion();renderEvLib();}
-function swapRoles(){S.pf=1-S.pf;save();renderCrewbar();renderAccordion();}
+/* Swaps who is FLYING, from the current event onwards. Selecting who you are
+   MARKING is a separate action — tapping the trainee's name. Conflating the two
+   is what produced sessions where both trainees came out as PF. */
+function swapRoles(){
+  if(!S.curEvent){alert("Add an event first — PF/PM is set per event.");return;}
+  setEvPf(S.curEvent,1-pfForEvent(S.curEvent));
+  renderCrewbar();renderAccordion();
+}
 function openForTrainee(){capOpen=new Set();Object.keys(OBDATA).forEach(k=>{if(S.obs.some(o=>o.eventId===S.curEvent&&o.traineeId===tid(S.curT)&&COMPOF[o.code]===k))capOpen.add(k);});}
 function renderCapture(){
   S.curEvent=document.getElementById("curEvent").value;
@@ -389,8 +435,8 @@ function renderCapture(){
 function getCap(c){return S.obs.find(o=>o.eventId===S.curEvent&&o.traineeId===tid(S.curT)&&o.code===c);}
 function cycleCap(c){const e=getCap(c);const cur=e?e.val:"";const nx={"":"0","0":"+","+":"-","-":""}[cur];
   if(nx===""){if(e)S.obs=S.obs.filter(o=>o!==e);}
-  else if(e){e.val=nx;if(nx!=="-")e.imp="none";e.role=roleOf(S.curT);e.tm=new Date().toISOString();}
-  else S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:c,val:nx,imp:"none",role:roleOf(S.curT),note:"",t:new Date().toISOString()});
+  else if(e){e.val=nx;if(nx!=="-")e.imp="none";e.role=roleOf(S.curT,S.curEvent);e.tm=new Date().toISOString();}
+  else S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:c,val:nx,imp:"none",role:roleOf(S.curT,S.curEvent),note:"",t:new Date().toISOString()});
   renderAccordion();save();
 }
 function setCapImp(c,i){const e=getCap(c);if(e){e.imp=i;renderAccordion();save();}}
@@ -468,7 +514,7 @@ function jumpMarkIdx(i){
   capOpen.add(COMPOF[s.code]);
   const v=s.v||"0", note=(s.clause||"").slice(0,140);
   const e=getCap(s.code);
-  if(!e) S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:s.code,val:v,imp:"none",role:roleOf(S.curT),note:note});
+  if(!e) S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:s.code,val:v,imp:"none",role:roleOf(S.curT,S.curEvent),note:note});
   else { e.val=v; if(!e.note) e.note=note; }
   save();renderAccordion();suggestOBs();
 }
@@ -501,10 +547,11 @@ function ensureGrade(t,comp){const g=grds(t);if(!g[comp])g[comp]={marks:{},often
 function renderDbCrew(){
   const bar=document.getElementById("dbCrew");
   if(!hasB()){bar.innerHTML="";S.dbT=0;return;}
-  bar.innerHTML=[0,1].map(i=>`<div class="crewbtn ${S.dbT===i?'on':''}" onclick="setDbT(${i})"><span class="who">${tname(i)}</span><span class="rl ${roleOf(i)==='PM'?'pm':''}">${roleOf(i)}</span></div>`).join("")
-    +`<button class="btn ghost sm" onclick="swapRolesDb()">⇄ Swap roles</button>`;
+  /* No swap button here: roles belong to the events and are already recorded.
+     Show what each trainee actually flew instead. */
+  bar.innerHTML=[0,1].map(i=>{const m=roleMix(i);
+    return `<div class="crewbtn ${S.dbT===i?'on':''}" onclick="setDbT(${i})"><span class="who">${tname(i)}</span><span class="rl ${m==='PM'?'pm':''} ${/·/.test(m)?'mix':''}">${m}</span></div>`;}).join("");
 }
-function swapRolesDb(){S.pf=1-S.pf;save();renderDebrief();}
 function setDbT(i){S.dbT=i;renderDebrief();}
 function renderDebrief(){
   renderDbCrew();
