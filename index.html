@@ -52,8 +52,6 @@
   .crewbtn .rl{font-size:10px;font-weight:800;color:#fff;background:var(--std);border-radius:20px;padding:1px 7px;margin-left:4px}
   .crewbtn .rl.pm{background:var(--amber)}
   .crewbtn .rl.mix{background:#8a94a6;letter-spacing:.3px}
-  .pfb{font-size:10px;font-weight:800;color:#fff;background:var(--std);border-radius:20px;padding:2px 8px;cursor:pointer;white-space:nowrap;user-select:none}
-  .pfb.b{background:var(--amber)}
   .mseg{display:inline-flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;flex-shrink:0}
   .mseg button{border:none;background:#fff;font:inherit;font-weight:700;font-size:12px;padding:5px 12px;cursor:pointer;color:var(--muted);border-left:1px solid var(--line)}
   .mseg button:first-child{border-left:none}
@@ -163,7 +161,7 @@
     </div>
     <div class="row">
       <div><label>Session type</label><input type="text" id="stype" placeholder="e.g. FFS 4" oninput="save()"></div>
-      <div><label>Date</label><input type="text" id="date" placeholder="dd/mm/yyyy" oninput="save()"></div>
+      <div><label>Date</label><input type="date" id="date" oninput="save()" onchange="save()"></div>
     </div>
     <div class="row">
       <div><label>Instructor code (anonymous, e.g. INS-01)</label><input type="text" id="icode" placeholder="e.g. INS-01" oninput="save()"></div>
@@ -352,7 +350,7 @@ function save(){
   S.trainees[0].name=val("tA");S.trainees[1].name=val("tB");
   const pfSel=+val("pf");if(S.pf0==null)S.pf0=S.pf||0;
   if(pfSel!==S.pf0){S.pf0=pfSel;S.pf=pfSel;syncObsRoles();}
-  S.reqlos=val("reqlos");S.stype=val("stype");S.date=val("date");S.icode=val("icode")||S.icode||"";S.appVer=APP_VER;
+  S.reqlos=val("reqlos");S.stype=val("stype");S.date=isoToDMY(val("date"));S.icode=val("icode")||S.icode||"";S.appVer=APP_VER;
   S.actuallosByT=S.actuallosByT||{};S.overallByT=S.overallByT||{};
   S.actuallosByT[tid(S.dbT)]=val("actuallos");S.overallByT[tid(S.dbT)]=val("overall");
   S.actuallos=activeTrainees().map(i=>{const v=S.actuallosByT[tid(i)];return v?tname(i)+": "+v:"";}).filter(Boolean).join(" | ");
@@ -368,6 +366,13 @@ function migrate(x){x.actuallosByT=x.actuallosByT||{};x.overallByT=x.overallByT|
   return x;}
 function load(){try{const r=localStorage.getItem("tms_mvp5");if(r)S=migrate(JSON.parse(r));}catch(e){}}
 const val=id=>{const e=document.getElementById(id);return e?e.value:"";};
+/* The date field is a native picker (yyyy-mm-dd) but the pilot database is
+   already full of dd/mm/yyyy. Convert at the boundary so both stay consistent. */
+function isoToDMY(s){s=(s||"").trim();const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);return m?m[3]+"/"+m[2]+"/"+m[1]:s;}
+function dmyToISO(s){const m=/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/.exec((s||"").trim());if(!m)return "";
+  let y=+m[3];if(y<100)y+=2000;
+  return y+"-"+String(+m[2]).padStart(2,"0")+"-"+String(+m[1]).padStart(2,"0");}
+function todayISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function uid(){return Math.random().toString(36).slice(2,9);}
 const esc=s=>(s||"").replace(/"/g,"&quot;");
 
@@ -391,14 +396,15 @@ function addEvent(name){name=name||val("evname").trim();if(!name)return;S.events
 function renderSetupEvents(){
   const box=document.getElementById("setupEvents");
   if(!S.events.length){box.innerHTML='<div class="empty">No events yet — add the exercises of the session.</div>';return;}
+  /* No PF badge here on purpose. Setup answers one question — who starts as PF.
+     Who is flying each event is decided live in Capture, where the swap happens
+     at the moment the crew actually changes seats. Showing it in both places
+     made "PF at start" look like it was rewriting every event. */
   box.innerHTML=S.events.map((e,i)=>{const n=S.obs.filter(o=>o.eventId===e.id).length;
-    const pf=pfForEvent(e.id);
     return `<div class="evrow"><span class="nm">${e.name}</span><span class="cnt">${n} obs</span>`+
-      (hasB()?`<span class="pfb ${pf===1?'b':''}" onclick="toggleEvPf('${e.id}')" title="Who is flying this event? Tap to swap.">PF ${tname(pf)}</span>`:"")+
       `<span class="mv" onclick="moveEvent(${i},-1)">▲</span><span class="mv" onclick="moveEvent(${i},1)">▼</span>`+
       `<span class="rm" onclick="delEvent('${e.id}')">✕</span></div>`;}).join("");
 }
-function toggleEvPf(evId){setEvPf(evId,1-pfForEvent(evId));renderSetupEvents();}
 function moveEvent(i,dir){const j=i+dir;if(j<0||j>=S.events.length)return;const t=S.events[i];S.events[i]=S.events[j];S.events[j]=t;save();renderSetupEvents();}
 function delEvent(id){S.events=S.events.filter(e=>e.id!==id);S.obs=S.obs.filter(o=>o.eventId!==id);save();renderSetupEvents();}
 
@@ -718,7 +724,9 @@ function newSession(){S=blank();fillSetup();save();go("setup");}
 function fillSetup(){
   document.getElementById("tA").value=S.trainees[0].name||"";document.getElementById("tB").value=S.trainees[1].name||"";
   document.getElementById("pf").value=S.pf0!=null?S.pf0:(S.pf||0);document.getElementById("reqlos").value=S.reqlos||"Medium";
-  document.getElementById("stype").value=S.stype||"";document.getElementById("date").value=S.date||"";
+  document.getElementById("stype").value=S.stype||"";
+  /* Sessions are almost always logged the day they are flown — start on today. */
+  document.getElementById("date").value=S.date?dmyToISO(S.date):todayISO();
   var ic=document.getElementById("icode");if(ic)ic.value=S.icode||"";
   var al=document.getElementById("actuallos");if(al)al.value=(S.actuallosByT||{})[tid(S.dbT)]||"";
   var ov=document.getElementById("overall");if(ov)ov.value=(S.overallByT||{})[tid(S.dbT)]||"";
