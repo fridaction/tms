@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TMS — CBTA Session Tool (MVP)</title>
+<style>
+  :root{
+    --navy:#0b1f3a;--navy2:#12305c;--ink:#1a2230;--muted:#6b7789;--line:#e3e8f0;--bg:#f4f6fa;--card:#fff;
+    --pos:#1f8a4c;--pos-soft:#e4f5ec;--neg:#c62828;--neg-soft:#fdeaea;--std:#1f6feb;--std-soft:#e7f0fe;
+    --amber:#b8730a;--amber-soft:#fdf2e2;--na:#8a94a3;--blue:#1f6feb;
+    --shadow:0 1px 3px rgba(13,32,64,.08),0 8px 26px rgba(13,32,64,.07);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+  .app{max-width:780px;margin:0 auto;min-height:100vh;background:var(--card);box-shadow:var(--shadow)}
+  .top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center}
+  .top .brand{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+  .top .dot{width:9px;height:9px;border-radius:50%;background:#37d27a}
+  .top .acts{display:flex;gap:7px}
+  .top button{background:rgba(255,255,255,.12);border:none;color:#fff;font:inherit;font-size:11.5px;padding:5px 9px;border-radius:7px;cursor:pointer}
+  .steps{display:flex;background:var(--navy2)}
+  .step{flex:1;text-align:center;padding:11px 4px;color:#cdd9ee;font-size:12px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;user-select:none}
+  .step.on{color:var(--navy);background:var(--card);border-bottom-color:var(--blue)}
+  .step .n{display:inline-flex;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.15);align-items:center;justify-content:center;font-size:10px;margin-right:5px}
+  .step.on .n{background:var(--blue);color:#fff}
+  .scr{display:none;padding:18px}.scr.on{display:block}
+  h2{font-size:16px;margin:0 0 4px;color:var(--navy)}
+  .sub{font-size:12.5px;color:var(--muted);margin:0 0 16px}
+  label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;display:block;margin:12px 0 5px}
+  input[type=text],textarea,select{width:100%;font:inherit;font-size:14px;padding:9px 11px;border:1.5px solid var(--line);border-radius:9px;background:#fbfcfe}
+  textarea{resize:vertical;min-height:54px}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
+  .row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
+  .btn{border:none;border-radius:10px;padding:10px 16px;font:inherit;font-weight:600;font-size:13.5px;cursor:pointer;background:var(--blue);color:#fff}
+  .btn.ghost{background:#eef2f8;color:var(--navy)}.btn:active{transform:translateY(1px)}
+  .btn.sm{padding:6px 11px;font-size:12px;border-radius:8px}
+  .pill{font-size:10px;font-weight:700;background:var(--navy);color:#fff;border-radius:20px;padding:2px 8px}
+  .privacy{font-size:12px;color:#7a5200;background:var(--amber-soft);border:1px solid #f0d3a0;border-radius:9px;padding:8px 11px;margin-bottom:6px}
+  .evlist{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+  .evrow{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff}
+  .evrow .nm{flex:1;font-size:13.5px;font-weight:600}.evrow .cnt{font-size:11px;color:var(--muted)}
+  .evrow .mv,.evrow .rm{cursor:pointer;color:var(--muted);font-weight:700;padding:0 2px}.evrow .mv{font-size:11px}.evrow .mv:hover,.evrow .rm:hover{color:var(--navy)}
+  .hint{font-size:12px;color:var(--muted);background:var(--std-soft);border:1px solid #d3e3fd;padding:8px 11px;border-radius:9px;margin-bottom:14px}.hint b{color:var(--navy)}
+  .obsug{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .sg{font-size:12px;border:1.5px solid #c9d8f5;background:#f7faff;border-radius:9px;padding:5px 9px;cursor:pointer;color:var(--navy)}
+  .sg.sel{background:var(--navy);color:#fff;border-color:var(--navy)}.sg .c{font-weight:700}
+  .crewbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+  .crewbtn{flex:1;min-width:120px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;cursor:pointer;text-align:left}
+  .crewbtn.on{border-color:var(--navy);background:#f2f6fc;box-shadow:0 0 0 2px rgba(11,31,58,.06)}
+  .crewbtn .who{font-size:13px;font-weight:700;color:var(--navy)}
+  .crewbtn .rl{font-size:10px;font-weight:800;color:#fff;background:var(--std);border-radius:20px;padding:1px 7px;margin-left:4px}
+  .crewbtn .rl.pm{background:var(--amber)}
+  .mseg{display:inline-flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;flex-shrink:0}
+  .mseg button{border:none;background:#fff;font:inherit;font-weight:700;font-size:12px;padding:5px 12px;cursor:pointer;color:var(--muted);border-left:1px solid var(--line)}
+  .mseg button:first-child{border-left:none}
+  .mseg button.on[data-m="+"]{background:var(--pos);color:#fff}.mseg button.on[data-m="0"]{background:var(--std);color:#fff}
+  .mseg button.on[data-m="-"]{background:var(--neg);color:#fff}.mseg button.on[data-m="NA"]{background:var(--na);color:#fff}
+  .iseg{display:inline-flex;border:1.5px solid #eccb8e;border-radius:8px;overflow:hidden;flex-shrink:0}
+  .iseg button{border:none;background:#fff;font:inherit;font-weight:600;font-size:10.5px;padding:4px 8px;cursor:pointer;color:var(--muted);border-left:1px solid #eccb8e}
+  .iseg button:first-child{border-left:none}.iseg button.on{background:var(--amber);color:#fff}
+  .empty{color:var(--muted);font-size:12.5px;font-style:italic;padding:8px 0}
+  .statechip{width:36px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0;border:1.5px solid var(--line)}
+  .s-e{color:var(--muted);background:#fff}.s-s{background:var(--std-soft);color:var(--std);border-color:var(--std)}
+  .s-p{background:var(--pos-soft);color:var(--pos);border-color:var(--pos)}.s-n{background:var(--neg-soft);color:var(--neg);border-color:var(--neg)}
+  .comp{border:1px solid var(--line);border-radius:11px;margin-bottom:8px;overflow:hidden}
+  .comp .h{display:flex;align-items:center;gap:10px;padding:11px 13px;cursor:pointer}
+  .comp .abbr{font-weight:800;font-size:12px;color:#fff;background:var(--navy);border-radius:7px;width:42px;height:30px;display:flex;align-items:center;justify-content:center}
+  .comp .nm{flex:1}.comp .nm .t{font-size:13px;font-weight:600}.comp .nm .s{font-size:11px;color:var(--muted)}
+  .comp .badge{font-size:10px;font-weight:700;background:var(--pos-soft);color:var(--pos);border-radius:20px;padding:2px 8px}
+  .chev{color:var(--muted);font-size:12px}
+  .gb{width:32px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+  .g1,.g2{background:var(--neg-soft);color:var(--neg)}.g3{background:var(--amber-soft);color:var(--amber)}.g4,.g5{background:var(--pos-soft);color:var(--pos)}.g0{background:#eef2f8;color:var(--muted)}
+  .comp .body{display:none;padding:4px 13px 12px;border-top:1px solid var(--line)}
+  .comp.open .body{display:block}
+  .obm{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px}
+  .obm.cyc{cursor:pointer;user-select:none;border-radius:8px;padding:6px 6px}.obm.cyc:hover{background:#f7faff}
+  .obm .cc{font-weight:700;width:30px;font-variant-numeric:tabular-nums}
+  .obm .tt{flex:1;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .info{width:19px;height:19px;border-radius:50%;border:1.5px solid var(--std);color:var(--std);font-size:11px;font-weight:800;font-style:italic;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+  .info:hover{background:var(--std);color:#fff}
+  .subrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:0 0 8px 40px}
+  .subrow input{flex:1;min-width:110px;font-size:12px;padding:5px 8px}
+  .dims{font-size:12px;color:var(--muted);margin:10px 0 6px;line-height:1.7}.dims b{color:var(--navy)}
+  .ofb{display:inline-flex;gap:4px;flex-wrap:wrap}
+  .ofb button{font-size:11px;border:1.5px solid var(--line);background:#fff;border-radius:7px;padding:3px 7px;cursor:pointer;color:var(--muted)}
+  .ofb button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+  .sgrade{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}.sgrade .lab{font-size:12px;color:var(--muted)}
+  .gsc{display:inline-flex;gap:5px}
+  .gsc button{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--line);background:#fff;font-weight:800;cursor:pointer;color:var(--ink)}
+  .gsc button.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .gsc button.suggested{border-color:#37d27a;box-shadow:0 0 0 2px rgba(55,210,122,.35)}
+  .alert{display:none;margin-top:9px;background:var(--neg-soft);border:1px solid #f3c3c3;color:#7e1d1d;border-radius:9px;padding:8px 11px;font-size:12px}.alert.show{display:block}
+  .losrow{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+  table.rep{width:100%;border-collapse:collapse;margin-top:8px;font-size:12.5px}
+  table.rep th,table.rep td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+  table.rep th{background:var(--navy);color:#fff;font-size:11px}
+  .rephdr{font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 2px}
+  .repnote{font-size:12px;color:var(--ink);margin:3px 0}
+  .navbtns{display:flex;justify-content:space-between;margin-top:18px;gap:10px}
+  .small{font-size:11px;color:var(--muted)}
+  .modal{position:fixed;inset:0;background:rgba(11,31,58,.6);display:none;align-items:center;justify-content:center;z-index:100;padding:18px}
+  .modal.show{display:flex}
+  .mbox{background:#fff;border-radius:14px;padding:20px 22px;max-width:440px;box-shadow:var(--shadow)}
+  .mbox h3{margin:0 0 8px;color:var(--navy);font-size:15px}.mbox p{font-size:13px;margin:6px 0}.mbox ul{margin:8px 0;padding-left:20px;font-size:13px}.mbox li{padding:2px 0}
+.sg.sgp{border-color:#1f8a4c;background:#e4f5ec;color:#1f8a4c}
+  .sg.sgn{border-color:#c62828;background:#fdeaea;color:#c62828}
+  .sg.sgs{border-color:#1f6feb;background:#e7f0fe;color:#1f6feb}
+  .sg.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
+</style>
+</head>
+<body>
+<div id="consent" class="modal"><div class="mbox">
+  <h3>Pilot — before you start</h3>
+  <p>This is a pilot tool to test the CBTA note-taking process and collect <b>anonymised</b> data. Please:</p>
+  <ul><li>Use <b>trainee initials or an ID</b> — never a full name.</li><li>No <b>sim / base / airport</b> location.</li><li>No <b>company</b> or other sensitive references.</li></ul>
+  <p class="small">Sessions you choose to submit are stored for the pilot analysis only.</p>
+  <button class="btn" onclick="acceptConsent()">I understand — continue</button>
+</div></div>
+<div id="info" class="modal" onclick="if(event.target.id==='info')closeInfo()"><div class="mbox">
+  <h3 id="infoTitle"></h3><p id="infoBody"></p>
+  <button class="btn ghost sm" onclick="closeInfo()">Close</button>
+</div></div>
+<div class="app">
+  <div class="top">
+    <div class="brand"><span class="dot"></span> TMS · CBTA Session Tool</div>
+    <div class="acts">
+      <button onclick="exportJSON()">Export</button>
+      <button onclick="document.getElementById('imp').click()">Import</button>
+      <button id="btnNew" onclick="askNew(this)">New</button>
+      <input type="file" id="imp" accept=".json" style="display:none" onchange="importJSON(event)">
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step on" data-s="setup"><span class="n">1</span>Setup</div>
+    <div class="step" data-s="capture"><span class="n">2</span>Capture</div>
+    <div class="step" data-s="debrief"><span class="n">3</span>Debrief</div>
+    <div class="step" data-s="report"><span class="n">4</span>Report</div>
+  </div>
+
+  <!-- SETUP -->
+  <div class="scr on" id="setup">
+    <h2>Session setup</h2>
+    <p class="sub">The crew, the required independence level, and the events of the session.</p>
+    <div class="privacy">🔒 Pilot — data protection: <b>no trainee names, no sim/base location, no company references.</b> Use initials or an ID.</div>
+    <div class="row">
+      <div><label>Trainee A — ID / initials</label><input type="text" id="tA" placeholder="e.g. FO-02" oninput="save()"></div>
+      <div><label>Trainee B — ID / initials (optional)</label><input type="text" id="tB" placeholder="e.g. CP-11 (leave blank if single)" oninput="save()"></div>
+    </div>
+    <div class="row">
+      <div><label>PF at start</label><select id="pf" onchange="save()"><option value="0">Trainee A</option><option value="1">Trainee B</option></select></div>
+      <div><label>Required Level of Support</label>
+        <select id="reqlos" onchange="save()"><option value="High">High — directive</option><option value="Medium" selected>Medium — coaching</option><option value="Low">Low — facilitative</option><option value="Nil">Nil — independent</option></select></div>
+    </div>
+    <div class="row">
+      <div><label>Session type</label><input type="text" id="stype" placeholder="e.g. FFS 4" oninput="save()"></div>
+      <div><label>Date</label><input type="text" id="date" placeholder="dd/mm/yyyy" oninput="save()"></div>
+    </div>
+    <div class="row">
+      <div><label>Instructor code (anonymous, e.g. INS-01)</label><input type="text" id="icode" placeholder="e.g. INS-01" oninput="save()"></div>
+    </div>
+    <label>Events of the session</label>
+    <div class="row"><div style="flex:3"><input type="text" id="evname" placeholder="Add an event (e.g. EFATO)" onkeydown="if(event.key==='Enter')addEvent()"></div>
+      <button class="btn" style="flex:0" onclick="addEvent()">Add</button></div>
+    <div class="small" style="margin-top:6px">Quick add: <span id="evpresets"></span></div>
+    <div class="evlist" id="setupEvents"></div>
+    <div class="navbtns"><span></span><button class="btn" onclick="go('capture')">Capture →</button></div>
+  </div>
+
+  <!-- CAPTURE -->
+  <div class="scr" id="capture">
+    <h2>In-session capture</h2>
+    <p class="sub">Open a competency and tap an OB to cycle: <b>std → + → −</b> (tap again to clear). Tap the <b>i</b> for the OB definition.</p>
+    <label>Current event</label>
+    <select id="curEvent" onchange="renderCapture()"></select>
+    <div id="crewbar" class="crewbar"></div>
+    <div class="hint"><b>Describe what you saw</b> (optional) → tap a suggested OB to jump &amp; mark it.</div>
+    <textarea id="obsNote" placeholder="e.g. good raw-data tracking, but slow checklist"></textarea>
+    <div class="obsug" id="obSug"></div>
+    <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center">
+      <b style="font-size:13px">Competencies</b><span class="pill"><span id="capCount">0</span> marked</span>
+    </div>
+    <div id="capAcc" style="margin-top:8px"></div>
+    <div class="navbtns"><button class="btn ghost" onclick="go('setup')">← Setup</button><button class="btn" onclick="go('debrief')">Debrief →</button></div>
+  </div>
+
+  <!-- DEBRIEF -->
+  <div class="scr" id="debrief">
+    <h2>Debrief — by competency</h2>
+    <p class="sub">Marks sorted by competency, per trainee. The app suggests a grade (lowest of How Many / How Often / TEM); you decide.</p>
+    <div id="dbCrew" class="crewbar"></div>
+    <div id="debriefList"></div>
+    <div style="margin-top:14px;border-top:1px solid var(--line);padding-top:12px">
+      <label>Actual support given vs required — <b>for the selected trainee</b></label>
+      <div class="losrow">
+        <select id="actuallos" onchange="save();updateLosCompare()"><option value="">Actual support given…</option><option>High</option><option>Medium</option><option>Low</option><option>Nil</option></select>
+        <span class="small" id="losCompare"></span>
+      </div>
+      <label>Overall comment</label>
+      <textarea id="overall" placeholder="Overall for this trainee…" oninput="save()"></textarea>
+    </div>
+    <div class="navbtns"><button class="btn ghost" onclick="go('capture')">← Capture</button><button class="btn" onclick="go('report')">Report →</button></div>
+  </div>
+
+  <!-- REPORT -->
+  <div class="scr" id="report">
+    <h2>Session report</h2>
+    <p class="sub" id="repHead"></p>
+    <div id="repBody"></div>
+    <div class="navbtns"><button class="btn ghost" onclick="go('debrief')">← Debrief</button>
+      <span><button class="btn ghost" onclick="copyReport()">Copy report</button> <button class="btn ghost" onclick="exportJSON()">Export</button> <button class="btn" onclick="submitPilot()">Submit to pilot</button></span></div>
+  </div>
+</div>
+
+<script>
+const OBDATA={
+ KNO:["Application of knowledge",[["0.1","Knowledge of limitations & systems"],["0.2","Knowledge of published operating instructions"],["0.3","Knowledge of physical & ATC environment"],["0.4","Knowledge of applicable legislation"],["0.5","Knows where to source information"],["0.6","Positive interest in acquiring knowledge"],["0.7","Applies knowledge effectively"]]],
+ PRO:["Application of procedures",[["1.1","Identifies where to find procedures"],["1.2","Applies procedures in a timely manner"],["1.3","Follows SOPs unless safety dictates"],["1.4","Operates systems correctly"],["1.5","Monitors aircraft systems status"],["1.6","Complies with regulations"],["1.7","Applies procedural knowledge"]]],
+ COM:["Communication",[["2.1","Recipient ready & able to receive"],["2.2","Selects what/when/how/whom"],["2.3","Conveys messages clearly"],["2.4","Confirms understanding"],["2.5","Listens actively"],["2.6","Asks effective questions"],["2.7","Uses appropriate escalation"],["2.8","Non-verbal communication"],["2.9","Standard phraseology & procedures"],["2.10","Reads / interprets / responds"]]],
+ FPA:["Flight path — automation",[["3.1","Uses flight management / guidance"],["3.2","Detects deviations (auto) & acts"],["3.3","Manages flight path (auto) optimum"],["3.4","Maintains flight path (auto)"],["3.5","Selects level/mode of automation"],["3.6","Monitors automation & mode transitions"]]],
+ FPM:["Flight path — manual control",[["4.1","Manual control accuracy & smoothness"],["4.2","Detects deviations & acts"],["4.3","Manual control (pitch/power relationship)"],["4.4","Manages flight path optimum"],["4.5","Maintains flight path managing tasks"],["4.6","Uses flight management / guidance"],["4.7","Monitors guidance & mode transitions"]]],
+ LTW:["Leadership & teamwork",[["5.1","Encourages team participation"],["5.2","Initiative & direction"],["5.3","Engages others in planning"],["5.4","Considers inputs from others"],["5.5","Gives & receives feedback"],["5.6","Resolves conflicts"],["5.7","Decisive leadership"],["5.8","Accepts responsibility"],["5.9","Carries out instructions"],["5.10","Effective intervention strategies"],["5.11","Manages cultural/language challenges"]]],
+ PSD:["Problem solving & decision making",[["6.1","Manages threats & errors"],["6.2","Seeks accurate information"],["6.3","Identifies & verifies what/why gone wrong"],["6.4","Perseveres & prioritises"],["6.5","Considers options"],["6.6","Timely decision-making"],["6.7","Monitors/reviews/adapts decisions"],["6.8","Adapts when no guidance"],["6.9","Resilience"]]],
+ SAW:["Situation awareness",[["7.1","Monitors aircraft & systems state"],["7.2","Monitors energy state & flight path"],["7.3","Monitors general environment"],["7.4","Validates information accuracy"],["7.5","Awareness of people involved"],["7.6","Develops contingency plans"],["7.7","Responds to reduced SA"]]],
+ WLM:["Workload management",[["8.1","Self-control"],["8.2","Plans & prioritises tasks"],["8.3","Manages time"],["8.4","Offers assistance"],["8.5","Delegates"],["8.6","Seeks & accepts assistance"],["8.7","Monitors & cross-checks"],["8.8","Verifies tasks complete"],["8.9","Manages interruptions"]]]
+};
+const OBINFO={"0.1":"Demonstrates practical and applicable knowledge of limitations and systems and their interaction",
+ "0.2":"Demonstrates required knowledge of published operating instructions",
+ "0.3":"Demonstrates knowledge of the physical environment, the air traffic environment including routings, weather, airports and the operational infrastructure",
+ "0.4":"Demonstrates appropriate knowledge of applicable legislation — The knowledge referred to in OB 0.4 should be defined in the training objectives of the lesson plan. (e.g., National Directives, European Basic Regulation…) The demonstration of OB 0.4 is specifically relevant to assess if the trainee/candidate has achieved the training objectives of the subject “Air Law” during the theoretical knowledge instruction.",
+ "0.5":"Knows where to source required information — The demonstration of OB 0.5 generally requires an oral assessment by the instructor or evaluator. The demonstration of OB 0.5 should not be confused with the demonstration of OB 1.1 Identifies where to find procedures and regulations. The demonstration of OB 0.5 is achieved when the trainee/candidate demonstrate their knowledge to source an information other than procedures and regulations.",
+ "0.6":"Demonstrates a positive interest in acquiring knowledge — The OB 0.6 is achieved when the trainee/candidate proactively looks for the specific information that is necessary to carry out the activity or to achieve the training objective. E.g., The trainee demonstrates adherence to the trainee's booklet and/or training manual for the session preparation. The trainee demonstrates curiosity for additional information and receives positively instructor guidance for knowledge acquisition",
+ "0.7":"Is able to apply knowledge effectively — The demonstration of OB 0.7 relates to a level of performance regarding the competence “Application of Knowledge”. The demonstration of OB 0.7 is specifically relevant to assess if the trainee/candidate has achieved the training objectives during the theoretical knowledge instruction. Application of procedures and compliance with regulations (PRO)",
+ "1.1":"Identifies where to find procedures and regulations",
+ "1.2":"Applies relevant operating instructions, procedures and techniques in a timely manner — The demonstration of OB1.2 complements the demonstration of OB 1.1 by ensuring the trainee/candidate applies the relevant operating instructions, procedures, and techniques in a timely manner. The demonstration of OB1.2 includes “in a timely manner” criteria to ensure effective application of the relevant operating instructions, procedures and techniques. The demonstration of OB1.2 is facilitated by the demonstration of the 8.2 Plans, prioritizes and schedules appropriate tasks effectively.",
+ "1.3":"Follows SOPs unless a higher degree of safety dictates an appropriate deviation — The demonstration of OB 1.3 is achieved when: - Without safety issue, the trainee/candidate systematically follows SOPs including the completion of the required check lists, or - With safety issues, the trainee/candidate may apply appropriate deviations from SOPs to avoid further reduction of safety margins.",
+ "1.4":"Operates aircraft systems and associated equipment correctly — The demonstration of OB 1.4 includes the operation of the auto -flight system. Nevertheless, the stick inputs and rudder inputs should not be taken into account for the demonstration of this OB 1.4",
+ "1.5":"Monitors aircraft systems status — monitors the status of the aircraft systems in accordance with the normal and abnormal procedures. The demonstration of OB 1.5 includes the relevant flight mode annunciator display.",
+ "1.6":"Complies with applicable regulations — The demonstration of OB 1.6 is achieved through the application of the appropriate parts of the Operations Manual",
+ "1.7":"Applies relevant procedural knowledge — integrates specific information (the “why” to do and the “how” to do) applicable to one or more specific procedure(s). E.g., Abnormal Procedure - Cargo Smoke: the flight crew should be aware that, even after successful operation of the cargo fire bottle, the CARGO SMOKE warning might persist. 54 Communication (COM)",
+ "2.1":"Determines that the recipient is ready and able to receive information",
+ "2.2":"Selects appropriately what, when, how and with whom to communicate",
+ "2.3":"Conveys messages clearly, accurately and concisely",
+ "2.4":"Confirms that the recipient demonstrates understanding of important information",
+ "2.5":"Listens actively and demonstrates understanding when receiving information",
+ "2.6":"Asks relevant and effective questions — 55",
+ "2.7":"Uses appropriate escalation in communication to resolve identified deviations",
+ "2.8":"Uses and interprets non-verbal communication in a manner appropriate to the organizational and social culture",
+ "2.9":"Adheres to standard radiotelephone phraseology and procedures — adheres to the standard radiotelephone phraseology and procedures described in ICAO Annex 10 and ICAO Doc 4444 PANS-ATM. The radiotelephone phraseology and procedures prescribe how to establish the communication, how to confirm the reception and the transmission of information, and how to clarify received instruction",
+ "2.10":"Accurately reads, interprets, constructs and responds to datalink messages in English Explanation - Aeroplane flight path management — automation (FPA) Description: Controls the flight path through automation — The aeroplane flight path is controlled through automation as soon as the autopilot (AP) is engaged",
+ "3.1":"Uses appropriate flight management, guidance systems and automation, as installed and applicable to the conditions — uses appropriately the flight management (e.g., FMS, FMGS, FMC,), the guidance systems (i.e., FD ON or OFF, HUD ON or OFF) and the automation (i.e., AP ON and ATHR or A/T ON or OFF) according to the operational and environmental context.",
+ "3.2":"Monitors and detects deviations from the intended flight path and takes appropriate action",
+ "3.3":"Manages the flight path to achieve optimum operational performance — optimizes the lateral navigation and the vertical navigation by adopting appropriate speed and thrust",
+ "3.4":"Maintains the intended flight path during flight using automation whilst managing other tasks and distractions",
+ "3.5":"Selects appropriate level and mode of automation in a timely manner considering phase of flight and workload — is able to select and to adapt the appropriate combination of automation in accordance with the phase of flight and/or the level of workload. E.g., operating an instrument approach in managed mode iso selected mode due to the level of workload",
+ "3.6":"includes the monitoring of the flight mode annunciator display. Aeroplane flight path management — manual control (FPM) Description: Controls the flight path through manual control — The aeroplane flight path is manually controlled as soon as the autopilot (AP) is disconnected",
+ "4.1":"Controls the aircraft manually with accuracy and smoothness as appropriate to the situation — The accuracy criteria may be defined by the reference to a regulatory flight path management tolerance and/or the appropriate part of Operations Manual. e.g.: - Starting a go-around at decision height/altitude at + 50 ft/– 0 ft - On radio aids at ±5° - Speed with all engines operating at ± 5 knots",
+ "4.2":"Monitors and detects deviations from the intended flight path and takes appropriate action",
+ "4.3":"Manually controls the aeroplane using the relationship between aeroplane attitude, speed and thrust, and navigation signals or visual information — manually controls the flight path in the following conditions: - autopilot is OFF, and - flight director is OFF, and - ATH/R or A/T is OFF",
+ "4.4":"Manages the flight path to achieve optimum operational performance — optimizes the lateral navigation and the vertical navigation by adopting appropriate speed and thrust",
+ "4.5":"Maintains the intended flight path during manual flight whilst managing other tasks and distractions",
+ "4.6":"Uses appropriate flight management and guidance systems, as installed and applicable to the conditions — uses appropriately the flight management (e.g., FMS, FMGS, FMC,), the guidance systems (i.e., FD ON or OFF, HUD ON or OFF) and the ATHR or A/T (ON or OFF) according to the operational and environmental context.",
+ "4.7":"Effectively monitors flight guidance systems including engagement and automatic mode transitions — The demonstration of OB 4.7 includes the monitoring of the flight mode annunciator display. Leadership and teamwork (LTW)",
+ "5.1":"Encourages team participation and open communication — encourages collaboration within the crew members and other operational personnel to complete tasks and/or to manage operational and environmental threats",
+ "5.2":"Demonstrates initiative and provides direction when required — can act autonomously and can propose solutions proactively",
+ "5.3":"Engages others in planning — includes the crew members and other operational personnel in planning tasks completion and/or operational and environmental threats management. The OB 5.3 facilitates further demonstration of: − OB 8.2 Plans, prioritizes and schedules appropriate tasks effectively and − OB 7.6 Develops effective contingency plans based upon potential risks associated with threats and errors",
+ "5.4":"Considers inputs from others — provides feedback to crew members or operational personnel inputs",
+ "5.5":"Gives and receives feedback constructively — giving or receiving the feedback maintains the team collaboration",
+ "5.6":"Addresses and resolves conflicts and disagreements in a constructive manner — is able to address conflicts and disagreements in a non-judgmental manner in order to maintains the team collaboration",
+ "5.7":"Exercises decisive leadership when required — is able to impose an adequate solution when time and/or safety are critical",
+ "5.8":"Accepts responsibility for decisions and actions — is able to bear their own accountabilities",
+ "5.9":"Carries out instructions when directed — carries out instructions directed by another crew member and/or operational personnel outside the scope of the application of procedures. E.g., the Captain (PM) requests latest wind report from the tower as directed by the First Officer (PF)",
+ "5.10":"Applies effective intervention strategies to resolve identified deviations — is able to apply effective intervention strategy",
+ "5.11":"Manages cultural and language challenges, as applicable Explanation - 60 Problem-solving — decision-making (PSD) Description: Identifies precursors, mitigates problems, and makes decisions — The competency PSD should be distinguished from the competency SAW (",
+ "6.1":"Identifies, assesses and manages threats and errors in a timely manner — The demonstration of the OB 6.1 should be distinguished from the demonstration of OB 7.6 (SAW) “develops effective contingency plans based upon potential risks associated with threats and errors”. The development of contingency plans based on potential risk belongs to SAW as the need for an immediate decision is not necessary (e.g., identification of potential adequate enroute alternate aerodromes).",
+ "6.2":"Seeks accurate and adequate information from appropriate sources — validates the precursors and potential mitigation measures by seeking accurate and adequate information",
+ "6.3":"Identifies and verifies what and why things have gone wrong, if appropriate — validates the contributing factor(s)",
+ "6.4":"Perseveres in working through problems whilst prioritizing safety — can elaborate solution(s) to the problems while carrying out essential activities to maintain appropriate safety margins. OB 6.4 should be distinguished from OB 8.2 Plans, prioritizes and schedules appropriate tasks effectively",
+ "6.5":"Identifies and considers appropriate options — determines the risks and the benefits of the different options",
+ "6.6":"Applies appropriate and timely decision-making techniques",
+ "6.7":"Monitors, reviews and adapts decisions as required",
+ "6.8":"Adapts when faced with situations where no guidance or procedure exists",
+ "6.9":"Demonstrates resilience when encountering an unexpected event — Resilience refers to the ability of the flight crew member to recognize, absorb and adapt to disruptions. Situation awareness and management of information (SAW)",
+ "7.1":"Monitors and assesses the state of the aeroplane and its systems — assesses the potential operational impacts of the state of the aeroplane and its systems. The demonstration of OB 7.1 is facilitated by the demonstration OB 1.5 (PRO) “Monitors aircraft systems status” that mandates the trainee/candidate to monitor the status of the aircraft systems in accordance with the normal and abnormal procedures.",
+ "7.2":"Monitors and assesses the aeroplane’s energy state, and its anticipated flight path — assesses the potential operational impacts of the aeroplane’s energy state and the anticipated flight path. The demonstration of OB 7.2 is a prerequisite for the demonstration of most of OB belonging to the competencies FPA and FPM",
+ "7.3":"Monitors and assesses the general environment as it may affect the operation — assesses the potential operational impacts of the general environment",
+ "7.4":"Validates the accuracy of information and checks for gross errors",
+ "7.5":"Maintains awareness of the people involved in or affected by the operation and their capacity to perform as expected — ensures, where necessary, that other crew members or operational personnel share similar situational awareness (e.g., potential operational impacts, etc.)",
+ "7.6":"Develops effective contingency plans based upon potential risks associated with threats and errors — The OB 7.6 should be distinguished from the OB 6.1 “Identifies, assesses and manages threats and errors in a timely manner” which relates to the real time threat and error management whereas OB 7.6 relates to their anticipation. The demonstration of OB 7.6 facilitates the demonstration of OB 6.1 by letting more cognitive resources for the trainee/candidate to identify and manage effectively real -time threats and errors.",
+ "7.7":"Responds to indications of reduced situation awareness — responds to indications of reduced situational awareness for himself or for other crew members or operational personnel. 63 Workload management (WLM)",
+ "8.1":"Exercises self-control in all situations — The demonstration of OB 8.1 should always be achieved by the trainee/candidate carrying out activities or tasks under any conditions",
+ "8.2":"Plans, prioritizes and schedules appropriate tasks effectively — Note: The demonstration of OB 8.2 facilitates the demonstration of OB 1.2 (PRO) “Applies relevant operating instructions, procedures and techniques in a timely manner”",
+ "8.3":"Manages time efficiently when carrying out tasks — carries out tasks in a timeframe sustaining the efficiency of the operations. The demonstration of OB 8.3 is facilitated by the demonstration of OB 1.2 (PRO) “Applies relevant operating instructions, procedures and techniques in a timely manner.” The demonstration of OB 8.3 should always be achieved by the trainee/candidate carrying out tasks under any conditions",
+ "8.4":"Offers and gives assistance — proactively offers and gives assistance to other crew members or operational personnel encountering an over workload situation",
+ "8.5":"Delegates tasks — proactively delegates tasks when encountering an over workload situation",
+ "8.6":"Seeks and accepts assistance, when appropriate — seeks and accepts assistance when encountering difficulties to carry out activities or tasks.",
+ "8.7":"Monitors, reviews and cross-checks actions conscientiously — can maintain sufficient resources for monitoring and cross-checking actions. The demonstration of OB 8.7 should always be achieved by the trainee/candidate carrying out activities or tasks under any conditions. The OB 8.7 should be distinguished from the OB related to monitoring (OB 1.5, OB 3.2, OB 3.6, OB 4.2, OB 4.7, OB 6.7, OB 7.1, OB 7.2, OB 7.3)",
+ "8.8":"Verifies that tasks are completed to the expected outcome — The demonstration of OB 8.8 should always be achieved by the trainee/candidate carrying out activities or tasks under any conditions",
+ "8.9":"Manages and recovers from interruptions, distractions, variations and failures effectively while performing tasks"};
+const OBTITLE={},COMPOF={};
+Object.entries(OBDATA).forEach(([k,[,obs]])=>obs.forEach(([c,t])=>{OBTITLE[c]=t;COMPOF[c]=k;}));
+const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
+const KW=[["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
+
+const APP_VER="mvp7";
+let S=blank();let capOpen=new Set();
+function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],grades:{},actuallos:"",overall:""};}
+function hasB(){return (S.trainees[1].name||"").trim()!=="";}
+function roleOf(idx){return idx===S.pf?"PF":"PM";}
+function roleStart(idx){return idx===(S.pf0!=null?S.pf0:S.pf)?"PF":"PM";}
+function tid(idx){return S.trainees[idx].id;}
+function tname(idx){return (S.trainees[idx].name||"").trim()||(idx===0?"A":"B");}
+function save(){
+  S.trainees[0].name=val("tA");S.trainees[1].name=val("tB");
+  const pfSel=+val("pf");if(S.pf0==null)S.pf0=S.pf||0;
+  if(pfSel!==S.pf0){S.pf0=pfSel;S.pf=pfSel;}
+  S.reqlos=val("reqlos");S.stype=val("stype");S.date=val("date");S.icode=val("icode")||S.icode||"";S.appVer=APP_VER;
+  S.actuallosByT=S.actuallosByT||{};S.overallByT=S.overallByT||{};
+  S.actuallosByT[tid(S.dbT)]=val("actuallos");S.overallByT[tid(S.dbT)]=val("overall");
+  S.actuallos=activeTrainees().map(i=>{const v=S.actuallosByT[tid(i)];return v?tname(i)+": "+v:"";}).filter(Boolean).join(" | ");
+  S.overall=activeTrainees().map(i=>{const v=S.overallByT[tid(i)];return v?tname(i)+": "+v:"";}).filter(Boolean).join(" | ");
+  try{localStorage.setItem("tms_mvp5",JSON.stringify(S));}catch(e){}
+}
+function migrate(x){x.actuallosByT=x.actuallosByT||{};x.overallByT=x.overallByT||{};if(x.pf0==null)x.pf0=x.pf||0;
+  if(x.overall&&!Object.values(x.overallByT).some(Boolean)&&!/: /.test(x.overall))(x.trainees||[]).forEach(t=>x.overallByT[t.id]=x.overall);
+  if(x.actuallos&&!Object.values(x.actuallosByT).some(Boolean)&&!/: /.test(x.actuallos))(x.trainees||[]).forEach(t=>x.actuallosByT[t.id]=x.actuallos);
+  return x;}
+function load(){try{const r=localStorage.getItem("tms_mvp5");if(r)S=migrate(JSON.parse(r));}catch(e){}}
+const val=id=>{const e=document.getElementById(id);return e?e.value:"";};
+function uid(){return Math.random().toString(36).slice(2,9);}
+const esc=s=>(s||"").replace(/"/g,"&quot;");
+
+document.querySelectorAll(".step").forEach(t=>t.onclick=()=>go(t.dataset.s));
+function go(s){save();
+  document.querySelectorAll(".step").forEach(x=>x.classList.toggle("on",x.dataset.s===s));
+  document.querySelectorAll(".scr").forEach(x=>x.classList.toggle("on",x.id===s));
+  if(s==="capture")renderCaptureEvents();
+  if(s==="debrief")renderDebrief();
+  if(s==="report")renderReport();
+  window.scrollTo(0,0);
+}
+/* info popover */
+function openInfo(c){document.getElementById("infoTitle").textContent="OB "+c;document.getElementById("infoBody").textContent=OBINFO[c]||OBTITLE[c]||"";document.getElementById("info").classList.add("show");}
+function closeInfo(){document.getElementById("info").classList.remove("show");}
+
+/* setup */
+const PRESETS=["Briefing & preparation","Cockpit preparation","Taxi","Normal take-off","Normal ILS approach & landing","EFATO — engine failure after take-off","Rejected take-off (RTO)","Go-around / missed approach","Single-engine approach & landing","UPRT — upset prevention & recovery","TCAS RA","Windshear recovery","LVO / CAT II-III approach","RNP AR approach","2D (non-precision) approach","Emergency descent","Rapid depressurisation","Engine fire in cruise","Holding"];
+function renderPresets(){document.getElementById("evpresets").innerHTML=PRESETS.map(p=>`<span class="sg" style="display:inline-block;margin:2px" onclick="addEvent('${p.replace(/'/g,"\\'")}')">${p}</span>`).join(" ");}
+function addEvent(name){name=name||val("evname").trim();if(!name)return;S.events.push({id:uid(),name});document.getElementById("evname").value="";save();renderSetupEvents();}
+function renderSetupEvents(){
+  const box=document.getElementById("setupEvents");
+  if(!S.events.length){box.innerHTML='<div class="empty">No events yet — add the exercises of the session.</div>';return;}
+  box.innerHTML=S.events.map((e,i)=>{const n=S.obs.filter(o=>o.eventId===e.id).length;
+    return `<div class="evrow"><span class="nm">${e.name}</span><span class="cnt">${n} obs</span>`+
+      `<span class="mv" onclick="moveEvent(${i},-1)">▲</span><span class="mv" onclick="moveEvent(${i},1)">▼</span>`+
+      `<span class="rm" onclick="delEvent('${e.id}')">✕</span></div>`;}).join("");
+}
+function moveEvent(i,dir){const j=i+dir;if(j<0||j>=S.events.length)return;const t=S.events[i];S.events[i]=S.events[j];S.events[j]=t;save();renderSetupEvents();}
+function delEvent(id){S.events=S.events.filter(e=>e.id!==id);S.obs=S.obs.filter(o=>o.eventId!==id);save();renderSetupEvents();}
+
+/* capture */
+function renderCaptureEvents(){
+  const sel=document.getElementById("curEvent");
+  sel.innerHTML=S.events.map(e=>`<option value="${e.id}">${e.name}</option>`).join("")||'<option value="">— add events in Setup —</option>';
+  if(S.curEvent&&S.events.find(e=>e.id===S.curEvent))sel.value=S.curEvent; else S.curEvent=sel.value;
+  if(S.curT>1||( S.curT===1&&!hasB()))S.curT=0;
+  renderCapture();
+}
+function renderCrewbar(){
+  const bar=document.getElementById("crewbar");
+  if(!hasB()){bar.innerHTML="";return;}
+  bar.innerHTML=[0,1].map(i=>`<div class="crewbtn ${S.curT===i?'on':''}" onclick="setCurT(${i})"><span class="who">${tname(i)}</span><span class="rl ${roleOf(i)==='PM'?'pm':''}">${roleOf(i)}</span></div>`).join("")
+    +`<button class="btn ghost sm" onclick="swapRoles()">⇄ Swap roles</button>`;
+}
+function setCurT(i){S.curT=i;openForTrainee();renderCrewbar();renderAccordion();}
+function swapRoles(){S.pf=1-S.pf;save();renderCrewbar();renderAccordion();}
+function openForTrainee(){capOpen=new Set();Object.keys(OBDATA).forEach(k=>{if(S.obs.some(o=>o.eventId===S.curEvent&&o.traineeId===tid(S.curT)&&COMPOF[o.code]===k))capOpen.add(k);});}
+function renderCapture(){
+  S.curEvent=document.getElementById("curEvent").value;
+  document.getElementById("obsNote").value="";document.getElementById("obSug").innerHTML="";
+  openForTrainee();renderCrewbar();renderAccordion();save();
+}
+function getCap(c){return S.obs.find(o=>o.eventId===S.curEvent&&o.traineeId===tid(S.curT)&&o.code===c);}
+function cycleCap(c){const e=getCap(c);const cur=e?e.val:"";const nx={"":"0","0":"+","+":"-","-":""}[cur];
+  if(nx===""){if(e)S.obs=S.obs.filter(o=>o!==e);}
+  else if(e){e.val=nx;if(nx!=="-")e.imp="none";e.role=roleOf(S.curT);e.tm=new Date().toISOString();}
+  else S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:c,val:nx,imp:"none",role:roleOf(S.curT),note:"",t:new Date().toISOString()});
+  renderAccordion();save();
+}
+function setCapImp(c,i){const e=getCap(c);if(e){e.imp=i;renderAccordion();save();}}
+function setCapNote(c,v){const e=getCap(c);if(e){e.note=v;save();}}
+function toggleComp(k){if(capOpen.has(k))capOpen.delete(k);else capOpen.add(k);renderAccordion();}
+let SUG=[];
+function detectValence(t){
+  const negd=/\b(?:did ?n.?t|do ?n.?t|does ?n.?t|without|never|no|not)\s+(?:rush\w*|hesitat\w*|delay\w*|struggl\w*|forget|forgot|miss\w*|lose|lost)\b/g;
+  let s=t, bonus=false;
+  if(negd.test(s)){ bonus=true; s=s.replace(negd," "); }
+  const pos=/\b(good|well|nicely|smooth|accurate|excellent|solid|correct|correctly|timely|early|strong|stable|calm|clear|proper|properly|appropriate|appropriately|effective|efficient|adequate)\b/;
+  const neg=/\b(slow|late|missed|miss|forgot|forget|poor|weak|unstable|rushed|rushing|failed|fail|incorrect|delayed|excessive|lost|omitted|difficult|struggled|struggling|hesitated|did ?n.?t|not)\b/;
+  const p=pos.test(s)||bonus, n=neg.test(s);
+  if(p&&!n) return "+"; if(n&&!p) return "-"; return "";
+}
+function splitClauses(t){
+  return t.split(/[.;\n]+|\bbut\b|\bhowever\b|\balthough\b/i).map(s=>s.trim()).filter(s=>s.length>2);
+}
+function suggestOBs(){
+  const box=document.getElementById("obSug");
+  const raw=val("obsNote");
+  if(!raw.trim()){box.innerHTML="";SUG=[];return;}
+  const clausesRaw=splitClauses(raw), clausesLc=splitClauses(raw.toLowerCase());
+  const best={};
+  clausesLc.forEach((cl,ci)=>{
+    const v=detectValence(cl); const sc={};
+    KW.forEach(([k,obs])=>{ if(cl.indexOf(k)>=0) obs.forEach((o,i)=>{ sc[o]=(sc[o]||0)+(i===0?2:1); }); });
+    Object.keys(sc).forEach(o=>{ if(!best[o]||sc[o]>best[o].score) best[o]={score:sc[o],v:v,clause:clausesRaw[ci]||raw}; });
+  });
+  const ranked=Object.keys(best).sort((a,b)=>best[b].score-best[a].score).slice(0,10);
+  SUG=ranked.map(c=>({code:c,v:best[c].v,clause:best[c].clause}));
+  if(!SUG.length){box.innerHTML='<span class="small">No match \u2014 try other words, or browse the competencies below.</span>';return;}
+  box.innerHTML='<span class="small" style="width:100%">Suggested (tap to mark with its sign) \u2014 the matching phrase becomes that OB\u2019s note:</span>'
+    + SUG.map((s,i)=>{
+        const sign=s.v==="+"?"+":s.v==="-"?"\u2212":"std";
+        const cls=s.v==="+"?"sgp":s.v==="-"?"sgn":"sgs";
+        return `<span class="sg ${cls}${getCap(s.code)?' sel':''}" onclick="jumpMarkIdx(${i})" title="${s.clause.replace(/"/g,'&quot;')}"><b>${sign}</b> <span class="c">${s.code}</span> ${OBTITLE[s.code]}</span>`;
+      }).join("");
+}
+document.getElementById("obsNote").addEventListener("input",suggestOBs);
+function jumpMarkIdx(i){
+  const s=SUG[i]; if(!s) return;
+  capOpen.add(COMPOF[s.code]);
+  const v=s.v||"0", note=(s.clause||"").slice(0,140);
+  const e=getCap(s.code);
+  if(!e) S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:s.code,val:v,imp:"none",role:roleOf(S.curT),note:note});
+  else { e.val=v; if(!e.note) e.note=note; }
+  save();renderAccordion();suggestOBs();
+}
+function renderAccordion(){
+  const box=document.getElementById("capAcc");let total=0;
+  box.innerHTML=Object.keys(OBDATA).map(k=>{
+    const [name,obs]=OBDATA[k];
+    const nmark=obs.filter(([c])=>getCap(c)).length;total+=nmark;
+    const open=capOpen.has(k);
+    const body=open?obs.map(([c,t])=>{
+      const e=getCap(c);const v=e?e.val:"";
+      const stcls=v==='+'?'s-p':v==='-'?'s-n':v==='0'?'s-s':'s-e';const stsym=v==='+'?'+':v==='-'?'−':v==='0'?'std':'·';
+      let row=`<div class="obm cyc" onclick="cycleCap('${c}')"><span class="statechip ${stcls}">${stsym}</span><span class="cc">${c}</span><span class="tt">${t}</span><span class="info" onclick="event.stopPropagation();openInfo('${c}')">i</span></div>`;
+      if(e)row+=`<div class="subrow">${e.val==="-"?`<span class="iseg">${["none","momentary","unacceptable"].map(i=>`<button class="${e.imp===i?'on':''}" onclick="setCapImp('${c}','${i}')">${i==="none"?"⚑ ok":i}</button>`).join("")}</span>`:""}
+        <input type="text" placeholder="note (optional)" value="${esc(e.note)}" oninput="setCapNote('${c}',this.value)"></div>`;
+      return row;
+    }).join(""):"";
+    return `<div class="comp ${open?'open':''}"><div class="h" onclick="toggleComp('${k}')">
+      <div class="abbr">${k}</div><div class="nm"><div class="t">${name}</div><div class="s">${OBDATA[k][1].length} OBs</div></div>
+      ${nmark?`<span class="badge">${nmark} marked</span>`:''}<span class="chev">${open?'▾':'▸'}</span></div>
+      <div class="body">${body}</div></div>`;
+  }).join("");
+  document.getElementById("capCount").textContent=total;
+}
+
+/* debrief */
+function manyBand(r){if(r>=1)return[5,"All"];if(r>=0.8)return[4,"Most"];if(r>=0.6)return[3,"Many"];if(r>=0.4)return[2,"Some"];return[1,"Few"];}
+function grds(t){if(!S.grades[t])S.grades[t]={};return S.grades[t];}
+function ensureGrade(t,comp){const g=grds(t);if(!g[comp])g[comp]={marks:{},often:3,final:null};return g[comp];}
+function renderDbCrew(){
+  const bar=document.getElementById("dbCrew");
+  if(!hasB()){bar.innerHTML="";S.dbT=0;return;}
+  bar.innerHTML=[0,1].map(i=>`<div class="crewbtn ${S.dbT===i?'on':''}" onclick="setDbT(${i})"><span class="who">${tname(i)}</span><span class="rl ${roleOf(i)==='PM'?'pm':''}">${roleOf(i)}</span></div>`).join("")
+    +`<button class="btn ghost sm" onclick="swapRolesDb()">⇄ Swap roles</button>`;
+}
+function swapRolesDb(){S.pf=1-S.pf;save();renderDebrief();}
+function setDbT(i){S.dbT=i;renderDebrief();}
+function renderDebrief(){
+  renderDbCrew();
+  const t=tid(S.dbT);
+  const active={};
+  S.obs.filter(o=>o.traineeId===t).forEach(o=>{const k=COMPOF[o.code];(active[k]=active[k]||{})[o.code]=o.val;});
+  const order=["KNO","PRO","COM","FPA","FPM","LTW","PSD","SAW","WLM"].filter(k=>active[k]);
+  const box=document.getElementById("debriefList");
+  if(!order.length){box.innerHTML='<div class="empty">No observations for this trainee yet.</div>';}
+  else box.innerHTML=order.map(comp=>{const g=ensureGrade(t,comp);
+    Object.entries(active[comp]).forEach(([c,v])=>{if(!(c in g.marks))g.marks[c]=v;});
+    return compCard(t,comp,g,active[comp]);}).join("");
+  order.forEach(comp=>computeGrade(t,comp));
+  document.getElementById("actuallos").value=(S.actuallosByT||{})[t]||"";
+  document.getElementById("overall").value=(S.overallByT||{})[t]||"";
+  updateLosCompare();
+}
+function compCard(t,comp,g,active){
+  const [name,obs]=OBDATA[comp];
+  const np=Object.values(active).filter(v=>v==='-').length, pp=Object.values(active).filter(v=>v==='+').length;
+  const summ=[np?np+" to work on":"",pp?pp+" strength"+(pp>1?"s":""):""].filter(Boolean).join(" · ")||"observed";
+  const rows=obs.map(([c,tt])=>{const m=g.marks[c]||"";
+    return `<div class="obm"><span class="cc">${c}</span><span class="tt">${tt}</span><span class="info" onclick="openInfo('${c}')">i</span>
+      <span class="mseg" data-c="${c}" data-comp="${comp}">${["-","0","+","NA"].map(v=>`<button data-m="${v}" class="${m===v?'on':''}">${v==="0"?"std":v}</button>`).join("")}</span></div>`;}).join("");
+  return `<div class="comp"><div class="h" onclick="this.parentNode.classList.toggle('open')">
+    <div class="abbr">${comp}</div><div class="nm"><div class="t">${name}</div><div class="s">${summ}</div></div>
+    <div class="gb g0" id="gb_${comp}">–</div></div>
+    <div class="body">${rows}
+      <div class="dims" id="dims_${comp}"></div>
+      <div class="sgrade"><span class="lab">Consistency (How Often):</span>
+        <span class="ofb" id="ofb_${comp}">${OFTEN.map(([l,v])=>`<button data-v="${v}" class="${g.often===v?'on':''}" onclick="setOften('${comp}',${v})">${l}</button>`).join("")}</span></div>
+      <div class="sgrade"><span class="lab">Grade:</span><span class="gsc" id="gsc_${comp}"></span></div>
+      <div class="alert" id="al_${comp}"></div>
+    </div></div>`;
+}
+function setMark(comp,c,v){const t=tid(S.dbT);ensureGrade(t,comp).marks[c]=v;document.querySelectorAll(`.mseg[data-c="${c}"][data-comp="${comp}"] button`).forEach(b=>b.classList.toggle("on",b.dataset.m===v));computeGrade(t,comp);save();}
+function setOften(comp,v){const t=tid(S.dbT);ensureGrade(t,comp).often=v;document.querySelectorAll(`#ofb_${comp} button`).forEach(b=>b.classList.toggle("on",+b.dataset.v===v));computeGrade(t,comp);save();}
+document.addEventListener("click",e=>{const b=e.target.closest(".mseg button");if(b&&b.parentNode.dataset.comp){const seg=b.parentNode;setMark(seg.dataset.comp,seg.dataset.c,b.dataset.m);}});
+function computeGrade(t,comp){
+  const g=ensureGrade(t,comp);let plus=0,std=0,minus=0,worst="";
+  Object.entries(g.marks).forEach(([c,m])=>{if(m==='+')plus++;else if(m==='0')std++;else if(m==='-'){minus++;
+    const o=S.obs.find(o=>o.traineeId===t&&o.code===c&&o.val==='-'&&o.imp);if(o){if(o.imp==='unacceptable')worst='unacceptable';else if(o.imp==='momentary'&&worst!=='unacceptable')worst='momentary';}}});
+  const applicable=plus+std+minus;
+  let manyV=null,manyW="—";if(applicable){[manyV,manyW]=manyBand((plus+std)/applicable);}
+  let temV=5,temW="no safety impact";if(worst==='unacceptable'){temV=1;temW="unacceptable margin";}else if(worst==='momentary'){temV=2;temW="momentary margin";}
+  const dims=[manyV,g.often,temV].filter(x=>x!=null);const sugg=dims.length?Math.min(...dims):null;
+  let driver="How Many";if(sugg===g.often)driver="How Often";if(sugg===temV&&temV<5)driver="Outcome TEM";
+  g.suggested=sugg;
+  const d=document.getElementById("dims_"+comp);
+  if(d)d.innerHTML=applicable?`<b>How Many</b>: ${manyW} (${plus+std}/${applicable} at std or +) &nbsp;·&nbsp; <b>How Often</b>: ${OFTEN.find(o=>o[1]===g.often)[0]} &nbsp;·&nbsp; <b>TEM</b>: ${temW}<br>Suggested = <b>min → ${sugg}</b> (driven by ${driver})`:`Mark at least one OB to compute.`;
+  const gsc=document.getElementById("gsc_"+comp);
+  if(gsc)gsc.innerHTML=[1,2,3,4,5].map(n=>`<button class="${n===g.final?'sel':''} ${n===sugg?'suggested':''}" onclick="setFinal('${comp}',${n})">${n}</button>`).join("");
+  const gb=document.getElementById("gb_"+comp);if(gb){gb.textContent=g.final||(sugg??"–");gb.className="gb g"+(g.final||0);}
+  renderWhy(comp,g);
+  checkAlert(t,comp);
+}
+function setFinal(comp,n){const t=tid(S.dbT);const g=ensureGrade(t,comp);g.final=n;
+  if(!(g.suggested&&n!==g.suggested))g.why="";
+  computeGrade(t,comp);save();}
+function renderWhy(comp,g){
+  let w=document.getElementById("why_"+comp);
+  const need=g.final&&g.suggested&&g.final!==g.suggested;
+  if(!need){if(w)w.remove();return;}
+  if(!w){const al=document.getElementById("al_"+comp);if(!al)return;
+    w=document.createElement("div");w.id="why_"+comp;w.style.cssText="margin-top:6px";
+    al.parentNode.insertBefore(w,al);}
+  w.innerHTML=`<label style="font-size:12px;color:var(--amber);font-weight:700">You set ${g.final}, suggested was ${g.suggested} — why? (a few words, gold for the pilot)</label>
+    <input type="text" style="width:100%" value="${esc(g.why||"")}" oninput="setWhy('${comp}',this.value)">`;
+}
+function setWhy(comp,v){const t=tid(S.dbT);ensureGrade(t,comp).why=v;save();}
+function checkAlert(t,comp){
+  const g=grds(t)[comp],al=document.getElementById("al_"+comp);if(!al||!g)return;
+  const hasSafety=Object.entries(g.marks).some(([c,m])=>m==='-'&&S.obs.some(o=>o.traineeId===t&&o.code===c&&o.imp&&o.imp!=='none'));
+  if(g.final&&g.suggested&&g.final>g.suggested&&hasSafety){al.textContent=`⚠ You set ${g.final} but an OB reduced the safety margin — a grade above the TEM gauge is hard to defend (Scales of Justice).`;al.classList.add("show");}
+  else al.classList.remove("show");
+}
+function updateLosCompare(){
+  const lc=document.getElementById("losCompare");if(!lc)return;const a=val("actuallos");
+  if(a&&S.reqlos){const order={High:3,Medium:2,Low:1,Nil:0};
+    lc.innerHTML=order[a]>order[S.reqlos]?'<span style="color:var(--amber)">⚑ more support than required → consider a Performance Recovery flag.</span>':'<span style="color:var(--pos)">✓ at or below required support.</span>';
+  } else lc.innerHTML="";
+}
+
+/* report */
+function activeTrainees(){return hasB()?[0,1]:[0];}
+function renderReport(){
+  document.getElementById("repHead").textContent=`${S.stype||""} · ${S.date||""}${S.icode?" · "+S.icode:""} — required support: ${S.reqlos}`;
+  let html="";
+  activeTrainees().forEach(idx=>{
+    const t=tid(idx);const g=S.grades[t]||{};
+    const graded=Object.keys(g).filter(c=>g[c].final||g[c].suggested);
+    html+=`<div class="rephdr">${tname(idx)} — starting role ${roleStart(idx)}</div>`;
+    const evRows=S.events.map(ev=>{const evObs=S.obs.filter(o=>o.traineeId===t&&o.eventId===ev.id);
+      if(!evObs.length)return "";
+      return `<tr><td><b>${ev.name}</b></td><td>${evObs.map(o=>fmtOb(o)).join("; ")}</td></tr>`;}).join("");
+    if(evRows)html+='<table class="rep"><tr><th>Event</th><th>Observations</th></tr>'+evRows+'</table>';
+    if(graded.length){
+      html+='<table class="rep" style="margin-top:8px"><tr><th>Competency</th><th>Grade</th><th>Key observations</th></tr>';
+      graded.forEach(comp=>{const grade=g[comp].final||g[comp].suggested;
+        const div=g[comp].final&&g[comp].suggested&&g[comp].final!==g[comp].suggested;
+        const obsTxt=S.obs.filter(o=>o.traineeId===t&&COMPOF[o.code]===comp).map(o=>`${o.val==="0"?"std":o.val} ${o.code}${o.note?": "+o.note:""}`).join("; ")||"—";
+        html+=`<tr><td><b>${comp}</b></td><td style="text-align:center;font-weight:800">${grade}${div?`<br><span class="small">sugg. ${g[comp].suggested}</span>`:""}</td><td>${obsTxt}${div&&g[comp].why?`<br><i>Why differs: ${g[comp].why}</i>`:""}</td></tr>`;});
+      html+='</table>';
+    } else html+='<div class="empty">No grades for this trainee.</div>';
+    const alos=(S.actuallosByT||{})[t],ovr=(S.overallByT||{})[t];
+    if(alos)html+=`<p class="repnote"><b>Support (${tname(idx)}):</b> required ${S.reqlos}, given ${alos}.</p>`;
+    if(ovr)html+=`<p class="repnote"><b>Overall (${tname(idx)}):</b> ${ovr}</p>`;
+  });
+  document.getElementById("repBody").innerHTML=html;
+}
+function evName(id){const e=S.events.find(x=>x.id===id);return e?e.name:"(no event)";}
+function fmtOb(o){return `${o.val==="0"?"std":o.val} ${o.code} [${o.role}]${o.imp&&o.imp!=="none"?" ⚠"+o.imp:""}${o.note?" — "+o.note:""}`;}
+function reportText(){
+  let t=`CBTA SESSION REPORT\nType: ${S.stype}  Date: ${S.date}  Instructor: ${S.icode||"-"}\nRequired support: ${S.reqlos}\n`;
+  activeTrainees().forEach(idx=>{const id=tid(idx);const g=S.grades[id]||{};
+    t+=`\n== ${tname(idx)} (start ${roleStart(idx)}) ==\n`;
+    t+=`-- By event --\n`;
+    S.events.forEach(ev=>{const evObs=S.obs.filter(o=>o.traineeId===id&&o.eventId===ev.id);
+      if(!evObs.length)return;
+      t+=`[${ev.name}]\n`;
+      evObs.forEach(o=>t+=`   ${fmtOb(o)}\n`);});
+    const orphans=S.obs.filter(o=>o.traineeId===id&&!S.events.some(e=>e.id===o.eventId));
+    if(orphans.length){t+=`[unassigned]\n`;orphans.forEach(o=>t+=`   ${fmtOb(o)}\n`);}
+    t+=`-- Grades --\n`;
+    Object.keys(g).forEach(comp=>{const grade=g[comp].final||g[comp].suggested;if(!grade)return;
+      const div=g[comp].final&&g[comp].suggested&&g[comp].final!==g[comp].suggested;
+      t+=`${comp}: ${grade}${div?` (suggested ${g[comp].suggested}${g[comp].why?" — why: "+g[comp].why:""})`:""}\n`;});
+    const alos=(S.actuallosByT||{})[id],ovr=(S.overallByT||{})[id];
+    if(alos)t+=`Support given: ${alos}\n`;
+    if(ovr)t+=`Overall: ${ovr}\n`;
+  });
+  return t;
+}
+function copyReport(){navigator.clipboard.writeText(reportText()).then(()=>alert("Report copied to clipboard."),()=>alert("Copy failed — select the text manually."));}
+
+/* export / import / pilot */
+const PILOT_ENDPOINT="https://script.google.com/macros/s/AKfycby110uZStjk1278DapfsEi_2p8n3r44cb4uMD2Usu0J2pk-TtkhlLAoQ2nGlawqU-bm3A/exec";
+const PILOT_EMAIL="opl.skander@gmail.com";
+function exportJSON(){save();const b=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});const a=document.createElement("a");
+  const now=new Date(),p=x=>String(x).padStart(2,"0");
+  const stamp=`${now.getFullYear()}-${p(now.getMonth()+1)}-${p(now.getDate())}_${p(now.getHours())}${p(now.getMinutes())}`;
+  const clean=x=>(x||"").trim().replace(/[^\w-]+/g,"_").replace(/^_+|_+$/g,"");
+  a.href=URL.createObjectURL(b);
+  a.download=["session",clean(S.stype),clean(tname(0)),stamp].filter(Boolean).join("_")+".json";
+  a.click();}
+function submitPilot(){save();
+  if(PILOT_ENDPOINT){const payload=Object.assign({submittedAt:new Date().toISOString()},S);
+    fetch(PILOT_ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).then(()=>alert("Session submitted. Thank you!")).catch(()=>alert("Submit failed — check connection/endpoint."));return;}
+  exportJSON();
+  if(PILOT_EMAIL){const subj=encodeURIComponent("TMS pilot session — "+(tname(0)));
+    const body=encodeURIComponent("Hi,\n\nHere is my TMS pilot session. Please attach the session_*.json file that just downloaded.\n\nSummary:\n"+reportText()+"\nThanks!");
+    window.location.href="mailto:"+PILOT_EMAIL+"?subject="+subj+"&body="+body;
+    setTimeout(function(){alert("Your email app is opening, pre-addressed. Attach the downloaded file and send.");},400);
+  } else alert("Session exported — please email it to the pilot coordinator.");
+}
+function importJSON(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{S=migrate(JSON.parse(r.result));fillSetup();save();go("setup");}catch(x){alert("Invalid file.");}};r.readAsText(f);e.target.value="";}
+let newArm=null;
+function askNew(b){
+  if(newArm){clearTimeout(newArm);newArm=null;b.textContent="New";b.style.background="";newSession();return;}
+  b.textContent="Sure ?";b.style.background="#c62828";
+  newArm=setTimeout(()=>{newArm=null;b.textContent="New";b.style.background="";},3000);
+}
+function newSession(){S=blank();fillSetup();save();go("setup");}
+function fillSetup(){
+  document.getElementById("tA").value=S.trainees[0].name||"";document.getElementById("tB").value=S.trainees[1].name||"";
+  document.getElementById("pf").value=S.pf0!=null?S.pf0:(S.pf||0);document.getElementById("reqlos").value=S.reqlos||"Medium";
+  document.getElementById("stype").value=S.stype||"";document.getElementById("date").value=S.date||"";
+  var ic=document.getElementById("icode");if(ic)ic.value=S.icode||"";
+  var al=document.getElementById("actuallos");if(al)al.value=(S.actuallosByT||{})[tid(S.dbT)]||"";
+  var ov=document.getElementById("overall");if(ov)ov.value=(S.overallByT||{})[tid(S.dbT)]||"";
+  renderSetupEvents();
+}
+function acceptConsent(){try{localStorage.setItem("tms_consent_v1","1");}catch(e){}document.getElementById("consent").classList.remove("show");}
+function maybeConsent(){let ok=1;try{ok=localStorage.getItem("tms_consent_v1");}catch(e){}if(!ok)document.getElementById("consent").classList.add("show");}
+load();renderPresets();fillSetup();maybeConsent();
+</script>
+</body>
+</html>
