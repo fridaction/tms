@@ -37,26 +37,6 @@
   .btn.sm{padding:6px 11px;font-size:12px;border-radius:8px}
   .pill{font-size:10px;font-weight:700;background:var(--navy);color:#fff;border-radius:20px;padding:2px 8px}
   .privacy{font-size:12px;color:#7a5200;background:var(--amber-soft);border:1px solid #f0d3a0;border-radius:9px;padding:8px 11px;margin-bottom:6px}
-  /* mvp9 */
-  .vertag{font-size:10px;font-weight:600;opacity:.55;margin-left:6px}
-  .verline{font-size:11.5px;color:var(--muted);margin:8px 0 4px}
-  .newsbox ul{margin:4px 0 10px;padding-left:18px}
-  .newsbox li{font-size:12.5px;margin-bottom:5px;line-height:1.45}
-  .momrow{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-left:3px solid var(--navy);border-radius:8px;padding:7px 9px;background:#fff;margin-bottom:5px}
-  .momrow .mtxt{flex:1;font-size:12.5px;line-height:1.4}
-  .momrow .mobs{font-size:10px;font-weight:700;color:var(--navy);white-space:nowrap}
-  .momrow .mobs.none{color:var(--muted);font-weight:500}
-  .mdel{border:0;background:transparent;color:var(--muted);font-size:16px;line-height:1;cursor:pointer;padding:0 2px}
-  .temrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .temlab{font-size:12.5px;font-weight:700}
-  .temlist{margin-top:6px}
-  .temflag{display:flex;align-items:center;gap:6px;font-size:12px;border-radius:8px;padding:6px 9px;margin-bottom:4px;background:var(--amber-soft);border:1px solid #f0d3a0;color:#7a5200}
-  .temflag.unacceptable{background:#fdecec;border-color:#f3bdbd;color:#8c2020}
-  .temflag b{white-space:nowrap}.temflag .mdel{margin-left:auto}
-  .mynotes{border:1px solid var(--line);border-radius:9px;padding:8px 10px;margin-bottom:9px;background:#fbfcfe}
-  .mynotes .lab{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:5px}
-  .mynotes .mn{font-size:12.5px;line-height:1.45;margin-bottom:4px}
-  .mynotes .ev{font-size:10.5px;color:var(--muted)}
   .evlist{display:flex;flex-direction:column;gap:7px;margin-top:8px}
   .evrow{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff}
   .evrow .nm{flex:1;font-size:13.5px;font-weight:600}.evrow .cnt{font-size:11px;color:var(--muted)}
@@ -71,7 +51,6 @@
   .crewbtn .who{font-size:13px;font-weight:700;color:var(--navy)}
   .crewbtn .rl{font-size:10px;font-weight:800;color:#fff;background:var(--std);border-radius:20px;padding:1px 7px;margin-left:4px}
   .crewbtn .rl.pm{background:var(--amber)}
-  .crewbtn .rl.mix{background:#8a94a6;letter-spacing:.3px}
   .mseg{display:inline-flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;flex-shrink:0}
   .mseg button{border:none;background:#fff;font:inherit;font-weight:700;font-size:12px;padding:5px 12px;cursor:pointer;color:var(--muted);border-left:1px solid var(--line)}
   .mseg button:first-child{border-left:none}
@@ -86,11 +65,7 @@
   .s-p{background:var(--pos-soft);color:var(--pos);border-color:var(--pos)}.s-n{background:var(--neg-soft);color:var(--neg);border-color:var(--neg)}
   .comp{border:1px solid var(--line);border-radius:11px;margin-bottom:8px;overflow:hidden}
   .comp .h{display:flex;align-items:center;gap:10px;padding:11px 13px;cursor:pointer}
-  /* The index sits above the abbreviation inside the badge rather than beside
-     it — side by side it overflowed the 42px pill and clipped the digit. */
-  .comp .abbr{font-weight:800;font-size:12px;color:#fff;background:var(--navy);border-radius:7px;width:42px;height:34px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;gap:2px}
-  .comp .abbr .cnum{font-size:9px;font-weight:700;opacity:.6;letter-spacing:.5px}
-  .comp .abbr .cab{font-size:11.5px;font-weight:800;letter-spacing:.2px}
+  .comp .abbr{font-weight:800;font-size:12px;color:#fff;background:var(--navy);border-radius:7px;width:42px;height:30px;display:flex;align-items:center;justify-content:center}
   .comp .nm{flex:1}.comp .nm .t{font-size:13px;font-weight:600}.comp .nm .s{font-size:11px;color:var(--muted)}
   .comp .badge{font-size:10px;font-weight:700;background:var(--pos-soft);color:var(--pos);border-radius:20px;padding:2px 8px}
   .chev{color:var(--muted);font-size:12px}
@@ -138,7 +113,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TMS">
 <meta name="theme-color" content="#0b1f3a">
-
 </head>
 <body>
 <div id="consent" class="modal"><div class="mbox">
@@ -146,16 +120,7 @@
   <p>This is a pilot tool to test the CBTA note-taking process and collect <b>anonymised</b> data. Please:</p>
   <ul><li>Use <b>trainee initials or an ID</b> — never a full name.</li><li>No <b>sim / base / airport</b> location.</li><li>No <b>company</b> or other sensitive references.</li></ul>
   <p class="small">Sessions you choose to submit are stored for the pilot analysis only.</p>
-  <div class="verline">Version <b id="cVer"></b> · updated <b id="cDate"></b></div>
-  <div id="cNews" class="newsbox"></div>
   <button class="btn" onclick="acceptConsent()">I understand — continue</button>
-</div></div>
-<div id="whatsnew" class="modal"><div class="mbox">
-  <h3>What's new</h3>
-  <div class="verline">Version <b id="wVer"></b> · updated <b id="wDate"></b></div>
-  <div id="wNews" class="newsbox"></div>
-  <p class="small">Reminder: trainee initials or an ID only — no names, no sim/base location, no company references.</p>
-  <button class="btn" onclick="seenNews()">Got it</button>
 </div></div>
 <div id="info" class="modal" onclick="if(event.target.id==='info')closeInfo()"><div class="mbox">
   <h3 id="infoTitle"></h3><p id="infoBody"></p>
@@ -163,7 +128,7 @@
 </div></div>
 <div class="app">
   <div class="top">
-    <div class="brand"><span class="dot"></span> TMS · CBTA Session Tool <span class="vertag" id="verTag"></span></div>
+    <div class="brand"><span class="dot"></span> TMS · CBTA Session Tool</div>
     <div class="acts">
       <button onclick="exportJSON()">Export</button>
       <button onclick="document.getElementById('imp').click()">Import</button>
@@ -194,12 +159,7 @@
     </div>
     <div class="row">
       <div><label>Session type</label><input type="text" id="stype" placeholder="e.g. FFS 4" oninput="save()"></div>
-      <div><label>Date</label><input type="date" id="date" oninput="save()" onchange="save()"></div>
-    </div>
-    <div class="row">
-      <div><label>Safety margin (TEM) assessed this session?</label>
-        <select id="temon" onchange="save();renderTem()"><option value="1">Yes — scenario / LOE / line-oriented</option><option value="0">No — psychomotor practice, the instructor manages TEM</option></select>
-        <div class="small" style="margin-top:4px">IATA GM §8.3 — when TEM is not assessed, the grade is the lower of How Many and How Often only.</div></div>
+      <div><label>Date</label><input type="text" id="date" placeholder="dd/mm/yyyy" oninput="save()"></div>
     </div>
     <div class="row">
       <div><label>Instructor code (anonymous, e.g. INS-01)</label><input type="text" id="icode" placeholder="e.g. INS-01" oninput="save()"></div>
@@ -223,9 +183,6 @@
     <div class="hint"><b>Describe what you saw</b> (optional) → tap a suggested OB to jump &amp; mark it.</div>
     <textarea id="obsNote" placeholder="e.g. good raw-data tracking, but slow checklist"></textarea>
     <div class="obsug" id="obSug"></div>
-    <div style="margin-top:6px"><button class="btn ghost sm" onclick="keepNote()">Keep note for the debrief</button></div>
-    <div id="capMoments" style="margin-top:8px"></div>
-    <div id="temBox" style="margin-top:10px"></div>
     <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center">
       <b style="font-size:13px">Competencies</b><span class="pill"><span id="capCount">0</span> marked</span>
     </div>
@@ -346,65 +303,24 @@ const OBINFO={"0.1":"Demonstrates practical and applicable knowledge of limitati
  "8.7":"Monitors, reviews and cross-checks actions conscientiously — can maintain sufficient resources for monitoring and cross-checking actions. The demonstration of OB 8.7 should always be achieved by the trainee/candidate carrying out activities or tasks under any conditions. The OB 8.7 should be distinguished from the OB related to monitoring (OB 1.5, OB 3.2, OB 3.6, OB 4.2, OB 4.7, OB 6.7, OB 7.1, OB 7.2, OB 7.3)",
  "8.8":"Verifies that tasks are completed to the expected outcome — The demonstration of OB 8.8 should always be achieved by the trainee/candidate carrying out activities or tasks under any conditions",
  "8.9":"Manages and recovers from interruptions, distractions, variations and failures effectively while performing tasks"};
-const OBTITLE={},COMPOF={},CIDX={};
+const OBTITLE={},COMPOF={};
 Object.entries(OBDATA).forEach(([k,[,obs]])=>obs.forEach(([c,t])=>{OBTITLE[c]=t;COMPOF[c]=k;}));
-/* Competency index = the prefix of its OB codes (0 KNO … 8 WLM), the same
-   numbering as the IATA framework. Shown in the UI so "5.2" points at "5 LTW". */
-Object.entries(OBDATA).forEach(([k,[,obs]])=>{if(obs.length)CIDX[k]=String(obs[0][0]).split(".")[0];});
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
 const KW=[["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp9";
-const APP_DATE="29/08/2026";
-/* Shown on the welcome screen and again, on its own, whenever APP_VER changes —
-   so the instructors helping with the pilot always know what moved. */
-const APP_NEWS=[
- "Safety-margin flag (TEM) is now a session button, always reachable — no longer buried under a − mark. Only raise it when a margin was actually reduced; doing nothing means “no reduction”.",
- "Your typed notes are now kept. They come back at the debrief, in your own words, under the competency they belong to.",
- "Competencies are numbered 0–8 in Capture, matching the OB numbers (5.2 → competency 5)."
-];
+const APP_VER="mvp7";
 let S=blank();let capOpen=new Set();
-function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],moments:[],tem:[],temOn:true,grades:{},actuallos:"",overall:""};}
+function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],grades:{},actuallos:"",overall:""};}
 function hasB(){return (S.trainees[1].name||"").trim()!=="";}
-
-/* --- PF/PM is a property of (trainee x event), not a global toggle ---------
-   S.evPf maps eventId -> index of the trainee flying that event. An event with
-   no explicit entry inherits from the last event that has one, so a single swap
-   carries forward the way a real crew swap does. S.pf0 is the session default. */
-function pfForEvent(evId){
-  const base=(S.pf0!=null?S.pf0:0);
-  const map=S.evPf||{};
-  if(map[evId]!=null)return map[evId];
-  const i=(S.events||[]).findIndex(e=>e.id===evId);
-  for(let j=i-1;j>=0;j--){const v=map[S.events[j].id];if(v!=null)return v;}
-  return base;
-}
-function roleOf(idx,evId){return idx===pfForEvent(evId===undefined?S.curEvent:evId)?"PF":"PM";}
-function roleStart(idx){return roleOf(idx,(S.events&&S.events[0])?S.events[0].id:null);}
-/* Roles are derived, never typed in. Recompute every stored obs whenever the
-   crew assignment changes, so a mid-session swap can't leave stale roles. */
-function syncObsRoles(){
-  const idxOf={};(S.trainees||[]).forEach((t,i)=>{idxOf[t.id]=i;});
-  (S.obs||[]).forEach(o=>{const i=idxOf[o.traineeId];if(i!=null)o.role=roleOf(i,o.eventId);});
-}
-function setEvPf(evId,idx){S.evPf=S.evPf||{};S.evPf[evId]=idx;syncObsRoles();save();}
-function roleMix(idx){
-  const t=tid(idx),c={};
-  (S.obs||[]).filter(o=>o.traineeId===t).forEach(o=>{const r=o.role||"?";c[r]=(c[r]||0)+1;});
-  const keys=Object.keys(c).sort();
-  if(!keys.length)return roleStart(idx);
-  if(keys.length===1)return keys[0];
-  return keys.map(k=>k+" "+c[k]).join(" · ");
-}
+function roleOf(idx){return idx===S.pf?"PF":"PM";}
+function roleStart(idx){return idx===(S.pf0!=null?S.pf0:S.pf)?"PF":"PM";}
 function tid(idx){return S.trainees[idx].id;}
-function evName(id){const e=(S.events||[]).find(x=>x.id===id);return e?e.name:"";}
 function tname(idx){return (S.trainees[idx].name||"").trim()||(idx===0?"A":"B");}
 function save(){
   S.trainees[0].name=val("tA");S.trainees[1].name=val("tB");
   const pfSel=+val("pf");if(S.pf0==null)S.pf0=S.pf||0;
-  if(pfSel!==S.pf0){S.pf0=pfSel;S.pf=pfSel;syncObsRoles();}
-  S.reqlos=val("reqlos");S.stype=val("stype");S.date=isoToDMY(val("date"));S.icode=val("icode")||S.icode||"";S.appVer=APP_VER;
-  {const tv=val("temon");if(tv!=="")S.temOn=(tv==="1");}
+  if(pfSel!==S.pf0){S.pf0=pfSel;S.pf=pfSel;}
+  S.reqlos=val("reqlos");S.stype=val("stype");S.date=val("date");S.icode=val("icode")||S.icode||"";S.appVer=APP_VER;
   S.actuallosByT=S.actuallosByT||{};S.overallByT=S.overallByT||{};
   S.actuallosByT[tid(S.dbT)]=val("actuallos");S.overallByT[tid(S.dbT)]=val("overall");
   S.actuallos=activeTrainees().map(i=>{const v=S.actuallosByT[tid(i)];return v?tname(i)+": "+v:"";}).filter(Boolean).join(" | ");
@@ -412,23 +328,11 @@ function save(){
   try{localStorage.setItem("tms_mvp5",JSON.stringify(S));}catch(e){}
 }
 function migrate(x){x.actuallosByT=x.actuallosByT||{};x.overallByT=x.overallByT||{};if(x.pf0==null)x.pf0=x.pf||0;
-  /* Pre-mvp8 sessions had one global PF. Keep the roles already recorded on the
-     observations as-is; only seed the default so nothing shifts under the user. */
-  x.evPf=x.evPf||{};
-  /* mvp9: notes kept as first-class "moments", and the TEM flag moved off the OB. */
-  x.moments=x.moments||[];x.tem=x.tem||[];if(x.temOn==null)x.temOn=true;
   if(x.overall&&!Object.values(x.overallByT).some(Boolean)&&!/: /.test(x.overall))(x.trainees||[]).forEach(t=>x.overallByT[t.id]=x.overall);
   if(x.actuallos&&!Object.values(x.actuallosByT).some(Boolean)&&!/: /.test(x.actuallos))(x.trainees||[]).forEach(t=>x.actuallosByT[t.id]=x.actuallos);
   return x;}
 function load(){try{const r=localStorage.getItem("tms_mvp5");if(r)S=migrate(JSON.parse(r));}catch(e){}}
 const val=id=>{const e=document.getElementById(id);return e?e.value:"";};
-/* The date field is a native picker (yyyy-mm-dd) but the pilot database is
-   already full of dd/mm/yyyy. Convert at the boundary so both stay consistent. */
-function isoToDMY(s){s=(s||"").trim();const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);return m?m[3]+"/"+m[2]+"/"+m[1]:s;}
-function dmyToISO(s){const m=/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/.exec((s||"").trim());if(!m)return "";
-  let y=+m[3];if(y<100)y+=2000;
-  return y+"-"+String(+m[2]).padStart(2,"0")+"-"+String(+m[1]).padStart(2,"0");}
-function todayISO(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function uid(){return Math.random().toString(36).slice(2,9);}
 const esc=s=>(s||"").replace(/"/g,"&quot;");
 
@@ -452,10 +356,6 @@ function addEvent(name){name=name||val("evname").trim();if(!name)return;S.events
 function renderSetupEvents(){
   const box=document.getElementById("setupEvents");
   if(!S.events.length){box.innerHTML='<div class="empty">No events yet — add the exercises of the session.</div>';return;}
-  /* No PF badge here on purpose. Setup answers one question — who starts as PF.
-     Who is flying each event is decided live in Capture, where the swap happens
-     at the moment the crew actually changes seats. Showing it in both places
-     made "PF at start" look like it was rewriting every event. */
   box.innerHTML=S.events.map((e,i)=>{const n=S.obs.filter(o=>o.eventId===e.id).length;
     return `<div class="evrow"><span class="nm">${e.name}</span><span class="cnt">${n} obs</span>`+
       `<span class="mv" onclick="moveEvent(${i},-1)">▲</span><span class="mv" onclick="moveEvent(${i},1)">▼</span>`+
@@ -475,30 +375,22 @@ function renderCaptureEvents(){
 function renderCrewbar(){
   const bar=document.getElementById("crewbar");
   if(!hasB()){bar.innerHTML="";return;}
-  bar.innerHTML=[0,1].map(i=>{const r=roleOf(i,S.curEvent);
-    return `<div class="crewbtn ${S.curT===i?'on':''}" onclick="setCurT(${i})"><span class="who">${tname(i)}</span><span class="rl ${r==='PM'?'pm':''}">${r}</span></div>`;}).join("")
-    +`<button class="btn ghost sm" onclick="swapRoles()" title="Changes who is flying, from this event onwards. To pick who you are marking, tap their name.">⇄ Swap PF/PM<br><span class="small" style="font-weight:400">this event onwards</span></button>`;
+  bar.innerHTML=[0,1].map(i=>`<div class="crewbtn ${S.curT===i?'on':''}" onclick="setCurT(${i})"><span class="who">${tname(i)}</span><span class="rl ${roleOf(i)==='PM'?'pm':''}">${roleOf(i)}</span></div>`).join("")
+    +`<button class="btn ghost sm" onclick="swapRoles()">⇄ Swap roles</button>`;
 }
-function setCurT(i){S.curT=i;openForTrainee();renderCrewbar();renderAccordion();renderEvLib();renderMoments();renderTem();}
-/* Swaps who is FLYING, from the current event onwards. Selecting who you are
-   MARKING is a separate action — tapping the trainee's name. Conflating the two
-   is what produced sessions where both trainees came out as PF. */
-function swapRoles(){
-  if(!S.curEvent){alert("Add an event first — PF/PM is set per event.");return;}
-  setEvPf(S.curEvent,1-pfForEvent(S.curEvent));
-  renderCrewbar();renderAccordion();
-}
+function setCurT(i){S.curT=i;openForTrainee();renderCrewbar();renderAccordion();renderEvLib();}
+function swapRoles(){S.pf=1-S.pf;save();renderCrewbar();renderAccordion();}
 function openForTrainee(){capOpen=new Set();Object.keys(OBDATA).forEach(k=>{if(S.obs.some(o=>o.eventId===S.curEvent&&o.traineeId===tid(S.curT)&&COMPOF[o.code]===k))capOpen.add(k);});}
 function renderCapture(){
   S.curEvent=document.getElementById("curEvent").value;
   document.getElementById("obsNote").value="";document.getElementById("obSug").innerHTML="";
-  openForTrainee();renderCrewbar();renderAccordion();renderEvLib();renderMoments();renderTem();save();
+  openForTrainee();renderCrewbar();renderAccordion();renderEvLib();save();
 }
 function getCap(c){return S.obs.find(o=>o.eventId===S.curEvent&&o.traineeId===tid(S.curT)&&o.code===c);}
 function cycleCap(c){const e=getCap(c);const cur=e?e.val:"";const nx={"":"0","0":"+","+":"-","-":""}[cur];
   if(nx===""){if(e)S.obs=S.obs.filter(o=>o!==e);}
-  else if(e){e.val=nx;if(nx!=="-")e.imp="none";e.role=roleOf(S.curT,S.curEvent);e.tm=new Date().toISOString();}
-  else S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:c,val:nx,imp:"none",role:roleOf(S.curT,S.curEvent),note:"",t:new Date().toISOString()});
+  else if(e){e.val=nx;if(nx!=="-")e.imp="none";e.role=roleOf(S.curT);e.tm=new Date().toISOString();}
+  else S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:c,val:nx,imp:"none",role:roleOf(S.curT),note:"",t:new Date().toISOString()});
   renderAccordion();save();
 }
 function setCapImp(c,i){const e=getCap(c);if(e){e.imp=i;renderAccordion();save();}}
@@ -562,7 +454,7 @@ function suggestOBs(){
   });
   const ranked=Object.keys(best).sort((a,b)=>best[b].score-best[a].score).slice(0,10);
   SUG=ranked.map(c=>({code:c,v:best[c].v,clause:best[c].clause}));
-  if(!SUG.length){box.innerHTML='<span class="small">No match \u2014 try other words, or browse the competencies below. You can still <b>Keep note</b> \u2014 it will come back at the debrief.</span>';renderMoments();return;}
+  if(!SUG.length){box.innerHTML='<span class="small">No match \u2014 try other words, or browse the competencies below.</span>';return;}
   box.innerHTML='<span class="small" style="width:100%">Suggested (tap to mark with its sign) \u2014 the matching phrase becomes that OB\u2019s note:</span>'
     + SUG.map((s,i)=>{
         const sign=s.v==="+"?"+":s.v==="-"?"\u2212":"std";
@@ -571,91 +463,14 @@ function suggestOBs(){
       }).join("");
 }
 document.getElementById("obsNote").addEventListener("input",suggestOBs);
-/* --- Moments -------------------------------------------------------------
-   What the instructor actually produces is a moment ("slow on the checklist
-   after the ECAM"), which then lands on one or more OBs. Until mvp9 only a
-   140-char fragment survived, glued onto each OB; the sentence itself was
-   thrown away when the box was cleared. A moment is now stored whole, keeps
-   the OBs it produced, and comes back at the debrief in the instructor's own
-   words. */
-function currentMoment(text,create){
-  const txt=(text||"").trim(); if(!txt) return null;
-  let m=(S.moments||[]).find(x=>x.text===txt&&x.eventId===S.curEvent&&x.traineeId===tid(S.curT));
-  if(!m&&create){m={id:uid(),t:new Date().toISOString(),eventId:S.curEvent,traineeId:tid(S.curT),text:txt.slice(0,600),obCodes:[]};
-    S.moments=S.moments||[];S.moments.push(m);}
-  return m||null;
-}
-function keepNote(){
-  const m=currentMoment(val("obsNote"),true);
-  if(!m){alert("Type what you saw first.");return;}
-  save();renderMoments();
-}
-function delMoment(id){S.moments=(S.moments||[]).filter(m=>m.id!==id);(S.obs||[]).forEach(o=>{if(o.momentId===id)delete o.momentId;});save();renderMoments();}
-function momentsOf(evId,tId){return (S.moments||[]).filter(m=>m.eventId===evId&&m.traineeId===tId);}
-function renderMoments(){
-  const box=document.getElementById("capMoments"); if(!box) return;
-  const list=momentsOf(S.curEvent,tid(S.curT));
-  if(!list.length){box.innerHTML="";return;}
-  box.innerHTML='<div class="hint" style="margin-bottom:6px"><b>Kept for the debrief</b> — your words, on this event.</div>'
-    + list.map(m=>`<div class="momrow"><span class="mtxt">${esc(m.text)}</span>`
-        +(m.obCodes.length?`<span class="mobs">${m.obCodes.join(" · ")}</span>`:'<span class="mobs none">no OB</span>')
-        +`<button class="mdel" title="Remove" onclick="delMoment('${m.id}')">×</button></div>`).join("");
-}
-/* --- Safety margin (Outcome of TEM) --------------------------------------
-   IATA assesses the outcome of TEM per COMPETENCY, not per OB, and only the
-   reduction of a margin is an event worth capturing live. So the flag is
-   raised on its own — it needs no OB, and there is no "none" button: not
-   raising it IS "no reduction". The per-competency value is then confirmed
-   once, at grading time, instead of being silently inferred. */
-/* Short labels so the row never wraps on a phone; the wording matches the
-   segmented control on the debrief screen, and the hint below carries the
-   full IATA phrasing. */
-const TEMLEVELS=[["momentary","Momentary"],["unacceptable","Unacceptable"]];
-function raiseTem(level){
-  if(!S.curEvent){alert("Pick an event first.");return;}
-  S.tem=S.tem||[];
-  S.tem.push({id:uid(),t:new Date().toISOString(),eventId:S.curEvent,traineeId:tid(S.curT),level:level,text:(val("obsNote")||"").trim().slice(0,240)});
-  save();renderTem();
-}
-function delTem(id){S.tem=(S.tem||[]).filter(f=>f.id!==id);save();renderTem();renderDebriefIfOpen();}
-function renderTem(){
-  const box=document.getElementById("temBox"); if(!box) return;
-  if(!S.temOn){box.innerHTML='<div class="hint">Safety margin (TEM) is <b>not assessed</b> on this session — competency grades will use How Many and How Often only.</div>';return;}
-  const flags=(S.tem||[]).filter(f=>f.eventId===S.curEvent&&f.traineeId===tid(S.curT));
-  box.innerHTML='<div class="temrow"><span class="temlab">⚑ Safety margin reduced?</span>'
-    + TEMLEVELS.map(([k,l])=>`<button class="btn ghost sm" onclick="raiseTem('${k}')">${l}</button>`).join("")
-    + '</div><div class="hint" style="margin-top:4px"><b>Momentary</b> = limited &amp; momentary reduction · <b>Unacceptable</b> = unacceptable reduction.<br>Only raise it if a margin was actually reduced. Doing nothing means <b>no reduction</b> — that is a valid answer, not a blank.</div>'
-    + (flags.length?'<div class="temlist">'+flags.map(f=>`<div class="temflag ${f.level}"><b>${f.level==="unacceptable"?"Unacceptable":"Momentary"}</b>${f.text?" — "+esc(f.text):""}<button class="mdel" onclick="delTem('${f.id}')">×</button></div>`).join("")+'</div>':"");
-}
-function temOfTrainee(t){return (S.tem||[]).filter(f=>f.traineeId===t);}
-/* Default outcome for a competency: the worst flag raised on an event where
-   that competency actually took a hit. Pre-filled, never silent — the
-   instructor confirms or overrides it in one tap. */
-function temAuto(t,comp){
-  if(!S.temOn)return "";
-  const evts={};S.obs.filter(o=>o.traineeId===t&&COMPOF[o.code]===comp&&o.val==='-').forEach(o=>{evts[o.eventId]=1;});
-  let worst="none";
-  temOfTrainee(t).forEach(f=>{if(evts[f.eventId]){if(f.level==='unacceptable')worst='unacceptable';else if(worst!=='unacceptable')worst='momentary';}});
-  /* legacy sessions captured the impact on the OB itself — keep reading it */
-  S.obs.filter(o=>o.traineeId===t&&COMPOF[o.code]===comp&&o.val==='-'&&o.imp&&o.imp!=='none').forEach(o=>{
-    if(o.imp==='unacceptable')worst='unacceptable';else if(worst!=='unacceptable')worst='momentary';});
-  return worst;
-}
-function temOf(t,comp){const g=ensureGrade(t,comp);return g.tem||temAuto(t,comp);}
-function setTem(comp,v){const t=tid(S.dbT);ensureGrade(t,comp).tem=v;
-  document.querySelectorAll(`#temb_${comp} button`).forEach(b=>b.classList.toggle("on",b.dataset.v===v));
-  computeGrade(t,comp);save();}
-function renderDebriefIfOpen(){const d=document.getElementById("debrief");if(d&&d.classList.contains("on"))renderDebrief();}
 function jumpMarkIdx(i){
   const s=SUG[i]; if(!s) return;
   capOpen.add(COMPOF[s.code]);
   const v=s.v||"0", note=(s.clause||"").slice(0,140);
-  const m=currentMoment(val("obsNote"),true);
-  if(m&&m.obCodes.indexOf(s.code)<0)m.obCodes.push(s.code);
   const e=getCap(s.code);
-  if(!e) S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:s.code,val:v,imp:"none",momentId:m?m.id:"",role:roleOf(S.curT,S.curEvent),note:note});
-  else { e.val=v; if(!e.note) e.note=note; if(m&&!e.momentId)e.momentId=m.id; }
-  save();renderAccordion();suggestOBs();renderMoments();
+  if(!e) S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:s.code,val:v,imp:"none",role:roleOf(S.curT),note:note});
+  else { e.val=v; if(!e.note) e.note=note; }
+  save();renderAccordion();suggestOBs();
 }
 function renderAccordion(){
   const box=document.getElementById("capAcc");let total=0;
@@ -667,15 +482,12 @@ function renderAccordion(){
       const e=getCap(c);const v=e?e.val:"";
       const stcls=v==='+'?'s-p':v==='-'?'s-n':v==='0'?'s-s':'s-e';const stsym=v==='+'?'+':v==='-'?'−':v==='0'?'std':'·';
       let row=`<div class="obm cyc" onclick="cycleCap('${c}')"><span class="statechip ${stcls}">${stsym}</span><span class="cc">${c}</span><span class="tt">${t}</span><span class="info" onclick="event.stopPropagation();openInfo('${c}')">i</span></div>`;
-      /* mvp9: the safety-margin question left this row. It was only reachable
-         under a − mark, so it was asked 22 times in 1163 observations. It is
-         now a session-level flag, raised only when a margin was reduced. */
-      if(e)row+=`<div class="subrow">
+      if(e)row+=`<div class="subrow">${e.val==="-"?`<span class="iseg">${["none","momentary","unacceptable"].map(i=>`<button class="${e.imp===i?'on':''}" onclick="setCapImp('${c}','${i}')">${i==="none"?"⚑ ok":i}</button>`).join("")}</span>`:""}
         <input type="text" placeholder="note (optional)" value="${esc(e.note)}" oninput="setCapNote('${c}',this.value)"></div>`;
       return row;
     }).join(""):"";
     return `<div class="comp ${open?'open':''}"><div class="h" onclick="toggleComp('${k}')">
-      <div class="abbr"><span class="cnum">${CIDX[k]}</span><span class="cab">${k}</span></div><div class="nm"><div class="t">${name}</div><div class="s">${OBDATA[k][1].length} OBs</div></div>
+      <div class="abbr">${k}</div><div class="nm"><div class="t">${name}</div><div class="s">${OBDATA[k][1].length} OBs</div></div>
       ${nmark?`<span class="badge">${nmark} marked</span>`:''}<span class="chev">${open?'▾':'▸'}</span></div>
       <div class="body">${body}</div></div>`;
   }).join("");
@@ -689,11 +501,10 @@ function ensureGrade(t,comp){const g=grds(t);if(!g[comp])g[comp]={marks:{},often
 function renderDbCrew(){
   const bar=document.getElementById("dbCrew");
   if(!hasB()){bar.innerHTML="";S.dbT=0;return;}
-  /* No swap button here: roles belong to the events and are already recorded.
-     Show what each trainee actually flew instead. */
-  bar.innerHTML=[0,1].map(i=>{const m=roleMix(i);
-    return `<div class="crewbtn ${S.dbT===i?'on':''}" onclick="setDbT(${i})"><span class="who">${tname(i)}</span><span class="rl ${m==='PM'?'pm':''} ${/·/.test(m)?'mix':''}">${m}</span></div>`;}).join("");
+  bar.innerHTML=[0,1].map(i=>`<div class="crewbtn ${S.dbT===i?'on':''}" onclick="setDbT(${i})"><span class="who">${tname(i)}</span><span class="rl ${roleOf(i)==='PM'?'pm':''}">${roleOf(i)}</span></div>`).join("")
+    +`<button class="btn ghost sm" onclick="swapRolesDb()">⇄ Swap roles</button>`;
 }
+function swapRolesDb(){S.pf=1-S.pf;save();renderDebrief();}
 function setDbT(i){S.dbT=i;renderDebrief();}
 function renderDebrief(){
   renderDbCrew();
@@ -707,15 +518,6 @@ function renderDebrief(){
     Object.entries(active[comp]).forEach(([c,v])=>{if(!(c in g.marks))g.marks[c]=v;});
     return compCard(t,comp,g,active[comp]);}).join("");
   order.forEach(comp=>computeGrade(t,comp));
-  /* Notes that never landed on an OB — usually what happened rather than how it
-     went ("TCAS", "diversion", "MEL"). They are context for the debrief, so they
-     get their own place instead of being glued onto an unrelated OB. */
-  const loose=(S.moments||[]).filter(m=>m.traineeId===t&&!m.obCodes.length);
-  const flags=temOfTrainee(t);
-  let extra="";
-  if(loose.length)extra+=`<div class="mynotes"><div class="lab">Session notes — not tied to an OB</div>${loose.map(m=>`<div class="mn">“${esc(m.text)}” <span class="ev">${esc(evName(m.eventId))}</span></div>`).join("")}</div>`;
-  if(S.temOn&&flags.length)extra+=`<div class="mynotes"><div class="lab">⚑ Safety margin raised</div>${flags.map(f=>`<div class="mn"><b>${f.level==="unacceptable"?"Unacceptable":"Momentary"}</b>${f.text?" — "+esc(f.text):""} <span class="ev">${esc(evName(f.eventId))}</span></div>`).join("")}</div>`;
-  if(extra)box.innerHTML+=extra;
   document.getElementById("actuallos").value=(S.actuallosByT||{})[t]||"";
   document.getElementById("overall").value=(S.overallByT||{})[t]||"";
   updateLosCompare();
@@ -727,22 +529,13 @@ function compCard(t,comp,g,active){
   const rows=obs.map(([c,tt])=>{const m=g.marks[c]||"";
     return `<div class="obm"><span class="cc">${c}</span><span class="tt">${tt}</span><span class="info" onclick="openInfo('${c}')">i</span>
       <span class="mseg" data-c="${c}" data-comp="${comp}">${["-","0","+","NA"].map(v=>`<button data-m="${v}" class="${m===v?'on':''}">${v==="0"?"std":v}</button>`).join("")}</span></div>`;}).join("");
-  /* The instructor's own words, brought back under the competency they produced.
-     This is what gets talked about in the room — the OB codes never are. */
-  const mine=(S.moments||[]).filter(m=>m.traineeId===t&&m.obCodes.some(c=>COMPOF[c]===comp));
-  const notes=mine.length?`<div class="mynotes"><div class="lab">Your notes</div>${mine.map(m=>`<div class="mn">“${esc(m.text)}” <span class="ev">${esc(evName(m.eventId))}</span></div>`).join("")}</div>`:"";
-  const temCur=g.tem||temAuto(t,comp)||"none";
-  const temSeg=S.temOn?`<div class="sgrade"><span class="lab">Safety margin (TEM):</span>
-        <span class="ofb" id="temb_${comp}">${[["none","No reduction"],["momentary","Momentary"],["unacceptable","Unacceptable"]].map(([v,l])=>`<button data-v="${v}" class="${temCur===v?'on':''}" onclick="setTem('${comp}','${v}')">${l}</button>`).join("")}</span></div>`
-      :`<div class="sgrade"><span class="lab">Safety margin (TEM):</span><span class="small">not assessed on this session</span></div>`;
   return `<div class="comp"><div class="h" onclick="this.parentNode.classList.toggle('open')">
-    <div class="abbr"><span class="cnum">${CIDX[comp]}</span><span class="cab">${comp}</span></div><div class="nm"><div class="t">${name}</div><div class="s">${summ}</div></div>
+    <div class="abbr">${comp}</div><div class="nm"><div class="t">${name}</div><div class="s">${summ}</div></div>
     <div class="gb g0" id="gb_${comp}">–</div></div>
-    <div class="body">${notes}${rows}
+    <div class="body">${rows}
       <div class="dims" id="dims_${comp}"></div>
       <div class="sgrade"><span class="lab">Consistency (How Often):</span>
         <span class="ofb" id="ofb_${comp}">${OFTEN.map(([l,v])=>`<button data-v="${v}" class="${g.often===v?'on':''}" onclick="setOften('${comp}',${v})">${l}</button>`).join("")}</span></div>
-      ${temSeg}
       <div class="sgrade"><span class="lab">Grade:</span><span class="gsc" id="gsc_${comp}"></span></div>
       <div class="alert" id="al_${comp}"></div>
     </div></div>`;
@@ -751,25 +544,17 @@ function setMark(comp,c,v){const t=tid(S.dbT);ensureGrade(t,comp).marks[c]=v;doc
 function setOften(comp,v){const t=tid(S.dbT);ensureGrade(t,comp).often=v;document.querySelectorAll(`#ofb_${comp} button`).forEach(b=>b.classList.toggle("on",+b.dataset.v===v));computeGrade(t,comp);save();}
 document.addEventListener("click",e=>{const b=e.target.closest(".mseg button");if(b&&b.parentNode.dataset.comp){const seg=b.parentNode;setMark(seg.dataset.comp,seg.dataset.c,b.dataset.m);}});
 function computeGrade(t,comp){
-  const g=ensureGrade(t,comp);let plus=0,std=0,minus=0;
-  Object.entries(g.marks).forEach(([c,m])=>{if(m==='+')plus++;else if(m==='0')std++;else if(m==='-')minus++;});
+  const g=ensureGrade(t,comp);let plus=0,std=0,minus=0,worst="";
+  Object.entries(g.marks).forEach(([c,m])=>{if(m==='+')plus++;else if(m==='0')std++;else if(m==='-'){minus++;
+    const o=S.obs.find(o=>o.traineeId===t&&o.code===c&&o.val==='-'&&o.imp);if(o){if(o.imp==='unacceptable')worst='unacceptable';else if(o.imp==='momentary'&&worst!=='unacceptable')worst='momentary';}}});
   const applicable=plus+std+minus;
   let manyV=null,manyW="—";if(applicable){[manyV,manyW]=manyBand((plus+std)/applicable);}
-  /* Outcome of TEM: per competency, taken from the flags raised in-session and
-     confirmed by the instructor. Excluded entirely when the session does not
-     assess TEM (IATA GM §8.3 — e.g. a psychomotor session). */
-  const worst=S.temOn?temOf(t,comp):"";
-  let temV=null,temW="not assessed";
-  if(S.temOn){temV=5;temW="no reduction";
-    if(worst==='unacceptable'){temV=1;temW="unacceptable reduction";}
-    else if(worst==='momentary'){temV=2;temW="momentary reduction";}}
+  let temV=5,temW="no safety impact";if(worst==='unacceptable'){temV=1;temW="unacceptable margin";}else if(worst==='momentary'){temV=2;temW="momentary margin";}
   const dims=[manyV,g.often,temV].filter(x=>x!=null);const sugg=dims.length?Math.min(...dims):null;
-  let driver="How Many";if(sugg===g.often)driver="How Often";if(temV!=null&&sugg===temV&&temV<5)driver="Outcome TEM";
+  let driver="How Many";if(sugg===g.often)driver="How Often";if(sugg===temV&&temV<5)driver="Outcome TEM";
   g.suggested=sugg;
   const d=document.getElementById("dims_"+comp);
   if(d)d.innerHTML=applicable?`<b>How Many</b>: ${manyW} (${plus+std}/${applicable} at std or +) &nbsp;·&nbsp; <b>How Often</b>: ${OFTEN.find(o=>o[1]===g.often)[0]} &nbsp;·&nbsp; <b>TEM</b>: ${temW}<br>Suggested = <b>min → ${sugg}</b> (driven by ${driver})`:`Mark at least one OB to compute.`;
-  const tb=document.getElementById("temb_"+comp);
-  if(tb)tb.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===(g.tem||worst||"none")));
   const gsc=document.getElementById("gsc_"+comp);
   if(gsc)gsc.innerHTML=[1,2,3,4,5].map(n=>`<button class="${n===g.final?'sel':''} ${n===sugg?'suggested':''}" onclick="setFinal('${comp}',${n})">${n}</button>`).join("");
   const gb=document.getElementById("gb_"+comp);if(gb){gb.textContent=g.final||(sugg??"–");gb.className="gb g"+(g.final||0);}
@@ -886,34 +671,15 @@ function newSession(){S=blank();fillSetup();save();go("setup");}
 function fillSetup(){
   document.getElementById("tA").value=S.trainees[0].name||"";document.getElementById("tB").value=S.trainees[1].name||"";
   document.getElementById("pf").value=S.pf0!=null?S.pf0:(S.pf||0);document.getElementById("reqlos").value=S.reqlos||"Medium";
-  document.getElementById("stype").value=S.stype||"";
-  /* Sessions are almost always logged the day they are flown — start on today. */
-  document.getElementById("date").value=S.date?dmyToISO(S.date):todayISO();
+  document.getElementById("stype").value=S.stype||"";document.getElementById("date").value=S.date||"";
   var ic=document.getElementById("icode");if(ic)ic.value=S.icode||"";
-  var tm=document.getElementById("temon");if(tm)tm.value=(S.temOn===false)?"0":"1";
   var al=document.getElementById("actuallos");if(al)al.value=(S.actuallosByT||{})[tid(S.dbT)]||"";
   var ov=document.getElementById("overall");if(ov)ov.value=(S.overallByT||{})[tid(S.dbT)]||"";
   renderSetupEvents();
 }
-/* Version + what's new. The privacy screen carries it for a first-time user;
-   afterwards a change of APP_VER shows the news on its own, once, so the
-   instructors helping with the pilot always know what moved under them. */
-function fillNews(){
-  const li="<ul>"+APP_NEWS.map(n=>"<li>"+n+"</li>").join("")+"</ul>";
-  ["cVer","wVer"].forEach(i=>{const e=document.getElementById(i);if(e)e.textContent=APP_VER;});
-  ["cDate","wDate"].forEach(i=>{const e=document.getElementById(i);if(e)e.textContent=APP_DATE;});
-  ["cNews","wNews"].forEach(i=>{const e=document.getElementById(i);if(e)e.innerHTML=li;});
-  const v=document.getElementById("verTag");if(v)v.textContent=APP_VER+" · "+APP_DATE;
-}
-function markSeen(){try{localStorage.setItem("tms_seen_ver",APP_VER);}catch(e){}}
-function acceptConsent(){try{localStorage.setItem("tms_consent_v1","1");}catch(e){}markSeen();document.getElementById("consent").classList.remove("show");}
-function seenNews(){markSeen();document.getElementById("whatsnew").classList.remove("show");}
-function maybeConsent(){
-  let ok=1,seen="";try{ok=localStorage.getItem("tms_consent_v1");seen=localStorage.getItem("tms_seen_ver");}catch(e){}
-  if(!ok){document.getElementById("consent").classList.add("show");return;}
-  if(seen!==APP_VER)document.getElementById("whatsnew").classList.add("show");
-}
-load();renderPresets();fillSetup();fillNews();maybeConsent();
+function acceptConsent(){try{localStorage.setItem("tms_consent_v1","1");}catch(e){}document.getElementById("consent").classList.remove("show");}
+function maybeConsent(){let ok=1;try{ok=localStorage.getItem("tms_consent_v1");}catch(e){}if(!ok)document.getElementById("consent").classList.add("show");}
+load();renderPresets();fillSetup();maybeConsent();
 </script>
 <script>
 if("serviceWorker" in navigator){
