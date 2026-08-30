@@ -354,10 +354,11 @@ Object.entries(OBDATA).forEach(([k,[,obs]])=>{if(obs.length)CIDX[k]=String(obs[0
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
 const KW=[["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp9";
+const APP_VER="mvp9.1";
 const APP_DATE="29/08/2026";
-/* Shown on the welcome screen and again, on its own, whenever APP_VER changes —
-   so the instructors helping with the pilot always know what moved. */
+/* The "what's new" screen fires on APP_NEWS_VER, not APP_VER, so a fix that
+   changes nothing an instructor can see does not interrupt them again. */
+const APP_NEWS_VER="mvp9";
 const APP_NEWS=[
  "Safety-margin flag (TEM) is now a session button, always reachable — no longer buried under a − mark. Only raise it when a margin was actually reduced; doing nothing means “no reduction”.",
  "Your typed notes are now kept. They come back at the debrief, in your own words, under the competency they belong to.",
@@ -642,7 +643,12 @@ function temAuto(t,comp){
   return worst;
 }
 function temOf(t,comp){const g=ensureGrade(t,comp);return g.tem||temAuto(t,comp);}
-function setTem(comp,v){const t=tid(S.dbT);ensureGrade(t,comp).tem=v;
+/* g.temAuto is the consolidated value, recomputed and STORED on every grading;
+   g.tem is the instructor's explicit tap. Keeping both is what separates
+   "confirmed: no reduction" from "never looked at" — writing only the tap
+   reproduced, one level up, exactly the overloaded-blank problem this whole
+   redesign set out to remove. */
+function setTem(comp,v){const t=tid(S.dbT);const g=ensureGrade(t,comp);g.tem=v;g.temConfirmed=true;
   document.querySelectorAll(`#temb_${comp} button`).forEach(b=>b.classList.toggle("on",b.dataset.v===v));
   computeGrade(t,comp);save();}
 function renderDebriefIfOpen(){const d=document.getElementById("debrief");if(d&&d.classList.contains("on"))renderDebrief();}
@@ -759,6 +765,7 @@ function computeGrade(t,comp){
      confirmed by the instructor. Excluded entirely when the session does not
      assess TEM (IATA GM §8.3 — e.g. a psychomotor session). */
   const worst=S.temOn?temOf(t,comp):"";
+  g.temAuto=S.temOn?(temAuto(t,comp)||"none"):"";   // always persisted, never inferred later
   let temV=null,temW="not assessed";
   if(S.temOn){temV=5;temW="no reduction";
     if(worst==='unacceptable'){temV=1;temW="unacceptable reduction";}
@@ -905,13 +912,13 @@ function fillNews(){
   ["cNews","wNews"].forEach(i=>{const e=document.getElementById(i);if(e)e.innerHTML=li;});
   const v=document.getElementById("verTag");if(v)v.textContent=APP_VER+" · "+APP_DATE;
 }
-function markSeen(){try{localStorage.setItem("tms_seen_ver",APP_VER);}catch(e){}}
+function markSeen(){try{localStorage.setItem("tms_seen_ver",APP_NEWS_VER);}catch(e){}}
 function acceptConsent(){try{localStorage.setItem("tms_consent_v1","1");}catch(e){}markSeen();document.getElementById("consent").classList.remove("show");}
 function seenNews(){markSeen();document.getElementById("whatsnew").classList.remove("show");}
 function maybeConsent(){
   let ok=1,seen="";try{ok=localStorage.getItem("tms_consent_v1");seen=localStorage.getItem("tms_seen_ver");}catch(e){}
   if(!ok){document.getElementById("consent").classList.add("show");return;}
-  if(seen!==APP_VER)document.getElementById("whatsnew").classList.add("show");
+  if(seen!==APP_NEWS_VER)document.getElementById("whatsnew").classList.add("show");
 }
 load();renderPresets();fillSetup();fillNews();maybeConsent();
 </script>
