@@ -131,6 +131,14 @@
 .sg.sgp{border-color:#1f8a4c;background:#e4f5ec;color:#1f8a4c}
   .sg.sgn{border-color:#c62828;background:#fdeaea;color:#c62828}
   .sg.sgs{border-color:#1f6feb;background:#e7f0fe;color:#1f6feb}
+  .sg.sgq{border-color:#b0722a;background:#fdf3e3;color:#8a5a1c;border-style:dashed}
+  .obm.askme{outline:2px solid var(--amber);outline-offset:1px;border-radius:8px}
+  .trail{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-2px 0 7px 26px;font-size:10.5px}
+  .trail .tr{display:inline-flex;min-width:20px;justify-content:center;font-weight:800;border-radius:5px;padding:1px 4px;background:#eef1f6;color:var(--muted)}
+  .trail .tr.p{background:#e4f5ec;color:#1f8a4c}.trail .tr.n{background:#fdeaea;color:#c62828}
+  .trail .te{color:var(--muted);margin-right:7px}
+  .oftenwhy{color:var(--muted);margin:4px 0 10px 0;line-height:1.45}
+  .oftenwhy:empty{margin:0}
   .sg.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
@@ -352,17 +360,19 @@ Object.entries(OBDATA).forEach(([k,[,obs]])=>obs.forEach(([c,t])=>{OBTITLE[c]=t;
    numbering as the IATA framework. Shown in the UI so "5.2" points at "5 LTW". */
 Object.entries(OBDATA).forEach(([k,[,obs]])=>{if(obs.length)CIDX[k]=String(obs[0][0]).split(".")[0];});
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
-const KW=[["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
+const KW=[["support",["8.4","5.1"]],["assistance",["8.4","5.1"]],["centerline",["4.1","4.5"]],["center line",["4.1","4.5"]],["centre line",["4.1","4.5"]],["aiming point",["4.5","4.1"]],["landing",["4.1","4.5"]],["decrab",["4.1","4.3"]],["trim",["4.6","4.1"]],["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp9.1";
-const APP_DATE="29/08/2026";
+const APP_VER="mvp10";
+const APP_DATE="30/08/2026";
 /* The "what's new" screen fires on APP_NEWS_VER, not APP_VER, so a fix that
    changes nothing an instructor can see does not interrupt them again. */
-const APP_NEWS_VER="mvp9";
+const APP_NEWS_VER="mvp10";
 const APP_NEWS=[
- "Safety-margin flag (TEM) is now a session button, always reachable — no longer buried under a − mark. Only raise it when a margin was actually reduced; doing nothing means “no reduction”.",
- "Your typed notes are now kept. They come back at the debrief, in your own words, under the competency they belong to.",
- "Competencies are numbered 0–8 in Capture, matching the OB numbers (5.2 → competency 5)."
+ "Suggested OBs now show <b>+</b>, <b>−</b> or <b>?</b>. A <b>?</b> means the wording didn’t say how it went — tapping it opens the OB and leaves the call to you, instead of quietly recording “at the standard”.",
+ "An OB you mark on several events keeps <b>every</b> occasion. The debrief shows the trail (<b>+ std −</b>) with the event names, so a behaviour that worked once and not the next time is visible instead of overwritten.",
+ "<b>Consistency (How Often)</b> is now suggested from those occasions rather than sitting at the middle of the scale — with the count it is based on, and you still decide.",
+ "Safety-margin flag (TEM) is a session button, always reachable. Only raise it when a margin was actually reduced; doing nothing means “no reduction”.",
+ "Your typed notes are kept and come back at the debrief, in your own words, under the competency they belong to."
 ];
 let S=blank();let capOpen=new Set();
 function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],moments:[],tem:[],temOn:true,grades:{},actuallos:"",overall:""};}
@@ -539,11 +549,15 @@ function libMark(c){capOpen.add(COMPOF[c]);cycleCap(c);renderEvLib();}
 KW.push.apply(KW,[["stop","6.6"],["abort","6.6"],["v1","6.6"],["reject","6.6"],["brief","2.3"],["debrief","2.3"],["config","1.2"],["gear","1.2"],["flap","1.2"],["thrust","4.4"],["power","4.4"],["pitch","4.1"],["bank","4.1"],["rudder","4.1"],["trim","4.5"],["asymmetric","4.1"],["drift","4.2"],["track","4.2"],["altitude","7.2"],["level off","7.2"],["stabil","7.2"],["unstable","7.2"],["minima","6.6"],["atc","2.2"],["radio","2.2"],["read back","2.2"],["mayday","2.2"],["pan","2.2"],["fms","3.1"],["mcdu","3.1"],["fma","3.2"],["mode","3.5"],["managed","3.6"],["selected","3.6"],["task shar","5.1"],["support","8.4"],["assist","8.4"],["cross.?check","8.7"],["monitor","8.7"],["terrain","7.3"],["weather","7.3"],["wind","7.3"],["runway","7.3"],["fuel","6.2"],["divert","6.6"],["etops","0.3"],["mel","0.5"],["qrh","1.1"],["memory","1.2"],["status","7.1"]].map(function(p){return [p[0],[p[1]]];}));
 let SUG=[];
 function detectValence(t){
-  const negd=/\b(?:did ?n.?t|do ?n.?t|does ?n.?t|without|never|no|not)\s+(?:rush\w*|hesitat\w*|delay\w*|struggl\w*|forget|forgot|miss\w*|lose|lost)\b/g;
+  const negd=/\b(?:did ?n.?t|do ?n.?t|does ?n.?t|without|never|no|not)\s+(?:rush\w*|rushed|hesitat\w*|delay\w*|struggl\w*|forget|forgot|miss\w*|lose|lost)\b/g;
   let s=t, bonus=false;
   if(negd.test(s)){ bonus=true; s=s.replace(negd," "); }
-  const pos=/\b(good|well|nicely|smooth|accurate|excellent|solid|correct|correctly|timely|early|strong|stable|calm|clear|proper|properly|appropriate|appropriately|effective|efficient|adequate)\b/;
-  const neg=/\b(slow|late|missed|miss|forgot|forget|poor|weak|unstable|rushed|rushing|failed|fail|incorrect|delayed|excessive|lost|omitted|difficult|struggled|struggling|hesitated|did ?n.?t|not)\b/;
+  /* Vocabulary widened against the real corpus of instructor notes. Kept
+     deliberately tight: words that are only positive in context — "prepared",
+     "maintained", "standard", "always" — are left out, because a wrong sign is
+     worse than no sign. */
+  const pos=/\b(good|well|nicely|smooth|accurate|excellent|solid|correct|correctly|timely|early|strong|stable|calm|clear|proper|properly|appropriate|appropriately|effective|efficient|adequate|proficien\w*|to the standard|to standard|protected|prioriti\w*|anticipat\w*|structured|relevant|assist\w*|precise|methodical|thorough)\b/;
+  const neg=/\b(slow|late|missed|miss|forgot|forget|poor|weak|unstable|rushed|rushing|failed|fail|incorrect|delayed|excessive|lost|omitted|difficult|struggled|struggling|hesitated|did ?n.?t|not|tendency|over.?control\w*|irrelevant|unable|insufficient|inconsistent|too (?:much|many|late|early|fast|slow)|lack\w*|below)\b/;
   const p=pos.test(s)||bonus, n=neg.test(s);
   if(p&&!n) return "+"; if(n&&!p) return "-"; return "";
 }
@@ -555,19 +569,28 @@ function suggestOBs(){
   const raw=val("obsNote");
   if(!raw.trim()){box.innerHTML="";SUG=[];return;}
   const clausesRaw=splitClauses(raw), clausesLc=splitClauses(raw.toLowerCase());
+  /* A note whose overall tone is unambiguous lends its sign to the clauses that
+     carry none — "Very good support. Aware of the aircraft status." is positive
+     in both halves, and an instructor reading it would say so. A MIXED note
+     lends nothing: its clauses keep their own sign, and the ones that have none
+     stay unsigned rather than borrowing from a clause they don't describe. */
+  const noteV=detectValence(String(raw).toLowerCase());
   const best={};
   clausesLc.forEach((cl,ci)=>{
-    const v=detectValence(cl); const sc={};
+    const v=detectValence(cl)||noteV; const sc={};
     KW.forEach(([k,obs])=>{ if(cl.indexOf(k)>=0) obs.forEach((o,i)=>{ sc[o]=(sc[o]||0)+(i===0?2:1); }); });
     Object.keys(sc).forEach(o=>{ if(!best[o]||sc[o]>best[o].score) best[o]={score:sc[o],v:v,clause:clausesRaw[ci]||raw}; });
   });
   const ranked=Object.keys(best).sort((a,b)=>best[b].score-best[a].score).slice(0,10);
   SUG=ranked.map(c=>({code:c,v:best[c].v,clause:best[c].clause}));
   if(!SUG.length){box.innerHTML='<span class="small">No match \u2014 try other words, or browse the competencies below. You can still <b>Keep note</b> \u2014 it will come back at the debrief.</span>';renderMoments();return;}
-  box.innerHTML='<span class="small" style="width:100%">Suggested (tap to mark with its sign) \u2014 the matching phrase becomes that OB\u2019s note:</span>'
+  box.innerHTML='<span class="small" style="width:100%">Suggested (tap to mark with its sign) \u2014 the matching phrase becomes that OB\u2019s note. <b>?</b> means the wording didn\u2019t say how it went: tapping opens the OB so you decide.</span>'
     + SUG.map((s,i)=>{
-        const sign=s.v==="+"?"+":s.v==="-"?"\u2212":"std";
-        const cls=s.v==="+"?"sgp":s.v==="-"?"sgn":"sgs";
+        /* An unreadable sign shows as "?" and is never written as "std".
+           Silently equating "I could not tell" with "at the standard" is the
+           mistake this whole redesign exists to remove. */
+        const sign=s.v==="+"?"+":s.v==="-"?"\u2212":"?";
+        const cls=s.v==="+"?"sgp":s.v==="-"?"sgn":"sgq";
         return `<span class="sg ${cls}${getCap(s.code)?' sel':''}" onclick="jumpMarkIdx(${i})" title="${s.clause.replace(/"/g,'&quot;')}"><b>${sign}</b> <span class="c">${s.code}</span> ${OBTITLE[s.code]}</span>`;
       }).join("");
 }
@@ -655,10 +678,19 @@ function renderDebriefIfOpen(){const d=document.getElementById("debrief");if(d&&
 function jumpMarkIdx(i){
   const s=SUG[i]; if(!s) return;
   capOpen.add(COMPOF[s.code]);
-  const v=s.v||"0", note=(s.clause||"").slice(0,140);
+  const note=(s.clause||"").slice(0,140);
   const m=currentMoment(val("obsNote"),true);
-  if(m&&m.obCodes.indexOf(s.code)<0)m.obCodes.push(s.code);
   const e=getCap(s.code);
+  if(!s.v && !e){
+    /* No readable sign: open the competency and leave the OB unmarked, so the
+       call is yours. One extra tap, only on the ones the app could not read. */
+    renderAccordion();
+    const row=document.querySelector('.obm.cyc[onclick*="\''+s.code+'\'"]');
+    if(row){row.scrollIntoView({block:"center"});row.classList.add("askme");setTimeout(function(){row.classList.remove("askme");},2400);}
+    return;
+  }
+  const v=s.v||(e?e.val:"0");
+  if(m&&m.obCodes.indexOf(s.code)<0)m.obCodes.push(s.code);
   if(!e) S.obs.push({id:uid(),eventId:S.curEvent,traineeId:tid(S.curT),code:s.code,val:v,imp:"none",momentId:m?m.id:"",role:roleOf(S.curT,S.curEvent),note:note});
   else { e.val=v; if(!e.note) e.note=note; if(m&&!e.momentId)e.momentId=m.id; }
   save();renderAccordion();suggestOBs();renderMoments();
@@ -690,6 +722,26 @@ function renderAccordion(){
 
 /* debrief */
 function manyBand(r){if(r>=1)return[5,"All"];if(r>=0.8)return[4,"Most"];if(r>=0.6)return[3,"Many"];if(r>=0.4)return[2,"Some"];return[1,"Few"];}
+const MARKRANK={"-":0,"0":1,"+":2,"NA":3};
+function worstMark(list){let w=null;list.forEach(function(o){if(w===null||MARKRANK[o.val]<MARKRANK[w])w=o.val;});return w==null?"":w;}
+/* --- How Often (IATA GM §8.2: the robustness dimension) --------------------
+   Counted over OCCASIONS, not over OBs: an OB required on three events gives
+   three occasions. Ratio of occasions at or above the standard, mapped to the
+   IATA word pictures. NA occasions are excluded — they were not required. */
+function oftenAuto(t,comp){
+  const rows=(S.obs||[]).filter(function(o){return o.traineeId===t&&COMPOF[o.code]===comp&&o.val!=="NA"&&o.val!=="";});
+  if(!rows.length) return null;
+  const ok=rows.filter(function(o){return o.val==="+"||o.val==="0";}).length;
+  const perOB={};rows.forEach(function(o){(perOB[o.code]=perOB[o.code]||{})[o.eventId]=1;});
+  const multi=Object.keys(perOB).filter(function(c){return Object.keys(perOB[c]).length>1;}).length;
+  const r=ok/rows.length;
+  let v=r>=1?5:r>=0.8?4:r>=0.6?3:r>=0.4?2:1;
+  /* Without a single OB seen twice there is no evidence of repetition, so the
+     top of the scale is not claimable — "always" needs more than one occasion. */
+  const capped=(multi===0&&v>3);
+  if(capped)v=3;
+  return {v:v,ok:ok,n:rows.length,multi:multi,capped:capped};
+}
 function grds(t){if(!S.grades[t])S.grades[t]={};return S.grades[t];}
 function ensureGrade(t,comp){const g=grds(t);if(!g[comp])g[comp]={marks:{},often:3,final:null};return g[comp];}
 function renderDbCrew(){
@@ -704,13 +756,21 @@ function setDbT(i){S.dbT=i;renderDebrief();}
 function renderDebrief(){
   renderDbCrew();
   const t=tid(S.dbT);
+  /* Every occasion is kept, not just the last one. An OB marked on three events
+     is three pieces of evidence: overwriting them left the displayed mark
+     depending on the order of capture, and threw away the repetition — which is
+     precisely what the How Often dimension is made of (IATA GM §8.2). */
   const active={};
-  S.obs.filter(o=>o.traineeId===t).forEach(o=>{const k=COMPOF[o.code];(active[k]=active[k]||{})[o.code]=o.val;});
+  S.obs.filter(o=>o.traineeId===t).forEach(o=>{const k=COMPOF[o.code];
+    (active[k]=active[k]||{});(active[k][o.code]=active[k][o.code]||[]).push(o);});
   const order=["KNO","PRO","COM","FPA","FPM","LTW","PSD","SAW","WLM"].filter(k=>active[k]);
   const box=document.getElementById("debriefList");
   if(!order.length){box.innerHTML='<div class="empty">No observations for this trainee yet.</div>';}
   else box.innerHTML=order.map(comp=>{const g=ensureGrade(t,comp);
-    Object.entries(active[comp]).forEach(([c,v])=>{if(!(c in g.marks))g.marks[c]=v;});
+    /* Seeded with the WORST occasion, not the last: an OB that went wrong once
+       has not been demonstrated to the standard, and the instructor can raise
+       it after seeing the detail. */
+    Object.entries(active[comp]).forEach(([c,list])=>{if(!(c in g.marks))g.marks[c]=worstMark(list);});
     return compCard(t,comp,g,active[comp]);}).join("");
   order.forEach(comp=>computeGrade(t,comp));
   /* Notes that never landed on an OB — usually what happened rather than how it
@@ -728,11 +788,18 @@ function renderDebrief(){
 }
 function compCard(t,comp,g,active){
   const [name,obs]=OBDATA[comp];
-  const np=Object.values(active).filter(v=>v==='-').length, pp=Object.values(active).filter(v=>v==='+').length;
+  const marked=Object.keys(active);
+  const np=marked.filter(c=>g.marks[c]==='-').length, pp=marked.filter(c=>g.marks[c]==='+').length;
   const summ=[np?np+" to work on":"",pp?pp+" strength"+(pp>1?"s":""):""].filter(Boolean).join(" · ")||"observed";
+  const sym=v=>v==='+'?'+':v==='-'?'−':v==='NA'?'NA':'std';
   const rows=obs.map(([c,tt])=>{const m=g.marks[c]||"";
+    const list=active[c]||[];
+    /* The trail of occasions. Two marks that disagree on the same OB are the
+       best root-cause question there is — "why did it work here and not there?"
+       — and until now they were invisible. */
+    const trail=list.length>1?`<div class="trail">${list.map(o=>`<span class="tr ${o.val==='+'?'p':o.val==='-'?'n':'s'}">${sym(o.val)}</span><span class="te">${esc(evName(o.eventId)||"—")}</span>`).join("")}</div>`:"";
     return `<div class="obm"><span class="cc">${c}</span><span class="tt">${tt}</span><span class="info" onclick="openInfo('${c}')">i</span>
-      <span class="mseg" data-c="${c}" data-comp="${comp}">${["-","0","+","NA"].map(v=>`<button data-m="${v}" class="${m===v?'on':''}">${v==="0"?"std":v}</button>`).join("")}</span></div>`;}).join("");
+      <span class="mseg" data-c="${c}" data-comp="${comp}">${["-","0","+","NA"].map(v=>`<button data-m="${v}" class="${m===v?'on':''}">${v==="0"?"std":v}</button>`).join("")}</span></div>${trail}`;}).join("");
   /* The instructor's own words, brought back under the competency they produced.
      This is what gets talked about in the room — the OB codes never are. */
   const mine=(S.moments||[]).filter(m=>m.traineeId===t&&m.obCodes.some(c=>COMPOF[c]===comp));
@@ -747,14 +814,24 @@ function compCard(t,comp,g,active){
     <div class="body">${notes}${rows}
       <div class="dims" id="dims_${comp}"></div>
       <div class="sgrade"><span class="lab">Consistency (How Often):</span>
-        <span class="ofb" id="ofb_${comp}">${OFTEN.map(([l,v])=>`<button data-v="${v}" class="${g.often===v?'on':''}" onclick="setOften('${comp}',${v})">${l}</button>`).join("")}</span></div>
+        <span class="ofb" id="ofb_${comp}">${OFTEN.map(([l,v])=>`<button data-v="${v}" class="${oftenOf(t,comp,g)===v?'on':''}" onclick="setOften('${comp}',${v})">${l}</button>`).join("")}</span></div>
+      <div class="oftenwhy small" id="ofw_${comp}"></div>
       ${temSeg}
       <div class="sgrade"><span class="lab">Grade:</span><span class="gsc" id="gsc_${comp}"></span></div>
       <div class="alert" id="al_${comp}"></div>
     </div></div>`;
 }
 function setMark(comp,c,v){const t=tid(S.dbT);ensureGrade(t,comp).marks[c]=v;document.querySelectorAll(`.mseg[data-c="${c}"][data-comp="${comp}"] button`).forEach(b=>b.classList.toggle("on",b.dataset.m===v));computeGrade(t,comp);save();}
-function setOften(comp,v){const t=tid(S.dbT);ensureGrade(t,comp).often=v;document.querySelectorAll(`#ofb_${comp} button`).forEach(b=>b.classList.toggle("on",+b.dataset.v===v));computeGrade(t,comp);save();}
+/* The suggestion stands until the instructor states otherwise; oftenSet marks
+   the moment it becomes a judgement rather than a computation. */
+function oftenOf(t,comp,g){
+  g=g||ensureGrade(t,comp);
+  if(g.oftenSet) return g.often;
+  const a=oftenAuto(t,comp);
+  return a?a.v:(g.often||3);
+}
+function setOften(comp,v){const t=tid(S.dbT);const g=ensureGrade(t,comp);g.often=v;g.oftenSet=true;
+  document.querySelectorAll(`#ofb_${comp} button`).forEach(b=>b.classList.toggle("on",+b.dataset.v===v));computeGrade(t,comp);save();}
 document.addEventListener("click",e=>{const b=e.target.closest(".mseg button");if(b&&b.parentNode.dataset.comp){const seg=b.parentNode;setMark(seg.dataset.comp,seg.dataset.c,b.dataset.m);}});
 function computeGrade(t,comp){
   const g=ensureGrade(t,comp);let plus=0,std=0,minus=0;
@@ -770,11 +847,21 @@ function computeGrade(t,comp){
   if(S.temOn){temV=5;temW="no reduction";
     if(worst==='unacceptable'){temV=1;temW="unacceptable reduction";}
     else if(worst==='momentary'){temV=2;temW="momentary reduction";}}
-  const dims=[manyV,g.often,temV].filter(x=>x!=null);const sugg=dims.length?Math.min(...dims):null;
-  let driver="How Many";if(sugg===g.often)driver="How Often";if(temV!=null&&sugg===temV&&temV<5)driver="Outcome TEM";
+  const oftenA=oftenAuto(t,comp);
+  g.oftenAuto=oftenA?oftenA.v:"";
+  const oftenV=oftenOf(t,comp,g);
+  const dims=[manyV,oftenV,temV].filter(x=>x!=null);const sugg=dims.length?Math.min(...dims):null;
+  let driver="How Many";if(sugg===oftenV)driver="How Often";if(temV!=null&&sugg===temV&&temV<5)driver="Outcome TEM";
   g.suggested=sugg;
   const d=document.getElementById("dims_"+comp);
-  if(d)d.innerHTML=applicable?`<b>How Many</b>: ${manyW} (${plus+std}/${applicable} at std or +) &nbsp;·&nbsp; <b>How Often</b>: ${OFTEN.find(o=>o[1]===g.often)[0]} &nbsp;·&nbsp; <b>TEM</b>: ${temW}<br>Suggested = <b>min → ${sugg}</b> (driven by ${driver})`:`Mark at least one OB to compute.`;
+  if(d)d.innerHTML=applicable?`<b>How Many</b>: ${manyW} (${plus+std}/${applicable} at std or +) &nbsp;·&nbsp; <b>How Often</b>: ${OFTEN.find(o=>o[1]===oftenV)[0]} &nbsp;·&nbsp; <b>TEM</b>: ${temW}<br>Suggested = <b>min → ${sugg}</b> (driven by ${driver})`:`Mark at least one OB to compute.`;
+  const ow=document.getElementById("ofw_"+comp);
+  if(ow)ow.innerHTML=!oftenA?"":(
+    (g.oftenSet?"You set this. ":"Suggested from the occasions: ")
+    +oftenA.ok+"/"+oftenA.n+" occasion"+(oftenA.n>1?"s":"")+" at or above the standard"
+    +(oftenA.multi?" · "+oftenA.multi+" OB"+(oftenA.multi>1?"s":"")+" seen on more than one event"
+      :" · every OB seen once — no evidence of repetition")
+    +(oftenA.capped?", so the scale is held at <b>regularly</b>":""));
   const tb=document.getElementById("temb_"+comp);
   if(tb)tb.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===(g.tem||worst||"none")));
   const gsc=document.getElementById("gsc_"+comp);
