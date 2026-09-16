@@ -362,13 +362,14 @@ Object.entries(OBDATA).forEach(([k,[,obs]])=>{if(obs.length)CIDX[k]=String(obs[0
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
 const KW=[["support",["8.4","5.1"]],["assistance",["8.4","5.1"]],["centerline",["4.1","4.5"]],["center line",["4.1","4.5"]],["centre line",["4.1","4.5"]],["aiming point",["4.5","4.1"]],["landing",["4.1","4.5"]],["decrab",["4.1","4.3"]],["trim",["4.6","4.1"]],["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp10";
-const APP_DATE="30/08/2026";
+const APP_VER="mvp11";
+const APP_DATE="13/09/2026";
 /* The "what's new" screen fires on APP_NEWS_VER, not APP_VER, so a fix that
    changes nothing an instructor can see does not interrupt them again. */
-const APP_NEWS_VER="mvp10";
+const APP_NEWS_VER="mvp11";
 const APP_NEWS=[
- "Suggested OBs now show <b>+</b>, <b>−</b> or <b>?</b>. A <b>?</b> means the wording didn’t say how it went — tapping it opens the OB and leaves the call to you, instead of quietly recording “at the standard”.",
+ "Suggested OBs now propose <b>std</b> when your wording says the behaviour was done <i>to the standard</i> — “correctly applied”, “as per the FCOM”, “without rushing”. <b>+</b> is kept for wording that goes above it (“very good”, “excellent”, “anticipated”). Before, almost everything came out as <b>+</b>.",
+ "A <b>?</b> means the wording didn’t say how it went — tapping it opens the OB and leaves the call to you, instead of quietly recording “at the standard”.",
  "An OB you mark on several events keeps <b>every</b> occasion. The debrief shows the trail (<b>+ std −</b>) with the event names, so a behaviour that worked once and not the next time is visible instead of overwritten.",
  "<b>Consistency (How Often)</b> is now suggested from those occasions rather than sitting at the middle of the scale — with the count it is based on, and you still decide.",
  "Safety-margin flag (TEM) is a session button, always reachable. Only raise it when a margin was actually reduced; doing nothing means “no reduction”.",
@@ -549,17 +550,28 @@ function libMark(c){capOpen.add(COMPOF[c]);cycleCap(c);renderEvLib();}
 KW.push.apply(KW,[["stop","6.6"],["abort","6.6"],["v1","6.6"],["reject","6.6"],["brief","2.3"],["debrief","2.3"],["config","1.2"],["gear","1.2"],["flap","1.2"],["thrust","4.4"],["power","4.4"],["pitch","4.1"],["bank","4.1"],["rudder","4.1"],["trim","4.5"],["asymmetric","4.1"],["drift","4.2"],["track","4.2"],["altitude","7.2"],["level off","7.2"],["stabil","7.2"],["unstable","7.2"],["minima","6.6"],["atc","2.2"],["radio","2.2"],["read back","2.2"],["mayday","2.2"],["pan","2.2"],["fms","3.1"],["mcdu","3.1"],["fma","3.2"],["mode","3.5"],["managed","3.6"],["selected","3.6"],["task shar","5.1"],["support","8.4"],["assist","8.4"],["cross.?check","8.7"],["monitor","8.7"],["terrain","7.3"],["weather","7.3"],["wind","7.3"],["runway","7.3"],["fuel","6.2"],["divert","6.6"],["etops","0.3"],["mel","0.5"],["qrh","1.1"],["memory","1.2"],["status","7.1"]].map(function(p){return [p[0],[p[1]]];}));
 let SUG=[];
 function detectValence(t){
+  /* THREE outcomes, not two — the correction that matters.
+     An instructor's prose is overwhelmingly the language of CONFORMITY:
+     "correctly executed", "to the standard", "as per the FCOM", "without
+     rushing". That describes a behaviour demonstrated AT the standard, which
+     IATA grades 3 — it is not praise. Reading it as "+" pushed almost every
+     suggestion above the standard, which is why the suggestions stopped being
+     tapped. "+" is now reserved for wording that would justify a 4 or a 5
+     ("effectively", "in an exemplary manner"). */
   const negd=/\b(?:did ?n.?t|do ?n.?t|does ?n.?t|without|never|no|not)\s+(?:rush\w*|rushed|hesitat\w*|delay\w*|struggl\w*|forget|forgot|miss\w*|lose|lost)\b/g;
-  let s=t, bonus=false;
-  if(negd.test(s)){ bonus=true; s=s.replace(negd," "); }
-  /* Vocabulary widened against the real corpus of instructor notes. Kept
-     deliberately tight: words that are only positive in context — "prepared",
-     "maintained", "standard", "always" — are left out, because a wrong sign is
-     worse than no sign. */
-  const pos=/\b(good|well|nicely|smooth|accurate|excellent|solid|correct|correctly|timely|early|strong|stable|calm|clear|proper|properly|appropriate|appropriately|effective|efficient|adequate|proficien\w*|to the standard|to standard|protected|prioriti\w*|anticipat\w*|structured|relevant|assist\w*|precise|methodical|thorough)\b/;
-  const neg=/\b(slow|late|missed|miss|forgot|forget|poor|weak|unstable|rushed|rushing|failed|fail|incorrect|delayed|excessive|lost|omitted|difficult|struggled|struggling|hesitated|did ?n.?t|not|tendency|over.?control\w*|irrelevant|unable|insufficient|inconsistent|too (?:much|many|late|early|fast|slow)|lack\w*|below)\b/;
-  const p=pos.test(s)||bonus, n=neg.test(s);
-  if(p&&!n) return "+"; if(n&&!p) return "-"; return "";
+  let s=t, negdHit=false;
+  /* A negated fault ("without rushing", "no rush") states conformity, not
+     excellence — so it counts towards std, never towards +. */
+  if(negd.test(s)){ negdHit=true; s=s.replace(negd," "); }
+  const excel=/\b(very good|very well|excellent|outstanding|exemplary|remarkable|impressive|exceptional|high standard|to a high|particularly|especially good|proactive|anticipat\w*|went beyond|above the standard|flawless|perfectly|seamless)\b/;
+  const conform=/\b(correct|correctly|proper|properly|as standard|to the standard|to standard|as expected|as required|as per|fcom|fctm|sop|applied|conducted|executed|completed|accomplished|done|maintained|calm|timely|in time|time manner|timer manner|stable|adequate|appropriate|appropriately|good|well|solid|clear|smooth|accurate|effective|efficient|prepared|relevant|aware|awareness|structured|protected|prioriti\w*|assist\w*|support|proficien\w*|methodical|thorough|precise)\b/;
+  const defic=/\b(slow|late|missed|miss|forgot|forget|poor|weak|unstable|rushed|rushing|failed|fail|incorrect|delayed|excessive|lost|omitted|difficult|struggled|struggling|hesitated|did ?n.?t|not|tendency|over.?control\w*|irrelevant|unable|insufficient|inconsistent|too (?:much|many|late|early|fast|slow)|lack\w*|below)\b/;
+  const e=excel.test(s), c=conform.test(s)||negdHit, d=defic.test(s);
+  if(d&&(e||c)) return "";     // mixed wording: the app does not arbitrate
+  if(d) return "-";
+  if(e) return "+";
+  if(c) return "0";            // explicitly AT the standard — an affirmed judgement
+  return "";
 }
 function splitClauses(t){
   return t.split(/[.;\n]+|\bbut\b|\bhowever\b|\balthough\b/i).map(s=>s.trim()).filter(s=>s.length>2);
@@ -584,13 +596,13 @@ function suggestOBs(){
   const ranked=Object.keys(best).sort((a,b)=>best[b].score-best[a].score).slice(0,10);
   SUG=ranked.map(c=>({code:c,v:best[c].v,clause:best[c].clause}));
   if(!SUG.length){box.innerHTML='<span class="small">No match \u2014 try other words, or browse the competencies below. You can still <b>Keep note</b> \u2014 it will come back at the debrief.</span>';renderMoments();return;}
-  box.innerHTML='<span class="small" style="width:100%">Suggested (tap to mark with its sign) \u2014 the matching phrase becomes that OB\u2019s note. <b>?</b> means the wording didn\u2019t say how it went: tapping opens the OB so you decide.</span>'
+  box.innerHTML='<span class="small" style="width:100%">Suggested (tap to mark with its sign) \u2014 the matching phrase becomes that OB\u2019s note.<br><b>std</b> = your wording says it was done <i>to the standard</i> \u00b7 <b>+</b> = above it \u00b7 <b>\u2212</b> = below \u00b7 <b>?</b> = the wording didn\u2019t say, so tapping just opens the OB and you decide.</span>'
     + SUG.map((s,i)=>{
         /* An unreadable sign shows as "?" and is never written as "std".
            Silently equating "I could not tell" with "at the standard" is the
            mistake this whole redesign exists to remove. */
-        const sign=s.v==="+"?"+":s.v==="-"?"\u2212":"?";
-        const cls=s.v==="+"?"sgp":s.v==="-"?"sgn":"sgq";
+        const sign=s.v==="+"?"+":s.v==="-"?"\u2212":s.v==="0"?"std":"?";
+        const cls=s.v==="+"?"sgp":s.v==="-"?"sgn":s.v==="0"?"sgs":"sgq";
         return `<span class="sg ${cls}${getCap(s.code)?' sel':''}" onclick="jumpMarkIdx(${i})" title="${s.clause.replace(/"/g,'&quot;')}"><b>${sign}</b> <span class="c">${s.code}</span> ${OBTITLE[s.code]}</span>`;
       }).join("");
 }
@@ -850,6 +862,7 @@ function computeGrade(t,comp){
   const oftenA=oftenAuto(t,comp);
   g.oftenAuto=oftenA?oftenA.v:"";
   const oftenV=oftenOf(t,comp,g);
+  g.oftenEff=oftenV;   // the value actually used, so the export never reads a stale default
   const dims=[manyV,oftenV,temV].filter(x=>x!=null);const sugg=dims.length?Math.min(...dims):null;
   let driver="How Many";if(sugg===oftenV)driver="How Often";if(temV!=null&&sugg===temV&&temV<5)driver="Outcome TEM";
   g.suggested=sugg;
