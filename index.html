@@ -141,12 +141,12 @@
   .oftenwhy:empty{margin:0}
   .sg.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
 </style>
+
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TMS">
 <meta name="theme-color" content="#0b1f3a">
-
 </head>
 <body>
 <div id="consent" class="modal"><div class="mbox">
@@ -362,18 +362,17 @@ Object.entries(OBDATA).forEach(([k,[,obs]])=>{if(obs.length)CIDX[k]=String(obs[0
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
 const KW=[["support",["8.4","5.1"]],["assistance",["8.4","5.1"]],["centerline",["4.1","4.5"]],["center line",["4.1","4.5"]],["centre line",["4.1","4.5"]],["aiming point",["4.5","4.1"]],["landing",["4.1","4.5"]],["decrab",["4.1","4.3"]],["trim",["4.6","4.1"]],["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp11";
-const APP_DATE="13/09/2026";
+const APP_VER="mvp12";
+const APP_DATE="24/10/2026";
 /* The "what's new" screen fires on APP_NEWS_VER, not APP_VER, so a fix that
    changes nothing an instructor can see does not interrupt them again. */
-const APP_NEWS_VER="mvp11";
+const APP_NEWS_VER="mvp12";
 const APP_NEWS=[
- "Suggested OBs now propose <b>std</b> when your wording says the behaviour was done <i>to the standard</i> — “correctly applied”, “as per the FCOM”, “without rushing”. <b>+</b> is kept for wording that goes above it (“very good”, “excellent”, “anticipated”). Before, almost everything came out as <b>+</b>.",
- "A <b>?</b> means the wording didn’t say how it went — tapping it opens the OB and leaves the call to you, instead of quietly recording “at the standard”.",
- "An OB you mark on several events keeps <b>every</b> occasion. The debrief shows the trail (<b>+ std −</b>) with the event names, so a behaviour that worked once and not the next time is visible instead of overwritten.",
- "<b>Consistency (How Often)</b> is now suggested from those occasions rather than sitting at the middle of the scale — with the count it is based on, and you still decide.",
- "Safety-margin flag (TEM) is a session button, always reachable. Only raise it when a margin was actually reduced; doing nothing means “no reduction”.",
- "Your typed notes are kept and come back at the debrief, in your own words, under the competency they belong to."
+ "<b>The “but” in your notes is now read.</b> “Raw data ILS correctly flown, slow scanning, but no over controlling” used to come back as a single <b>?</b>, because the app saw praise and a fault in one breath and refused to choose. It now reads the three parts separately: <b>std</b> on the approach, <b>−</b> on the scanning, <b>std</b> on the handling. Over the last seven sessions that one blind spot left a single <b>−</b> in 498 marked OBs.",
+ "A fault you say you did <i>not</i> see is no longer read as a fault. “No sign of over controlling or excessive bank” now counts towards <b>std</b> — it used to count against the trainee.",
+ "The polite way of recording a gap is read too: “should be more highlighted”, “could have been earlier”, “room for” now propose <b>−</b> rather than passing as standard.",
+ "<b>Consistency (How Often)</b> no longer proposes <b>always</b>. Across 52 competencies where you set it yourself you chose <b>always</b> zero times — the suggestion was reading “everything I looked at was at the standard” as “always”. It now stops at <b>consistently</b>, and says why. Set <b>always</b> yourself when you saw it throughout.",
+ "It also no longer drops to <b>regularly</b> just because no OB came up twice — that pushed it below where you were putting it."
 ];
 let S=blank();let capOpen=new Set();
 function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],moments:[],tem:[],temOn:true,grades:{},actuallos:"",overall:""};}
@@ -549,6 +548,14 @@ function libMark(c){capOpen.add(COMPOF[c]);cycleCap(c);renderEvLib();}
 
 KW.push.apply(KW,[["stop","6.6"],["abort","6.6"],["v1","6.6"],["reject","6.6"],["brief","2.3"],["debrief","2.3"],["config","1.2"],["gear","1.2"],["flap","1.2"],["thrust","4.4"],["power","4.4"],["pitch","4.1"],["bank","4.1"],["rudder","4.1"],["trim","4.5"],["asymmetric","4.1"],["drift","4.2"],["track","4.2"],["altitude","7.2"],["level off","7.2"],["stabil","7.2"],["unstable","7.2"],["minima","6.6"],["atc","2.2"],["radio","2.2"],["read back","2.2"],["mayday","2.2"],["pan","2.2"],["fms","3.1"],["mcdu","3.1"],["fma","3.2"],["mode","3.5"],["managed","3.6"],["selected","3.6"],["task shar","5.1"],["support","8.4"],["assist","8.4"],["cross.?check","8.7"],["monitor","8.7"],["terrain","7.3"],["weather","7.3"],["wind","7.3"],["runway","7.3"],["fuel","6.2"],["divert","6.6"],["etops","0.3"],["mel","0.5"],["qrh","1.1"],["memory","1.2"],["status","7.1"]].map(function(p){return [p[0],[p[1]]];}));
 let SUG=[];
+/* One vocabulary of deficiency, used twice: to spot a fault, and to spot a
+   fault that has been negated. Keeping them in sync by hand is what let
+   "no sign of over controlling" read as a fault. */
+const DEFIC="slow|late|missed|miss|forgot|forget|poor|weak|unstable|rushed|rushing|rush|failed|fail|incorrect|delayed|delay|excessive|lost|lose|omitted|omit|difficult|difficulty|struggled|struggling|struggle|hesitated|hesitation|hesitate|tendency|over.?control\\w*|over.?pitch\\w*|over.?bank\\w*|over.?correct\\w*|irrelevant|unable|insufficient|inconsistent|lack\\w*|below|deviation|deviated|deviating"
+ /* The quiet half of the vocabulary: an instructor rarely writes "poor", he
+    writes "should be more highlighted". That is a gap recorded in polite form,
+    and reading it as conformity is how it disappeared. */
+ +"|should be|should have|shoud be|could be|could have|needs? to be|needed to be|room for|to be improved|more highlighted|not enough";
 function detectValence(t){
   /* THREE outcomes, not two — the correction that matters.
      An instructor's prose is overwhelmingly the language of CONFORMITY:
@@ -558,14 +565,23 @@ function detectValence(t){
      suggestion above the standard, which is why the suggestions stopped being
      tapped. "+" is now reserved for wording that would justify a 4 or a 5
      ("effectively", "in an exemplary manner"). */
-  const negd=/\b(?:did ?n.?t|do ?n.?t|does ?n.?t|without|never|no|not)\s+(?:rush\w*|rushed|hesitat\w*|delay\w*|struggl\w*|forget|forgot|miss\w*|lose|lost)\b/g;
-  let s=t, negdHit=false;
-  /* A negated fault ("without rushing", "no rush") states conformity, not
-     excellence — so it counts towards std, never towards +. */
-  if(negd.test(s)){ negdHit=true; s=s.replace(negd," "); }
+  /* A negated fault ("without rushing", "no sign of over controlling") states
+     conformity, not excellence — so it counts towards std, never towards +.
+     This is built from the same vocabulary as the deficiency test below rather
+     than from a short hand-written list: instructors negate whichever fault is
+     on their mind, and "No sign of over controlling or excessive bank" was read
+     as a fault by the old list, which knew only about rushing and hesitating. */
+  /* The trailing group matters: instructors chain what they did NOT see —
+     "No sign of over controlling or excessive bank" — and leaving the second
+     item outside the negation made the clause read as mixed, so the app
+     abstained on a note that was entirely reassuring. */
+  const negd=new RegExp("\\b(?:did ?n.?t|do ?n.?t|does ?n.?t|was ?n.?t|were ?n.?t|is ?n.?t|without|never|no|not)\\s+(?:any\\s+|a\\s+|sign\\s+of\\s+|signs\\s+of\\s+|much\\s+)?(?:"+DEFIC+")(?:\\s+(?:or|nor|and)\\s+(?:any\\s+|a\\s+)?(?:"+DEFIC+"))*","g");
+  const s0=String(t), s1=s0.replace(negd," ");
+  const negdHit=(s1!==s0);
+  let s=s1;
   const excel=/\b(very good|very well|excellent|outstanding|exemplary|remarkable|impressive|exceptional|high standard|to a high|particularly|especially good|proactive|anticipat\w*|went beyond|above the standard|flawless|perfectly|seamless)\b/;
   const conform=/\b(correct|correctly|proper|properly|as standard|to the standard|to standard|as expected|as required|as per|fcom|fctm|sop|applied|conducted|executed|completed|accomplished|done|maintained|calm|timely|in time|time manner|timer manner|stable|adequate|appropriate|appropriately|good|well|solid|clear|smooth|accurate|effective|efficient|prepared|relevant|aware|awareness|structured|protected|prioriti\w*|assist\w*|support|proficien\w*|methodical|thorough|precise)\b/;
-  const defic=/\b(slow|late|missed|miss|forgot|forget|poor|weak|unstable|rushed|rushing|failed|fail|incorrect|delayed|excessive|lost|omitted|difficult|struggled|struggling|hesitated|did ?n.?t|not|tendency|over.?control\w*|irrelevant|unable|insufficient|inconsistent|too (?:much|many|late|early|fast|slow)|lack\w*|below)\b/;
+  const defic=new RegExp("\\b(?:"+DEFIC+"|did ?n.?t|not|too (?:much|many|late|early|fast|slow|high|low))\\b");
   const e=excel.test(s), c=conform.test(s)||negdHit, d=defic.test(s);
   if(d&&(e||c)) return "";     // mixed wording: the app does not arbitrate
   if(d) return "-";
@@ -573,8 +589,51 @@ function detectValence(t){
   if(c) return "0";            // explicitly AT the standard — an affirmed judgement
   return "";
 }
+/* --- Segmentation -----------------------------------------------------------
+   The pilot showed how a real deficiency gets lost. "Raw data ILS was correctly
+   flown, slow scanning, but no over controlling" produced ONE clause carrying
+   both conformity and a fault, so the app declared it mixed and abstained — and
+   "slow scanning", a genuine monitoring finding, never reached a chip. Over
+   seven mvp11 sessions that pattern left a single "−" in 498 observations.
+
+   Splitting on every comma would fix it and break something else: "Landing was
+   close to the centerline and the aiming point, with proper correction with
+   rudder" would lose the "proper" that signs the landing. So the split is
+   followed by a merge: adjacent fragments are glued back together unless the
+   boundary actually separates a deficiency from the rest. Where a note carries
+   no fault, segmentation is exactly what it was before. */
+function segment(sent){
+  /* The separator is captured, not discarded: a fragment glued back to its
+     neighbour must read as the instructor typed it, because that text is what
+     comes back on the OB and at the debrief. */
+  const toks=sent.split(/(,|\bbut\b|\bhowever\b|\balthough\b|\bthough\b|\bexcept\b|\bapart from\b|\bother than\b)/i);
+  const parts=[];
+  for(let i=0;i<toks.length;i+=2){
+    const txt=(toks[i]||"").trim();
+    if(txt.length>2)parts.push({txt:txt,sep:(toks[i-1]||",")});
+  }
+  if(parts.length<2) return [sent.trim()];
+  const out=[];let buf=null,bufSign=null;
+  parts.forEach(function(p){
+    /* lowercased on purpose: the valence regexes are case-sensitive, and the
+       caller segments the note twice — once as typed, once lowercased — then
+       pairs the two arrays by index. They must split identically. */
+    const sg=detectValence(p.txt.toLowerCase());
+    if(sg==="-"){ if(buf!==null){out.push(buf);buf=null;bufSign=null;} out.push(p.txt); return; }
+    if(buf===null){buf=p.txt;bufSign=sg;}
+    else if(bufSign===""||sg===""||bufSign===sg){
+      buf=buf+(p.sep===","?", ":" "+p.sep.trim()+" ")+p.txt;bufSign=bufSign||sg;
+    }
+    else {out.push(buf);buf=p.txt;bufSign=sg;}
+  });
+  if(buf!==null)out.push(buf);
+  return out;
+}
 function splitClauses(t){
-  return t.split(/[.;\n]+|\bbut\b|\bhowever\b|\balthough\b/i).map(s=>s.trim()).filter(s=>s.length>2);
+  const sents=t.split(/[.;\n]+/).map(s=>s.trim()).filter(s=>s.length>2);
+  const out=[];
+  sents.forEach(function(s){segment(s).forEach(function(c){if(c.length>2)out.push(c);});});
+  return out;
 }
 function suggestOBs(){
   const box=document.getElementById("obSug");
@@ -748,10 +807,19 @@ function oftenAuto(t,comp){
   const multi=Object.keys(perOB).filter(function(c){return Object.keys(perOB[c]).length>1;}).length;
   const r=ok/rows.length;
   let v=r>=1?5:r>=0.8?4:r>=0.6?3:r>=0.4?2:1;
-  /* Without a single OB seen twice there is no evidence of repetition, so the
-     top of the scale is not claimable — "always" needs more than one occasion. */
-  const capped=(multi===0&&v>3);
-  if(capped)v=3;
+  /* "Always" is not claimable from this data, and the pilot proves it: across 52
+     occasions where the instructor set How Often himself he chose 5 exactly
+     zero times, while this ratio proposed 5 in 50 of them. The reason is the
+     denominator — nNA is 5 in 2349 observations, so "required but not observed"
+     barely exists and the ratio is structurally 1.0. A ratio of 1.0 therefore
+     means "everything I chose to look at was at the standard", not "always".
+     5 becomes reachable again the day the event-closure screen closes the
+     denominator; until then the top of the suggestion is 4 and the instructor
+     moves it down when he sees fit (he did, on 17 of those 52).
+     The old floor — capping to 3 when no OB was seen twice — is gone: it erred
+     the other way (5 occasions on a single event gave 3 where he set 4). */
+  const capped=(v>4);
+  if(capped)v=4;
   return {v:v,ok:ok,n:rows.length,multi:multi,capped:capped};
 }
 function grds(t){if(!S.grades[t])S.grades[t]={};return S.grades[t];}
@@ -874,7 +942,10 @@ function computeGrade(t,comp){
     +oftenA.ok+"/"+oftenA.n+" occasion"+(oftenA.n>1?"s":"")+" at or above the standard"
     +(oftenA.multi?" · "+oftenA.multi+" OB"+(oftenA.multi>1?"s":"")+" seen on more than one event"
       :" · every OB seen once — no evidence of repetition")
-    +(oftenA.capped?", so the scale is held at <b>regularly</b>":""));
+    /* Say why the suggestion stops at "consistently": the occasions you marked
+       are not the occasions the behaviour was required, so "always" is a claim
+       this screen cannot make for you. If you saw it always, set it yourself. */
+    +(oftenA.capped?" · held at <b>consistently</b>: <b>always</b> would claim more than the marked occasions can show — set it yourself if you saw it throughout":""));
   const tb=document.getElementById("temb_"+comp);
   if(tb)tb.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===(g.tem||worst||"none")));
   const gsc=document.getElementById("gsc_"+comp);
