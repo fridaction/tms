@@ -37,6 +37,91 @@
   .btn.sm{padding:6px 11px;font-size:12px;border-radius:8px}
   .pill{font-size:10px;font-weight:700;background:var(--navy);color:#fff;border-radius:20px;padding:2px 8px}
   .privacy{font-size:12px;color:#7a5200;background:var(--amber-soft);border:1px solid #f0d3a0;border-radius:9px;padding:8px 11px;margin-bottom:6px}
+  /* mvp13 — debrief & report */
+  .xb-board{background:#fff;border:2px solid #cfd6e2;border-radius:12px;padding:16px 18px;margin:4px 0 6px;box-shadow:inset 0 0 0 6px #f6f8fb}
+  .xb-boardlab{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .xb-bt{font-size:19px;font-weight:700;color:var(--navy);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+  .xb-bt span{font-size:13px;font-weight:600;color:var(--muted)}
+  .xb-bl{list-style:none;padding:0;margin:10px 0 8px;counter-reset:xb}
+  .xb-bl li{counter-increment:xb;font-size:20px;font-weight:650;line-height:1.3;padding:6px 0;border-top:1px dashed #dde3ec;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+  .xb-bl li:first-child{border-top:0}
+  .xb-bl li::before{content:counter(xb) ".";color:var(--muted);font-size:15px;min-width:20px}
+  .xb-bl em{font-style:normal;font-size:14px;font-weight:600;color:var(--muted)}
+  .xb-bl small{flex-basis:100%;margin-left:28px;font-size:13px;font-weight:500;color:var(--muted)}
+  .xb-mk{font-size:18px;width:20px;text-align:center}
+  .xb-strength .xb-mk{color:var(--pos)}.xb-gap .xb-mk{color:var(--amber)}.xb-independence .xb-mk{color:var(--std)}
+  .xb-sup{font-size:15px;font-weight:600;color:var(--navy);border-top:1px solid #dde3ec;padding-top:8px}
+  .xb-sup small{font-weight:500;color:var(--muted)}
+  .xb-card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:#fff}
+  .xb-ph{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+  .xb-num{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+  .xb-kind{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:20px;padding:2px 8px}
+  .xb-k-strength{background:var(--pos-soft);color:var(--pos)}.xb-k-gap{background:var(--amber-soft);color:var(--amber)}.xb-k-independence{background:var(--std-soft);color:var(--std)}
+  .xb-meta{font-size:12px;color:var(--muted)}
+  .xb-title{font-size:15.5px;font-weight:700;color:var(--navy);margin:6px 0 4px}
+  .xb-title small{font-size:12px;font-weight:600;color:var(--muted);margin-left:4px}
+  .xb-p{font-size:13.5px;margin:6px 0}
+  .xb-quote{font-size:13.5px;margin:6px 0;padding:6px 10px;background:#f6f8fb;border-left:3px solid var(--line);border-radius:0 8px 8px 0}
+  .xb-quote small{display:block;font-size:11.5px;color:var(--muted)}
+  .xb-plus{border-left-color:var(--pos)}.xb-minus{border-left-color:var(--amber)}
+  .xb-more summary{font-size:12.5px;color:var(--blue);cursor:pointer;margin:4px 0}
+  .xb-qs{border:1px solid var(--line);border-radius:10px;margin:10px 0 4px;overflow:hidden}
+  .xb-q{padding:9px 11px;border-top:1px solid var(--line);font-size:14px}
+  .xb-q:first-child{border-top:0}
+  .xb-q span{display:block;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+  .xb-q i{display:block;font-size:11.5px;color:var(--muted);font-weight:400;margin-top:3px}
+  .xb-hi{font-weight:650;color:var(--navy)}
+  .xb-card>.xb-q{border:0;padding:6px 0}
+  .xb-step{display:block;width:100%;text-align:left;background:#fafbfd;border:0;border-top:1px dashed var(--line);padding:8px 11px;font:inherit;font-size:12.5px;color:var(--blue);cursor:pointer}
+  .xb-lead{font-size:13px;background:var(--std-soft);border-radius:8px;padding:7px 10px;margin:6px 0}
+  .xb-lead b{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--std)}
+  .xb-lead span{display:block;font-weight:650;color:var(--navy);margin-top:2px}
+  .xb-h3{font-size:12.5px;font-weight:700;color:var(--navy);margin:12px 0 6px}
+  .xb-h3 small{font-weight:500;color:var(--muted)}
+  .xb-cands{display:grid;gap:6px}
+  .xb-cand{display:flex;gap:10px;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font:inherit;cursor:pointer}
+  .xb-cand>b{flex:0 0 26px;height:26px;border-radius:7px;background:#f1f4f9;display:flex;align-items:center;justify-content:center;font-size:13px}
+  .xb-cand>span{font-size:13.5px;font-weight:650;color:var(--ink)}
+  .xb-cand em{font-style:normal;font-size:11px;font-weight:600;background:var(--amber-soft);color:var(--amber);border-radius:5px;padding:0 5px;margin-left:4px}
+  .xb-cand small{display:block;font-size:11.5px;font-weight:500;color:var(--muted)}
+  .xb-cand i{display:block;font-style:normal;font-size:12.5px;font-weight:500;color:var(--ink);margin-top:2px}
+  .xb-cand[aria-pressed="true"],.xb-kusa button[aria-pressed="true"]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy);background:#f3f6fb}
+  .xb-kusa{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  @media(max-width:520px){.xb-kusa{grid-template-columns:1fr}}
+  .xb-kusa button{text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font:inherit;cursor:pointer}
+  .xb-kusa b{display:block;font-size:13.5px;color:var(--navy)}
+  .xb-kusa span{font-size:12px;color:var(--muted)}
+  .xb-ul{margin:4px 0;padding-left:18px;font-size:13.5px}
+  .xb-fac{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+  .xb-fac span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-right:4px}
+  .xb-fac button,.xb-chips button{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:5px 12px;font:inherit;font-size:12.5px;cursor:pointer;color:var(--navy)}
+  .xb-fac button[aria-pressed="true"],.xb-chips button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+  .xb-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 8px}
+  .xb-lab{margin-left:auto;display:inline-flex;gap:4px}
+  .xb-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin:2px 0 8px}
+  .xb-sw{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;text-transform:none;letter-spacing:0;font-weight:500;margin:0}
+  .xb-banner{font-size:12.5px;background:var(--amber-soft);color:#7a5200;border:1px solid #f0d3a0;border-radius:9px;padding:7px 10px;margin:6px 0}
+  .xb-soft{background:#f3f6fb;color:var(--navy);border-color:var(--line)}
+  .xb-rep{border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:14px;line-height:1.55;background:#fff}
+  .xb-rep:focus{outline:2px solid var(--blue);outline-offset:2px}
+  .xb-rep p{margin:4px 0}.xb-rep ul{margin:4px 0;padding-left:20px}
+  .xb-rh{font-size:18px;font-weight:700;color:var(--navy)}
+  .xb-rm{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+  .xb-rs{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);margin:14px 0 4px;padding-top:10px}
+  .xb-rc{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+  .xb-g{font-size:12px;font-weight:700;border-radius:20px;padding:1px 9px;background:#f1f4f9;white-space:nowrap}
+  .xb-glo{background:var(--neg-soft);color:var(--neg)}.xb-ghi{background:var(--pos-soft);color:var(--pos)}
+  .xb-note{color:var(--muted);font-style:italic;font-size:13.5px}
+  .xb-tag{display:none;font-size:10.5px;font-style:normal;color:var(--std);background:var(--std-soft);border-radius:5px;padding:0 5px;margin-left:4px;user-select:none;white-space:nowrap}
+  .xb-trail .xb-tag{display:inline}
+  .xb-chk{display:flex;gap:8px;font-size:13px;padding:6px 0;border-top:1px solid var(--line)}
+  .xb-chk:first-of-type{border-top:0}
+  .xb-chk small{color:var(--muted)}
+  .xb-cl{flex:0 0 auto;font-size:10px;font-weight:800;text-transform:uppercase;border-radius:5px;padding:2px 6px;height:fit-content}
+  .xb-cl-warn{background:var(--neg-soft);color:var(--neg)}.xb-cl-info{background:var(--std-soft);color:var(--std)}
+  .xb-empty{font-size:13.5px;color:var(--muted);padding:18px;text-align:center;border:1px dashed var(--line);border-radius:12px}
+  .xb-step[hidden],.xb-q[hidden]{display:none}
+
   /* mvp9 */
   .vertag{font-size:10px;font-weight:600;opacity:.55;margin-left:6px}
   .verline{font-size:11.5px;color:var(--muted);margin:8px 0 4px}
@@ -141,7 +226,6 @@
   .oftenwhy:empty{margin:0}
   .sg.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
 </style>
-
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -182,8 +266,9 @@
   <div class="steps">
     <div class="step on" data-s="setup"><span class="n">1</span>Setup</div>
     <div class="step" data-s="capture"><span class="n">2</span>Capture</div>
-    <div class="step" data-s="debrief"><span class="n">3</span>Debrief</div>
-    <div class="step" data-s="report"><span class="n">4</span>Report</div>
+    <div class="step" data-s="debrief"><span class="n">3</span>Grade</div>
+    <div class="step" data-s="brief"><span class="n">4</span>Debrief</div>
+    <div class="step" data-s="report"><span class="n">5</span>Report</div>
   </div>
 
   <!-- SETUP -->
@@ -243,7 +328,7 @@
 
   <!-- DEBRIEF -->
   <div class="scr" id="debrief">
-    <h2>Debrief — by competency</h2>
+    <h2>Grade — by competency</h2>
     <p class="sub">Marks sorted by competency, per trainee. The app suggests a grade (lowest of How Many / How Often / TEM); you decide.</p>
     <div id="dbCrew" class="crewbar"></div>
     <div id="debriefList"></div>
@@ -256,7 +341,24 @@
       <label>Overall comment</label>
       <textarea id="overall" placeholder="Overall for this trainee…" oninput="save()"></textarea>
     </div>
-    <div class="navbtns"><button class="btn ghost" onclick="go('capture')">← Capture</button><button class="btn" onclick="go('report')">Report →</button></div>
+    <div class="navbtns"><button class="btn ghost" onclick="go('capture')">← Capture</button><button class="btn" onclick="go('brief')">Debrief →</button></div>
+  </div>
+
+  <!-- DEBRIEF (mvp13) -->
+  <div class="scr" id="brief">
+    <h2>Debrief</h2>
+    <p class="sub">Write the board, run the debrief from the questions, and note what comes up. Nothing on this screen changes a grade.</p>
+    <div id="xbBody"></div>
+    <div class="xb-card">
+      <div class="xb-h3" style="margin-top:0">What came up in the debrief</div>
+      <p class="xb-meta" style="margin:0 0 8px">Self-assessment, the root cause you agreed on, something new, the action for next time. It all goes into the report.</p>
+      <div class="xb-chips" id="xbNoteWho"></div>
+      <div class="xb-chips" id="xbNoteType"></div>
+      <textarea id="xbNoteTxt" placeholder="e.g. He felt rushed on the windshear and lost track of the AP."></textarea>
+      <div style="margin:8px 0 10px"><button class="btn sm" id="xbAdd">Add to the report</button></div>
+      <div id="xbNoteList"></div>
+    </div>
+    <div class="navbtns"><button class="btn ghost" onclick="go('debrief')">← Grade</button><button class="btn" onclick="go('report')">Report →</button></div>
   </div>
 
   <!-- REPORT -->
@@ -264,7 +366,7 @@
     <h2>Session report</h2>
     <p class="sub" id="repHead"></p>
     <div id="repBody"></div>
-    <div class="navbtns"><button class="btn ghost" onclick="go('debrief')">← Debrief</button>
+    <div class="navbtns"><button class="btn ghost" onclick="go('brief')">← Debrief</button>
       <span><button class="btn ghost" onclick="copyReport()">Copy report</button> <button class="btn ghost" onclick="exportJSON()">Export</button> <button class="btn" onclick="submitPilot()">Submit to pilot</button></span></div>
   </div>
 </div>
@@ -362,20 +464,19 @@ Object.entries(OBDATA).forEach(([k,[,obs]])=>{if(obs.length)CIDX[k]=String(obs[0
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
 const KW=[["support",["8.4","5.1"]],["assistance",["8.4","5.1"]],["centerline",["4.1","4.5"]],["center line",["4.1","4.5"]],["centre line",["4.1","4.5"]],["aiming point",["4.5","4.1"]],["landing",["4.1","4.5"]],["decrab",["4.1","4.3"]],["trim",["4.6","4.1"]],["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp12";
-const APP_DATE="24/10/2026";
+const APP_VER="mvp13";
+const APP_DATE="01/11/2026";
 /* The "what's new" screen fires on APP_NEWS_VER, not APP_VER, so a fix that
    changes nothing an instructor can see does not interrupt them again. */
-const APP_NEWS_VER="mvp12";
+const APP_NEWS_VER="mvp13";
 const APP_NEWS=[
- "<b>The “but” in your notes is now read.</b> “Raw data ILS correctly flown, slow scanning, but no over controlling” used to come back as a single <b>?</b>, because the app saw praise and a fault in one breath and refused to choose. It now reads the three parts separately: <b>std</b> on the approach, <b>−</b> on the scanning, <b>std</b> on the handling. Over the last seven sessions that one blind spot left a single <b>−</b> in 498 marked OBs.",
- "A fault you say you did <i>not</i> see is no longer read as a fault. “No sign of over controlling or excessive bank” now counts towards <b>std</b> — it used to count against the trainee.",
- "The polite way of recording a gap is read too: “should be more highlighted”, “could have been earlier”, “room for” now propose <b>−</b> rather than passing as standard.",
- "<b>Consistency (How Often)</b> no longer proposes <b>always</b>. Across 52 competencies where you set it yourself you chose <b>always</b> zero times — the suggestion was reading “everything I looked at was at the standard” as “always”. It now stops at <b>consistently</b>, and says why. Set <b>always</b> yourself when you saw it throughout.",
- "It also no longer drops to <b>regularly</b> just because no OB came up twice — that pushed it below where you were putting it."
+ "<b>Step 3 is now called Grade.</b> Nothing changes there: you still set the grades.",
+ "<b>New step 4, Debrief.</b> It shows what to write on the whiteboard, then the points to cover — strengths first — each with an open question and, if needed, two more directive ones. For something to develop it suggests where the root cause may sit and why (Handbook ch. 13 and 14). Nothing there changes a grade.",
+ "<b>Note what comes up in the room</b>: the trainee's self-assessment, the root cause you agreed on, something new, the action for next time. It goes straight into the report.",
+ "<b>Step 5, Report, now writes the report for you</b> from your flags, your notes and the debrief: summary, competencies, support, and what the next instructor needs to know. Edit it freely. When you submit, both the generated and your final version are sent, so we can see what you change and improve it."
 ];
 let S=blank();let capOpen=new Set();
-function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],moments:[],tem:[],temOn:true,grades:{},actuallos:"",overall:""};}
+function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],moments:[],tem:[],temOn:true,grades:{},actuallos:"",overall:"",debrief:{dec:{},fac:{},notes:[]},report:{gen:{},final:{},html:{},edited:{},basis:{},labels:"ek"}};}
 function hasB(){return (S.trainees[1].name||"").trim()!=="";}
 
 /* --- PF/PM is a property of (trainee x event), not a global toggle ---------
@@ -428,6 +529,8 @@ function migrate(x){x.actuallosByT=x.actuallosByT||{};x.overallByT=x.overallByT|
   x.evPf=x.evPf||{};
   /* mvp9: notes kept as first-class "moments", and the TEM flag moved off the OB. */
   x.moments=x.moments||[];x.tem=x.tem||[];if(x.temOn==null)x.temOn=true;
+  /* mvp13: debrief decisions/notes and the report (generated + final) travel with the session. */
+  x.debrief=x.debrief||{dec:{},fac:{},notes:[]};x.report=x.report||{gen:{},final:{},html:{},edited:{},basis:{},labels:"ek"};
   if(x.overall&&!Object.values(x.overallByT).some(Boolean)&&!/: /.test(x.overall))(x.trainees||[]).forEach(t=>x.overallByT[t.id]=x.overall);
   if(x.actuallos&&!Object.values(x.actuallosByT).some(Boolean)&&!/: /.test(x.actuallos))(x.trainees||[]).forEach(t=>x.actuallosByT[t.id]=x.actuallos);
   return x;}
@@ -449,6 +552,7 @@ function go(s){save();
   document.querySelectorAll(".scr").forEach(x=>x.classList.toggle("on",x.id===s));
   if(s==="capture")renderCaptureEvents();
   if(s==="debrief")renderDebrief();
+  if(s==="brief")renderBriefScr();
   if(s==="report")renderReport();
   window.scrollTo(0,0);
 }
@@ -983,7 +1087,7 @@ function updateLosCompare(){
 
 /* report */
 function activeTrainees(){return hasB()?[0,1]:[0];}
-function renderReport(){
+function renderReportRaw(){
   document.getElementById("repHead").textContent=`${S.stype||""} · ${S.date||""}${S.icode?" · "+S.icode:""} — required support: ${S.reqlos}`;
   let html="";
   activeTrainees().forEach(idx=>{
@@ -1031,7 +1135,7 @@ function reportText(){
   });
   return t;
 }
-function copyReport(){navigator.clipboard.writeText(reportText()).then(()=>alert("Report copied to clipboard."),()=>alert("Copy failed — select the text manually."));}
+function copyReportRaw(){navigator.clipboard.writeText(reportText()).then(()=>alert("Report copied to clipboard."),()=>alert("Copy failed — select the text manually."));}
 
 /* export / import / pilot */
 const PILOT_ENDPOINT="https://script.google.com/macros/s/AKfycby110uZStjk1278DapfsEi_2p8n3r44cb4uMD2Usu0J2pk-TtkhlLAoQ2nGlawqU-bm3A/exec";
@@ -1043,7 +1147,7 @@ function exportJSON(){save();const b=new Blob([JSON.stringify(S,null,2)],{type:"
   a.href=URL.createObjectURL(b);
   a.download=["session",clean(S.stype),clean(tname(0)),stamp].filter(Boolean).join("_")+".json";
   a.click();}
-function submitPilot(){save();
+function submitPilot(){finalizeReports();save();
   if(PILOT_ENDPOINT){const payload=Object.assign({submittedAt:new Date().toISOString()},S);
     fetch(PILOT_ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).then(()=>alert("Session submitted. Thank you!")).catch(()=>alert("Submit failed — check connection/endpoint."));return;}
   exportJSON();
@@ -1092,6 +1196,630 @@ function maybeConsent(){
   if(seen!==APP_NEWS_VER)document.getElementById("whatsnew").classList.add("show");
 }
 load();renderPresets();fillSetup();fillNews();maybeConsent();
+</script>
+<script>
+/* Debrief & report engine (r1) — reads the session, writes only what was observed */
+const TMSR=(function(){
+/* TMS debrief & report engine — reads one app session (S) and produces
+   the instructor brief and one report per trainee. Every sentence it writes
+   carries the evidence it came from; nothing is inferred from tone. */
+"use strict";
+
+const FW = {
+  order: ["KNO","PRO","COM","FPA","FPM","LTW","PSD","SAW","WLM"],
+  ek:   {KNO:["K","Application of Knowledge"],PRO:["P","Application of Procedures and Compliance with Regulations"],COM:["C","Communication"],FPA:["A","Aircraft Flight Path Management, Automation"],FPM:["H","Aircraft Flight Path Management, Manual Control"],LTW:["L","Leadership and Teamwork"],PSD:["D","Problem Solving and Decision Making"],SAW:["S","Situation Awareness and Management of Information"],WLM:["M","Workload Management"]},
+  iata: {KNO:["KNO","Application of knowledge"],PRO:["PRO","Application of procedures and compliance with regulations"],COM:["COM","Communication"],FPA:["FPA","Flight path management — automation"],FPM:["FPM","Flight path management — manual control"],LTW:["LTW","Leadership and teamwork"],PSD:["PSD","Problem solving and decision making"],SAW:["SAW","Situation awareness and management of information"],WLM:["WLM","Workload management"]},
+  grade: {ek:{5:"Expert",4:"Advanced",3:"Competent",2:"Not yet competent",1:"Not competent"},
+          iata:{5:"Exemplary",4:"Effective",3:"Adequate",2:"Minimal acceptable",1:"Ineffective"}},
+  // How the brief talks about a competency to a trainee.
+  verb: {KNO:"use your knowledge",PRO:"apply the procedures",COM:"communicate with your colleague",FPA:"manage the automation",FPM:"fly the aircraft manually",LTW:"lead and work as a crew",PSD:"work through the problem and decide",SAW:"keep track of what was going on",WLM:"manage your workload"},
+  noun: {KNO:"knowledge",PRO:"procedures",COM:"communication",FPA:"automation management",FPM:"manual flying",LTW:"leadership and teamwork",PSD:"decision making",SAW:"situation awareness",WLM:"workload management"}
+};
+
+const OBT = {"0.1":"Knowledge of limitations & systems","0.2":"Knowledge of published operating instructions","0.3":"Knowledge of physical & ATC environment","0.4":"Knowledge of applicable legislation","0.5":"Knows where to source information","0.6":"Positive interest in acquiring knowledge","0.7":"Applies knowledge effectively",
+"1.1":"Identifies where to find procedures","1.2":"Applies procedures in a timely manner","1.3":"Follows SOPs unless safety dictates","1.4":"Operates systems correctly","1.5":"Monitors aircraft systems status","1.6":"Complies with regulations","1.7":"Applies procedural knowledge",
+"2.1":"Ensures the recipient is ready to receive","2.2":"Selects what, when, how and whom to communicate","2.3":"Conveys messages clearly","2.4":"Confirms understanding","2.5":"Listens actively","2.6":"Asks effective questions","2.7":"Uses appropriate escalation","2.8":"Non-verbal communication","2.9":"Standard phraseology and procedures","2.10":"Reads, interprets and responds to data link messages",
+"3.1":"Uses flight management and guidance","3.2":"Detects deviations under automation and acts","3.3":"Manages the flight path under automation","3.4":"Maintains the flight path under automation","3.5":"Selects the level and mode of automation","3.6":"Monitors automation and mode transitions",
+"4.1":"Manual control accuracy and smoothness","4.2":"Detects deviations and acts","4.3":"Manual control of pitch and power","4.4":"Manages the flight path","4.5":"Maintains the flight path while managing other tasks","4.6":"Uses flight management and guidance","4.7":"Monitors guidance and mode transitions",
+"5.1":"Encourages team participation","5.2":"Shows initiative and gives direction","5.3":"Engages others in planning","5.4":"Considers inputs from others","5.5":"Gives and receives feedback","5.6":"Resolves conflicts","5.7":"Decisive leadership","5.8":"Accepts responsibility","5.9":"Carries out instructions","5.10":"Effective intervention strategies","5.11":"Manages cultural and language challenges",
+"6.1":"Manages threats and errors","6.2":"Seeks accurate information","6.3":"Identifies what has gone wrong and why","6.4":"Perseveres and prioritises","6.5":"Considers options","6.6":"Timely decision making","6.7":"Monitors, reviews and adapts decisions","6.8":"Adapts when no guidance exists","6.9":"Resilience",
+"7.1":"Monitors aircraft and systems state","7.2":"Monitors energy state and flight path","7.3":"Monitors the general environment","7.4":"Validates information accuracy","7.5":"Awareness of the people involved","7.6":"Develops contingency plans","7.7":"Responds to reduced situation awareness",
+"8.1":"Self-control","8.2":"Plans and prioritises tasks","8.3":"Manages time","8.4":"Offers assistance","8.5":"Delegates","8.6":"Seeks and accepts assistance","8.7":"Monitors and cross-checks","8.8":"Verifies tasks are complete","8.9":"Manages interruptions"};
+const COMPOF = {}; FW.order.forEach((c,i) => Object.keys(OBT).forEach(k => { if (k.split(".")[0] === String(i)) COMPOF[k] = c; }));
+
+/* Root cause, first layer (Handbook ch.14): where does the problem sit?
+   Candidates are a suggestion — the instructor decides in the room. */
+const WHERE = {FPM:["FPM","WLM","KNO","SAW"],FPA:["FPA","KNO","SAW","WLM"],PRO:["PRO","KNO","WLM"],COM:["COM","LTW","WLM"],LTW:["LTW","COM","WLM"],PSD:["PSD","SAW","KNO","WLM"],SAW:["SAW","WLM","PRO"],WLM:["WLM","LTW","PSD"],KNO:["KNO","PRO"]};
+const CUE = {WLM:/\b(rush\w*|hurr\w*|time|late|slow\w*|too many tasks|workload|took too|overload\w*)\b/i, KNO:/\b(know\w*|unaware|not aware|forg[eo]t\w*|criteria)\b/i, PRO:/\b(call ?outs?|sop|procedures?|checklist|flows?)\b/i, SAW:/\b(monitor\w*|scan\w*|awareness|noticed?|confus\w*)\b/i, FPM:/\b(trim\w*|rudder|over.?control\w*|handling|pitch|bank)\b/i, FPA:/\b(autopilot|automation|ap\b|mode|fma)\b/i, COM:/\b(call\w*|communicat\w*|announc\w*)\b/i, LTW:/\b(initiative|lead\w*|took too many)\b/i, PSD:/\b(decision|decid\w*|option)\b/i};
+const ASK = {
+  FPM:"Talk me through your hands and feet on {ev}: what were you doing with the controls?",
+  FPA:"On {ev}, what did you expect the automation to do, and what did it actually do?",
+  WLM:"What else was on your plate at that moment on {ev}, and how did you share it out?",
+  KNO:"What does the standard require at that point of {ev}, and where does that come from?",
+  SAW:"On {ev}, what were you monitoring, and what told you the situation was changing?",
+  PRO:"Which procedure applied on {ev}, and where in it were you at that moment?",
+  COM:"On {ev}, how did you share what you were seeing with your colleague?",
+  LTW:"On {ev}, how did you involve your colleague in what happened next?",
+  PSD:"On {ev}, what options did you have, and what made you choose that one?"
+};
+/* Root cause, second layer (Handbook ch.13): why? */
+const KUSA = {
+  K:{name:"Knowledge",ask:"What information did you have about this at that point?",fix:"provide the reference and brief it before the next attempt"},
+  U:{name:"Understanding",ask:"Why does this matter at that point of the flight?",fix:"explain the reason and the consequence behind the standard"},
+  S:{name:"Skill",ask:"Knowing what you know now, how would you fly it again?",fix:"plan practice of this exercise in the next session"},
+  A:{name:"Attitude",ask:"How important did it feel to you in that situation?",fix:"discuss the standard and why it applies"}
+};
+const LOS = ["High","Medium","Low","Nil"];
+const TRITE = /\b(standard progress|(completed|done) (to|at) (a |the )?(good |very good )?standard|all (the )?objectives (were |easily )?completed|satisfactory|no (issues|problems)|good session|session completed)\b/i;
+
+/* ---------- helpers ---------- */
+function clean(t) {
+  if (!t) return "";
+  let s = String(t).replace(/\s+/g, " ").trim()
+    .replace(/\s+([.,;:!?])/g, "$1").replace(/([.,;])(?=[A-Za-z])/g, "$1 ").replace(/\.{2,}$/, ".");
+  if (!s) return "";
+  s = s.charAt(0).toUpperCase() + s.slice(1);
+  if (!/[.!?]$/.test(s)) s += ".";
+  return s;
+}
+function listJoin(a) { return a.length < 2 ? (a[0] || "") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]; }
+function lc(s) { return s.charAt(0).toLowerCase() + s.slice(1); }
+function plural(n, w, p) { return n + " " + (n === 1 ? w : (p || w + "s")); }
+function uniq(a) { return Array.from(new Set(a)); }
+
+/* ---------- 1. analyse ---------- */
+function analyse(S) {
+  const evName = {}, evIdx = {};
+  (S.events || []).forEach((e, i) => { evName[e.id] = (e.name || "Event " + (i + 1)).trim(); evIdx[e.id] = i; });
+  const mom = {}; (S.moments || []).forEach(m => { mom[m.id] = m; });
+  const trainees = (S.trainees || []).filter(t => (S.obs || []).some(o => o.traineeId === t.id)).map((t, ti) => {
+    const obs = (S.obs || []).filter(o => o.traineeId === t.id && COMPOF[o.code]);
+    const g = (S.grades || {})[t.id] || {};
+    const comps = {};
+    FW.order.forEach(c => {
+      const co = obs.filter(o => COMPOF[o.code] === c);
+      const gr = g[c] || {};
+      const grade = Number(gr.final || gr.suggested) || null;
+      const by = v => co.filter(o => o.val === v);
+      const ev = o => ({ob: o.code, val: o.val, eventId: o.eventId, role: o.role || "",
+        text: clean((o.momentId && mom[o.momentId] && mom[o.momentId].text) || o.note || ""),
+        momentId: o.momentId || null, imp: o.imp && o.imp !== "none" ? o.imp : ""});
+      const events = uniq(co.filter(o => o.val !== "NA").map(o => o.eventId));
+      const plusEv = uniq(by("+").map(o => o.eventId)), minusEv = uniq(by("-").map(o => o.eventId));
+      comps[c] = {code: c, grade, suggested: Number(gr.suggested) || null, final: Number(gr.final) || null, why: gr.why || "",
+        often: gr.oftenEff || gr.often || null, tem: gr.tem || gr.temAuto || "",
+        plus: by("+").map(ev), minus: by("-").map(ev), std: by("0").map(ev),
+        events, plusEv, minusEv,
+        evidence: events.length > 1 ? "multi-event" : events.length ? "single-event" : "none",
+        safety: (S.tem || []).filter(f => f.traineeId === t.id && minusEv.includes(f.eventId))};
+    });
+    const looseMoments = (S.moments || []).filter(m => m.traineeId === t.id && !(m.obCodes || []).length && clean(m.text))
+      .map(m => ({text: clean(m.text), eventId: m.eventId, momentId: m.id}));
+    const req = S.reqlos || "", given = ((S.actuallosByT || {})[t.id]) || parseLos(S.actuallos, t.name) || "";
+    return {id: t.id, name: (t.name || "Trainee " + (ti + 1)).trim(), idx: ti, comps, obs, looseMoments,
+      req, given, overall: ((S.overallByT || {})[t.id] || "").trim(),
+      roles: uniq(obs.map(o => o.role).filter(Boolean))};
+  });
+  return {S, evName, evIdx, trainees, meta: {type: S.stype || "", date: S.date || "", instr: S.icode || "", req: S.reqlos || "", nEvents: (S.events || []).length, temOn: !!S.temOn}};
+}
+function parseLos(s, name) {
+  if (!s) return "";
+  const m = String(s).split("|").map(x => x.trim()).find(x => x.toLowerCase().startsWith(String(name).toLowerCase() + ":"));
+  if (m) return m.split(":")[1].trim();
+  return LOS.includes(String(s).trim()) ? String(s).trim() : "";
+}
+
+/* ---------- 2. select the debrief points (crew level) ----------
+   Handbook ch.13: 3–4 key areas, ~20 min, strengths analysed too. */
+function selectPoints(A) {
+  const strScore = c => c.plusEv.length * 4 + c.plus.length + (c.grade ? c.grade - 3 : 0);
+  const gaps = [], strengths = [];
+  A.trainees.forEach(t => {
+    const badComps = new Set();
+    // An incident = one trainee on one event. Several competencies flagged on it are ONE debrief point:
+    // choosing which competency it really belongs to is the root cause work (Handbook ch.14).
+    uniq(t.obs.filter(o => o.val === "-").map(o => o.eventId)).forEach(eid => {
+      const cs = FW.order.map(k => t.comps[k]).filter(c => c.minus.some(o => o.eventId === eid));
+      const mn = cs.flatMap(c => c.minus.filter(o => o.eventId === eid));
+      const safety = (A.S.tem || []).filter(f => f.traineeId === t.id && f.eventId === eid);
+      const pattern = cs.filter(c => c.minusEv.length > 1);
+      cs.forEach(c => badComps.add(c.code));
+      cs.sort((a, b) => b.minus.length - a.minus.length || (a.grade || 9) - (b.grade || 9));
+      gaps.push({kind: "gap", t, key: eid, evs: [eid], cs, c: cs[0], mn, safety, pattern,
+        score: safety.length * 10 + pattern.length * 4 + cs.length * 3 + mn.length + (mn.some(o => o.text) ? 1 : 0) + (cs[0].grade ? 5 - cs[0].grade : 0)});
+    });
+    FW.order.forEach(code => { const c = t.comps[code]; if (!badComps.has(code) && c.plus.length) strengths.push({kind: "strength", t, c, score: strScore(c)}); });
+  });
+  gaps.sort((a, b) => b.score - a.score || A.evIdx[a.key] - A.evIdx[b.key]); strengths.sort((a, b) => b.score - a.score);
+  // Same competency above the standard for the whole crew = one crew point.
+  const merged = [];
+  strengths.forEach(p => {
+    const twin = merged.find(m => m.code === p.c.code);
+    if (twin) twin.items.push(p); else merged.push({kind: "strength", code: p.c.code, items: [p], score: p.score});
+  });
+  merged.forEach(m => { m.score = m.items.reduce((s, p) => s + p.score, 0); });
+  merged.sort((a, b) => b.score - a.score);
+  // Two gaps at most; when both trainees have one, each gets their top one (Handbook 13.5: draw the whole crew in).
+  const pick = [];
+  if (gaps.length) pick.push(gaps[0]);
+  const other = gaps.find(g => g.t.id !== (gaps[0] || {}).t?.id);
+  if (other) pick.push(other); else if (gaps[1]) pick.push(gaps[1]);
+  const g = pick.map(p => ({kind: "gap", code: p.c.code, codes: p.cs.map(c => c.code), items: [p], score: p.score}));
+  // At most 2 strengths + 2 gaps; with no gap, up to 3 strengths + the independence point.
+  const s = merged.slice(0, g.length ? 2 : 3);
+  let points = s.concat(g);           // strengths first: that order is the method
+  if (!g.length) points.push({kind: "independence", code: null, items: A.trainees.map(t => ({t}))});
+  points = points.slice(0, 4).map((p, i) => Object.assign(p, {
+    id: (p.kind + "-" + (p.code || "los") + "-" + p.items.map(x => x.t.id + (x.key || "")).join("")).replace(/\W/g, ""),
+    decKey: p.kind === "gap" ? p.items[0].t.id + ":" + p.items[0].key : null, n: i + 1}));
+  const taken = new Set(points.flatMap(p => p.items.filter(x => x.c).flatMap(x => (x.cs || [x.c]).map(c => x.t.id + c.code))));
+  const rest = [];
+  A.trainees.forEach(t => FW.order.forEach(code => { const c = t.comps[code]; if (c.events.length && !taken.has(t.id + code)) rest.push({t, c}); }));
+  return {points, rest, gaps, nGaps: gaps.length, nStrengths: strengths.length};
+}
+
+/* ---------- 3. the brief ---------- */
+function evList(A, ids) { return listJoin(ids.slice().sort((a, b) => A.evIdx[a] - A.evIdx[b]).map(id => A.evName[id] || "an unnamed event")); }
+
+function whoFirst(A, p, k) {
+  if (A.trainees.length < 2) return A.trainees[0] ? A.trainees[0].name : "";
+  if (p.items.length === 1 && p.items[0].c) {
+    const it = p.items[0];
+    const ev = p.kind === "gap" ? it.mn : it.c.plus;
+    const asPM = ev.length && ev.every(o => o.role === "PM");
+    return asPM ? it.t.name + " (was PM on this)" : it.t.name;
+  }
+  return A.trainees[k % 2].name;   // alternate who opens a shared point
+}
+
+function quotes(items) {
+  const seen = new Set(), out = [];
+  items.forEach(o => { if (o.text && !seen.has(o.text)) { seen.add(o.text); out.push(o); } });
+  return out;
+}
+
+/* Leads for the "where" question, strongest first: the same behaviour held up elsewhere
+   (capability is there, conditions changed), or failed elsewhere too (a pattern). */
+function leads(A, it) {
+  const out = [];
+  it.cs.forEach(c => uniq(it.mn.filter(o => COMPOF[o.ob] === c.code).map(o => o.ob)).forEach(ob => {
+    const bad = uniq(c.minus.filter(o => o.ob === ob).map(o => o.eventId));
+    const good = uniq(c.plus.concat(c.std).filter(o => o.ob === ob && !bad.includes(o.eventId)).map(o => o.eventId));
+    const elsewhere = bad.filter(e => !it.evs.includes(e));
+    if (good.length) out.push({kind: "swing", n: good.length, ob, comp: c.code, text: OBT[ob] + " held up on " + evList(A, good) + " but not here.",
+      ask: "You did this well on " + evList(A, good) + ". What was different on " + evList(A, it.evs) + "?"});
+    if (elsewhere.length) out.push({kind: "pattern", ob, comp: c.code, text: OBT[ob] + " was also below the standard on " + evList(A, elsewhere) + ".",
+      ask: "This came up on " + evList(A, it.evs.concat(elsewhere)) + ". What do those moments have in common?"});
+  }));
+  // Two leads at most: a pattern first, then the swing with the most evidence of capability.
+  const pat = out.filter(l => l.kind === "pattern"), sw = out.filter(l => l.kind === "swing").sort((a, b) => b.n - a.n);
+  return pat.slice(0, 1).concat(sw).slice(0, 2);
+}
+function rootCause(A, it) {
+  const c = it.c, t = it.t, cs = it.cs, evs = it.evs, ev0 = A.evName[evs[0]] || "that event";
+  const text = it.mn.map(o => o.text).join(" ");
+  const cands = uniq(cs.map(x => x.code).concat(WHERE[c.code] || []));
+  return cands.map(cand => {
+    const cc = t.comps[cand];
+    const there = cc.plus.concat(cc.minus, cc.std).filter(o => evs.includes(o.eventId));
+    let seen;
+    if (cs.some(x => x.code === cand)) seen = "flagged below the standard here";
+    else if (cc.plus.some(o => evs.includes(o.eventId))) seen = "above the standard on this event: less likely";
+    else if (there.length) seen = "at the standard on this event";
+    else seen = "not observed on this event: ask";
+    const cue = CUE[cand] && CUE[cand].exec(text);
+    return {code: cand, seen, cue: cue ? cue[0] : "", ask: ASK[cand].replace("{ev}", ev0),
+      rank: (cs.some(x => x.code === cand) ? 2 : 0) + (cue ? 2 : 0) - (/less likely/.test(seen) ? 2 : 0)};
+  }).sort((a, b) => b.rank - a.rank);
+}
+
+function ladder(A, p) {
+  const it = p.items[0];
+  if (p.kind === "independence") {
+    const t = A.trainees[0];
+    return {high: "How much of today did you feel you did on your own?",
+      mid: "Where in the session did you need me most, and where least?",
+      low: "State the support planned (" + (t.req || "—") + ") and given (" + (t.given || "—") + "), then ask: what would you need to fly the next session with less help?"};
+  }
+  const c = it.c, ids = p.kind === "gap" ? it.evs : uniq(p.items.flatMap(x => x.c.plusEv));
+  const evs = evList(A, ids), ev0 = A.evName[ids[0]] || "that event";
+  const q = quotes(p.kind === "gap" ? it.mn : p.items.flatMap(x => x.c.plus))[0];
+  if (p.kind === "strength") return {
+    high: "Looking back at " + evs + ", what went well for you?",
+    mid: "On " + ev0 + ", how did you " + FW.verb[c.code] + "? What were you paying attention to?",
+    low: (q ? "Recall the observation (" + (A.evName[q.eventId] || "") + "): “" + q.text + "” " : "Name what you saw on " + evs + ". ") + "Then ask: why did that work, and how would you repeat it on a different exercise?"};
+  return {
+    high: "Looking back at " + evs + ", what would you do differently?",
+    mid: "On " + ev0 + ", what was happening at that moment, and what were you trying to achieve?",
+    low: (q ? "State the observation: “" + q.text + "” " : "State what you saw on " + ev0 + ". ") + "Ask what the standard is at that point and what got in the way. Then summarise the issue and how it should be handled, and check: how will you approach it next time?"};
+}
+
+function teaching(A, p, eventIds) {
+  const ids = new Set(eventIds);
+  return p.items.flatMap(x => x.t.looseMoments).filter(m => ids.has(m.eventId));
+}
+
+function buildBrief(A, sel) {
+  const minutes = 20, n = sel.points.length;
+  const per = Math.max(3, Math.floor((minutes - 4) / Math.max(1, n)));
+  const pts = sel.points.map((p, k) => {
+    const it = p.items[0];
+    const gm = p.kind === "gap" ? it.mn : [];
+    const ev = p.kind === "gap" ? quotes(gm) : p.kind === "strength" ? quotes(p.items.flatMap(x => x.c.plus)) : [];
+    const ids = p.kind === "gap" ? uniq(gm.map(o => o.eventId)) : p.kind === "strength" ? uniq(p.items.flatMap(x => x.c.plusEv)) : [];
+    const obs = p.kind === "gap" ? uniq(gm.map(o => o.ob)) : p.kind === "strength" ? uniq(p.items.flatMap(x => x.c.plus.map(o => o.ob))) : [];
+    return Object.assign({}, p, {
+      who: whoFirst(A, p, k), minutes: per, quotes: ev, eventIds: ids, obs,
+      strength: ids.length > 1 ? "Pattern: " + plural(ids.length, "event") : ids.length ? "Single event" : "",
+      ladder: ladder(A, p), root: p.kind === "gap" ? rootCause(A, it) : null,
+      leads: p.kind === "gap" ? leads(A, it) : [],
+      teach: teaching(A, p, ids)});
+  });
+  const otherTeach = A.trainees.flatMap(t => t.looseMoments.map(m => Object.assign({who: t.name}, m)))
+    .filter(m => !pts.some(p => p.teach.some(x => x.momentId === m.momentId)));
+  return {minutes, per, points: pts, rest: sel.rest, otherTeach};
+}
+
+/* ---------- 4. the report (one per trainee) ----------
+   Handbook ch.15: Summary first (written last), sections by competency,
+   support, then what the next instructor needs. */
+function buildReport(A, t, sel, dec, labels, notes) {
+  notes = (notes || []).filter(n => n.traineeId === t.id && String(n.text || "").trim());
+  const L = labels === "iata" ? "iata" : "ek", NAME = FW[L], GR = FW.grade[L];
+  const blocks = [], E = (text, ev) => ({text, ev: ev || null});
+  const cn = c => NAME[c][1] + " (" + NAME[c][0] + ")";
+  const tPoints = sel.points.filter(p => p.items.some(x => x.t.id === t.id));
+  const groups = sel.gaps.filter(g => g.t.id === t.id);           // every incident, selected for the room or not
+  const decOf = g => dec[t.id + ":" + g.key] || {};
+  const whereOf = code => groups.filter(g => (decOf(g).where || g.c.code) === code && (decOf(g).where || decOf(g).why)).map(g => ({g, d: decOf(g)}));
+  // Each instructor note appears once, under the competency where it weighs most (− before + before standard).
+  const noteHome = {};
+  ["-", "+", "0"].forEach(v => FW.order.forEach(code => { const c = t.comps[code];
+    c.minus.concat(c.plus, c.std).filter(o => o.val === v && o.text).forEach(o => { if (!noteHome[o.text]) noteHome[o.text] = code; }); }));
+  const strengths = tPoints.filter(p => p.kind === "strength").map(p => p.code);
+  const observed = FW.order.filter(c => t.comps[c].events.length);
+  const notObserved = FW.order.filter(c => !t.comps[c].events.length);
+  const allMinus = FW.order.filter(c => t.comps[c].minus.length);
+
+  // Competency sections
+  const sections = observed.map(code => {
+    const c = t.comps[code], parts = [];
+    const titles = obs => { const ti = uniq(obs.map(o => o.ob)).map(k => lc(OBT[k] || k)), sh = ti.slice(0, 3), more = ti.length - sh.length;
+      return listJoin(sh) + (more > 0 ? ", among others" : ""); };
+    const tag = obs => ({events: uniq(obs.map(o => A.evName[o.eventId])), obs: uniq(obs.map(o => o.ob))});
+    // Same behaviour, both sides of the standard: say it as one fact, it is the best root-cause lead.
+    const sw = uniq(c.minus.map(o => o.ob)).filter(ob => c.plus.some(o => o.ob === ob));
+    sw.forEach(ob => {
+      const good = uniq(c.plus.filter(o => o.ob === ob).map(o => o.eventId)), bad = uniq(c.minus.filter(o => o.ob === ob).map(o => o.eventId));
+      parts.push(E(OBT[ob] + ": above the standard on " + evList(A, good) + ", below it on " + evList(A, bad) + ".", tag(c.plus.concat(c.minus).filter(o => o.ob === ob))));
+    });
+    const mn = c.minus.filter(o => !sw.includes(o.ob)), pl = c.plus.filter(o => !sw.includes(o.ob));
+    if (mn.length) parts.push(E("Below the standard on " + titles(mn) + " (" + evList(A, uniq(mn.map(o => o.eventId))) + ").", tag(mn)));
+    if (pl.length) {
+      const rep = uniq(pl.map(o => o.ob)).filter(k => uniq(pl.filter(o => o.ob === k).map(o => o.eventId)).length > 1);
+      parts.push(E((rep.length ? "Consistently above" : "Above") + " the standard on " + titles(pl) + " (" + evList(A, uniq(pl.map(o => o.eventId))) + ").", tag(pl)));
+    }
+    const stdOnly = c.std.filter(o => !c.plus.some(p => p.ob === o.ob) && !c.minus.some(m => m.ob === o.ob));
+    if (stdOnly.length) parts.push(E("At the standard on " + titles(stdOnly) + ".", tag(stdOnly)));
+    whereOf(code).forEach(w => parts.push(E("Root cause discussed in the debrief (" + evList(A, w.g.evs) + "): " + [NAME[w.d.where || w.g.c.code][1].toLowerCase(), w.d.why ? KUSA[w.d.why].name.toLowerCase() : ""].filter(Boolean).join(", ") + ".", {events: [], obs: [], debrief: true})));
+    if (c.grade && c.grade <= 2) parts.push(E("Required standard not achieved: remedial training required.", {events: [], obs: [], grade: c.grade}));
+    const notes = quotes(c.minus.concat(c.plus, c.std)).filter(o => noteHome[o.text] === code);
+    return {code, title: cn(code), grade: c.grade ? c.grade + " – " + GR[c.grade] : "Not graded", parts,
+      notes: notes.map(o => E("“" + o.text.replace(/[.]$/, "") + "”", {events: [A.evName[o.eventId]], obs: [o.ob], quote: true, eventName: A.evName[o.eventId]}))};
+  });
+
+  // Level of support
+  const ri = LOS.indexOf(t.req), gi = LOS.indexOf(t.given);
+  const sup = [];
+  if (t.req || t.given) {
+    sup.push(E("Required: " + (t.req || "not set") + ". Given: " + (t.given || "not recorded") + ".", {events: [], obs: [], los: true}));
+    if (ri >= 0 && gi >= 0) {
+      if (gi > ri) sup.push(E("Needed less support than planned.", {events: [], obs: [], los: true}));
+      else if (gi < ri) {
+        sup.push(E("Needed more support than planned.", {events: [], obs: [], los: true}));
+        if (FW.order.some(c => t.comps[c].grade >= 3)) sup.push(E("Performance recovery: grades of 3 or above were achieved with more support than required. Flag in eTAGS and re-perform at the required level.", {events: [], obs: [], los: true}));
+      } else sup.push(E("Support matched the plan.", {events: [], obs: [], los: true}));
+    }
+  }
+
+  // For the next instructor
+  const next = [];
+  groups.forEach(g => {
+    const d = decOf(g), mn = g.mn, evs = g.evs;
+    const inRoom = tPoints.some(p => p.kind === "gap" && p.items[0] === g);
+    const top = uniq(mn.map(o => o.ob)).map(k => lc(OBT[k])).slice(0, 2);
+    let s = (inRoom ? "Focus on " : "Also watch ") + evList(A, evs) + ": " + listJoin(top) + " (" + listJoin(g.cs.map(c => NAME[c.code][0])) + ").";
+    if (inRoom) s += d.why ? " Root cause: " + KUSA[d.why].name.toLowerCase() + " in " + NAME[d.where || g.c.code][1].toLowerCase() + ". Next step: " + KUSA[d.why].fix + "." : " Root cause not yet established: explore it before repeating the exercise.";
+    else s += g.pattern.length ? " Repeated on another event: debrief it next time." : " Not debriefed: check whether it repeats.";
+    next.push(E(s, {events: evs.map(id => A.evName[id]), obs: uniq(mn.map(o => o.ob))}));
+  });
+  if (ri >= 0 && gi >= 0) {
+    if (gi >= ri && !allMinus.length && ri < 3) next.push(E("Ready to work with " + LOS[ri + 1] + " support.", {events: [], obs: [], los: true}));
+    else if (gi < ri) next.push(E("Plan " + t.req + " support again to consolidate before reducing it.", {events: [], obs: [], los: true}));
+  }
+  strengths.forEach(code => {
+    const c = t.comps[code];
+    if (c.evidence === "single-event") next.push(E("Confirm " + FW.noun[code] + " across a full scenario.", {events: c.events.map(id => A.evName[id]), obs: []}));
+  });
+  if (notObserved.length) next.push(E("No evidence recorded for " + listJoin(notObserved.map(c => NAME[c][1].toLowerCase())) + ": plan an opportunity to observe " + (notObserved.length > 1 ? "them." : "it."), {events: [], obs: [], validity: true}));
+
+  // Summary — written last, read first
+  const sum = [];
+  const evNames = uniq(t.obs.map(o => o.eventId)).sort((a, b) => A.evIdx[a] - A.evIdx[b]).map(id => A.evName[id]).filter(Boolean);
+  const exNames = evNames.filter(n => !/brief|prep|cockpit|taxi/i.test(n));
+  sum.push(E((A.meta.type ? A.meta.type + " covering " : "Session covering ") + listJoin((exNames.length ? exNames : evNames).slice(0, 4)) + ((exNames.length || evNames.length) > 4 ? ", among others" : "") + (t.given ? ", flown with " + t.given + " support" + (t.req && t.req !== t.given ? " (" + t.req + " planned)" : "") : "") + ".", {events: [], obs: [], los: true}));
+  if (strengths.length) sum.push(E("Stood out: " + listJoin(strengths.map(c => FW.noun[c])) + ".", {events: uniq(strengths.flatMap(c => t.comps[c].plusEv.map(id => A.evName[id]))), obs: []}));
+  if (groups.length) { const top = groups.slice(0, 2), more = groups.length - top.length;
+    sum.push(E("To develop: " + listJoin(top.map(g => evList(A, g.evs) + " (" + listJoin(g.cs.map(c => FW.noun[c.code])) + ")")) + (more ? ", among others" : "") + ".", {events: uniq(groups.flatMap(g => g.evs.map(id => A.evName[id]))), obs: []})); }
+  else sum.push(E("Nothing was observed below the standard.", {events: [], obs: []}));
+
+  // What came up in the debrief room (Handbook ch.15: the main areas of the debrief appear on the form)
+  const NT = {self: "Self-assessment", cause: "Root cause discussed", obs: "Raised in the debrief", action: "Agreed in the debrief"};
+  const debrief = notes.filter(n => n.type === "self" || n.type === "cause").map(n => E(NT[n.type] + ": " + clean(n.text), {events: [], obs: [], debrief: true}));
+  notes.filter(n => n.type === "action").forEach(n => next.unshift(E(NT.action + ": " + clean(n.text), {events: [], obs: [], debrief: true})));
+  const fromRoom = notes.filter(n => n.type === "obs").map(n => E(clean(n.text), {events: [], obs: [], debrief: true}));
+  return {trainee: t.name, head: [A.meta.type, A.meta.date, A.meta.instr].filter(Boolean).join(" · "), roles: t.roles.join("/"),
+    summary: sum, sections, support: sup, next, debrief, other: fromRoom.concat(t.looseMoments.map(m => E(m.text.replace(/[.]$/, "") + " (" + (A.evName[m.eventId] || "session") + ").", {events: [A.evName[m.eventId]], obs: [], quote: true}))),
+    overall: t.overall};
+}
+
+/* ---------- 4b. the whiteboard ----------
+   What the instructor writes up before the crew sits down: the agenda of the
+   debrief in a few words, in the order it will be run. No grades, no codes. */
+function whiteboard(A, sel) {
+  const lines = sel.points.map(p => {
+    const it = p.items[0];
+    if (p.kind === "independence") return {kind: p.kind, text: "Doing it on your own", who: "", detail: ""};
+    if (p.kind === "gap") return {kind: p.kind, text: A.evName[it.key] || "Event", who: A.trainees.length > 1 ? it.t.name : "",
+      detail: "", };
+    const evs = uniq(p.items.flatMap(x => x.c.plusEv)).sort((a, b) => A.evIdx[a] - A.evIdx[b]).slice(0, 2).map(id => A.evName[id]);
+    return {kind: p.kind, text: FW.noun[p.code].charAt(0).toUpperCase() + FW.noun[p.code].slice(1), who: p.items.length < A.trainees.length ? p.items.map(x => x.t.name).join(", ") : "", detail: evs.join(", ")};
+  });
+  const support = A.trainees.map(t => ({who: t.name, req: t.req, given: t.given}));
+  return {title: [A.meta.type, A.meta.date].filter(Boolean).join(" · "), crew: A.trainees.map(t => t.name), lines, support};
+}
+
+/* ---------- 5. quality checks against the Handbook ---------- */
+function checks(A, t, rep, sel) {
+  const out = [], add = (level, text, ref) => out.push({level, text, ref});
+  if (t.overall && TRITE.test(t.overall)) add("warn", "Overall comment “" + t.overall + "” is the kind of phrase the Handbook asks to avoid. Say what was trained, how it went and what comes next.", "Handbook 15");
+  FW.order.forEach(code => {
+    const c = t.comps[code], N = FW.ek[code][1];
+    if (!c.grade) return;
+    if (c.grade === 5 && !c.plus.length) add("warn", N + ": graded 5 with no behaviour flagged above the standard. An exemplary grade needs recorded evidence of it.", "Handbook 15.1");
+    if (c.grade >= 3 && c.minusEv.length >= 2) add("warn", N + ": graded " + c.grade + " with the same kind of problem on " + c.minusEv.length + " events.", "Handbook 15.1");
+    if (c.grade <= 2 && !c.minus.length) add("warn", N + ": graded " + c.grade + " with no behaviour flagged below the standard.", "Handbook 15.1");
+    if (c.final && c.suggested && c.final !== c.suggested && !c.why) add("info", N + ": final grade differs from the suggestion with no reason recorded.", "OM-D 3.1.1");
+    if (c.minus.length && !c.minus.some(o => o.text)) add("info", N + ": below-standard flag with no note. What happened and its outcome are not recorded.", "Handbook 13");
+  });
+  const none = FW.order.filter(c => !t.comps[c].events.length);
+  if (none.length) add("info", "No evidence for " + none.map(c => FW.ek[c][0]).join(", ") + ". All competencies should be assessed with sufficient evidence.", "IATA GM ch.7");
+  if (sel.points.length > 4) add("warn", "More than four debrief points.", "Handbook 13");
+  if (!out.length) add("ok", "No issue found against the Handbook rules checked here.", "");
+  return out;
+}
+
+return {analyse, selectPoints, buildBrief, buildReport, whiteboard, checks, FW, OBT, KUSA, LOS, TRITE, clean};
+
+})();
+</script>
+<script>
+/* ===== mvp13 — Debrief screen (whiteboard, brief, notes from the room) and
+   generated report (editable; the generated and the final text both travel
+   with the session so the generator can be tuned on what instructors change).
+   Nothing on these screens writes a grade. ===== */
+const REP_ENGINE = "r1";
+let xbSteps = {}, repT = 0, repTrail = false;
+const xe = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+function xbState() {
+  S.debrief = S.debrief || {}; S.debrief.dec = S.debrief.dec || {}; S.debrief.fac = S.debrief.fac || {}; S.debrief.notes = S.debrief.notes || [];
+  S.report = S.report || {}; ["gen", "final", "html", "edited", "basis"].forEach(k => { S.report[k] = S.report[k] || {}; });
+  S.report.labels = S.report.labels || "ek";
+  return S.debrief;
+}
+function xbCompute() {
+  xbState();
+  const A = TMSR.analyse(S), sel = TMSR.selectPoints(A), B = TMSR.buildBrief(A, sel);
+  return {A, sel, B};
+}
+const xbLetter = c => TMSR.FW[S.report.labels || "ek"][c][0];
+const xbName = c => TMSR.FW[S.report.labels || "ek"][c][1];
+
+/* ---------- Debrief screen ---------- */
+function renderBriefScr() {
+  const {A, sel, B} = xbCompute();
+  const box = document.getElementById("xbBody");
+  if (!A.trainees.length) { box.innerHTML = '<div class="xb-empty">No observations yet. Capture and grade the session first.</div>'; renderNotes(); return; }
+  const W = TMSR.whiteboard(A, sel);
+  let h = `<div class="xb-board" aria-label="What to write on the whiteboard">
+    <div class="xb-boardlab">Write on the board</div>
+    <div class="xb-bt">${xe(W.crew.join(" · "))}<span>${xe(W.title)}</span></div><ol class="xb-bl">` +
+    W.lines.map(l => `<li class="xb-${l.kind}"><span class="xb-mk">${l.kind === "strength" ? "✓" : l.kind === "gap" ? "→" : "○"}</span>${xe(l.text)}${l.who ? ` <em>${xe(l.who)}</em>` : ""}${l.detail ? `<small>${xe(l.detail)}</small>` : ""}</li>`).join("") +
+    `</ol><div class="xb-sup">Support · ` + W.support.map(s => `${xe(s.who)}: ${xe(s.given || "?")}${s.req && s.req !== s.given ? ` <small>(${xe(s.req)} planned)</small>` : ""}`).join(" · ") + `</div></div>`;
+  h += `<p class="sub" style="margin:10px 0 4px">${B.minutes} minutes, ${B.points.length} points, strengths first. Open with self-assessment, then run each point from the top question (Handbook 13.4).</p>
+    <div class="xb-card"><div class="xb-q xb-hi"><span>Ask each trainee first</span>How much help did you need today, and where?</div>
+    <div class="xb-q xb-hi"><span>Then</span>How consistently could you do that again, and what could make it fail?</div></div>`;
+  B.points.forEach(p => { h += xbPoint(A, p); });
+  const rest = B.rest.filter(r => !r.c.minus.length);
+  if (rest.length) {
+    const byT = {}; rest.forEach(r => { (byT[r.t.name] = byT[r.t.name] || []).push(r.c.code); });
+    h += `<div class="xb-card"><div class="xb-h3">Everything else was at the standard — say it in one sentence</div>` +
+      Object.entries(byT).map(([n, cs]) => `<p class="xb-p"><b>${xe(n)}</b>: ${xe(cs.map(xbName).join(", "))}.</p>`).join("") + `</div>`;
+  }
+  box.innerHTML = h; xbApplySteps(); renderNotes();
+}
+function xbPoint(A, p) {
+  const it = p.items[0], D = xbState();
+  const lab = {strength: "Strength", gap: "To develop", independence: "Independence"}[p.kind];
+  let title = p.kind === "gap" ? xe(A.evName[it.key] || "Event") + ` <small>${xe(it.t.name)} · ${p.codes.map(xbLetter).join(" ")}</small>`
+    : p.kind === "strength" ? xe(xbName(p.code)) + ` <small>${xe(p.items.map(x => x.t.name).join(" and "))}</small>` : "Support and independence";
+  let h = `<div class="xb-card"><div class="xb-ph"><span class="xb-num">${p.n}</span><span class="xb-kind xb-k-${p.kind}">${lab}</span><span class="xb-meta">${p.minutes} min · first to answer: ${xe(p.who)}</span></div><div class="xb-title">${title}</div>`;
+  if (p.kind === "independence") h += `<p class="xb-p">Nothing was observed below the standard: the debrief is about how much the crew did on their own.</p>`;
+  const qh = o => `<div class="xb-quote xb-${o.val === "+" ? "plus" : o.val === "-" ? "minus" : "std"}">“${xe(o.text.replace(/\.$/, ""))}”<small>${xe(A.evName[o.eventId] || "")} · ${xe(TMSR.OBT[o.ob] || o.ob)}</small></div>`;
+  h += p.quotes.slice(0, 2).map(qh).join("");
+  if (p.quotes.length > 2) h += `<details class="xb-more"><summary>More notes</summary>${p.quotes.slice(2).map(qh).join("")}</details>`;
+  const L = p.ladder;
+  h += `<div class="xb-qs" data-pt="${p.id}"><div class="xb-q xb-hi"><span>High · the crew discovers</span>${xe(L.high)}<i>Then wait: let the silence work (13.6).</i></div>
+    <button class="xb-step" data-xstep="1">Step down: guide more ↓</button><div class="xb-q" data-lvl="1" hidden><span>Intermediate · you guide</span>${xe(L.mid)}</div>
+    <button class="xb-step" data-xstep="2" hidden>Step down: lead step by step ↓</button><div class="xb-q" data-lvl="2" hidden><span>Low · you lead</span>${xe(L.low)}</div></div>`;
+  if (p.kind === "gap") {
+    const d = D.dec[p.decKey] || {};
+    if (p.leads.length) h += p.leads.map(l => `<div class="xb-lead"><b>${l.kind === "swing" ? "Capability shown" : "Pattern"}</b> ${xe(l.text)}<span>${xe(l.ask)}</span></div>`).join("");
+    h += `<div class="xb-h3">Where does it sit? <small>Handbook 14 · pick after the discussion</small></div><div class="xb-cands">` +
+      p.root.map(r => `<button class="xb-cand" data-xdec="${p.decKey}" data-where="${r.code}" aria-pressed="${d.where === r.code}"><b>${xe(xbLetter(r.code))}</b><span>${xe(xbName(r.code))}${r.cue ? ` <em>note: “${xe(r.cue)}”</em>` : ""}<small>${xe(r.seen)}</small><i>${xe(r.ask)}</i></span></button>`).join("") + `</div>`;
+    h += `<div class="xb-h3">Why? <small>Handbook 13</small></div><div class="xb-kusa">` +
+      Object.entries(TMSR.KUSA).map(([k, v]) => `<button data-xdec="${p.decKey}" data-why="${k}" aria-pressed="${d.why === k}"><b>${v.name}</b><span>${xe(v.ask)}</span></button>`).join("") + `</div>`;
+  }
+  if (p.teach.length) h += `<div class="xb-h3">Add if they don’t raise it</div><ul class="xb-ul">${p.teach.map(m => `<li>${xe(m.text)}</li>`).join("")}</ul>`;
+  const f = D.fac[p.id] || "";
+  h += `<div class="xb-fac"><span>Facilitation reached</span>${[["H", "High"], ["I", "Intermediate"], ["L", "Low"]].map(([k, n]) => `<button data-xfac="${p.id}" data-v="${k}" aria-pressed="${f === k}">${n}</button>`).join("")}</div></div>`;
+  return h;
+}
+function xbApplySteps() {
+  document.querySelectorAll(".xb-qs[data-pt]").forEach(b => {
+    const n = xbSteps[b.dataset.pt] || 0;
+    b.querySelectorAll("[data-lvl]").forEach(q => { q.hidden = +q.dataset.lvl > n; });
+    b.querySelectorAll("[data-xstep]").forEach(s => { s.hidden = +s.dataset.xstep !== n + 1; });
+  });
+}
+/* notes from the room */
+let noteType = "self", noteT = 0;
+const NOTE_TYPES = [["self", "Self-assessment"], ["cause", "Root cause"], ["obs", "Observation"], ["action", "Agreed action"]];
+function renderNotes() {
+  const D = xbState(), tr = activeTrainees();
+  if (noteT >= tr.length) noteT = 0;
+  document.getElementById("xbNoteWho").innerHTML = tr.map((i, k) => `<button data-xnt="${k}" aria-pressed="${k === noteT}">${xe(tname(i))}</button>`).join("");
+  document.getElementById("xbNoteType").innerHTML = NOTE_TYPES.map(([k, n]) => `<button data-xty="${k}" aria-pressed="${k === noteType}">${n}</button>`).join("");
+  const lab = Object.fromEntries(NOTE_TYPES);
+  const list = D.notes.slice().reverse();
+  document.getElementById("xbNoteList").innerHTML = list.length ? list.map(n => {
+    const t = S.trainees.find(x => x.id === n.traineeId);
+    return `<div class="momrow"><div class="mtxt"><b>${xe(lab[n.type] || n.type)}</b> · ${xe(t ? (t.name || "") : "")}<br>${xe(n.text)}</div><button class="btn ghost sm" data-xdel="${n.id}" aria-label="Delete note">✕</button></div>`;
+  }).join("") : `<div class="xb-meta">Nothing yet. Anything you add here goes into the report.</div>`;
+}
+function addNote() {
+  const ta = document.getElementById("xbNoteTxt"), txt = ta.value.trim(); if (!txt) return;
+  const tr = activeTrainees();
+  xbState().notes.push({id: uid(), t: new Date().toISOString(), traineeId: tid(tr[noteT] || 0), type: noteType, text: txt});
+  ta.value = ""; save(); renderNotes();
+}
+
+/* ---------- Report screen ---------- */
+function xbReport(t) {
+  const {A, sel} = xbCompute(), tr = A.trainees.find(x => x.id === t);
+  return tr ? {A, sel, t: tr, R: TMSR.buildReport(A, tr, sel, S.debrief.dec, S.report.labels, S.debrief.notes)} : null;
+}
+function xbSent(e, tagOverride) {
+  const ev = e.ev || {}, tags = (ev.events || []).filter(Boolean);
+  const tag = tagOverride || (tags.length ? tags.join(" · ") : ev.los ? "support record" : ev.debrief ? "debrief" : ev.validity ? "framework" : ev.grade ? "grade" : "session record");
+  return `<span class="xb-s">${xe(e.text)}<span class="xb-tag" contenteditable="false">${xe(tag)}</span></span> `;
+}
+function xbHTML(R) {
+  let h = `<div class="xb-rh">${xe(R.trainee)}</div><div class="xb-rm">${xe(R.head)}${R.roles ? " · " + xe(R.roles) : ""}</div>`;
+  h += `<div class="xb-rs">Summary</div><p>${R.summary.map(e => xbSent(e)).join("")}</p>`;
+  h += `<div class="xb-rs">Competencies</div>`;
+  R.sections.forEach(s => {
+    const g = parseInt(s.grade, 10);
+    h += `<div class="xb-rc"><b>${xe(s.title)}</b><span class="xb-g ${g <= 2 ? "xb-glo" : g >= 4 ? "xb-ghi" : ""}">${xe(s.grade)}</span></div><p>${s.parts.map(e => xbSent(e)).join("")}</p>`;
+    if (s.notes.length) h += `<ul>${s.notes.map(n => `<li class="xb-note">${xbSent({text: n.text + " (" + n.ev.eventName + ")"}, "instructor note")}</li>`).join("")}</ul>`;
+  });
+  if (R.support.length) h += `<div class="xb-rs">Level of support</div><p>${R.support.map(e => xbSent(e)).join("")}</p>`;
+  if (R.debrief.length) h += `<div class="xb-rs">Debrief</div><ul>${R.debrief.map(e => `<li>${xbSent(e)}</li>`).join("")}</ul>`;
+  if (R.next.length) h += `<div class="xb-rs">For the next instructor</div><ul>${R.next.map(e => `<li>${xbSent(e)}</li>`).join("")}</ul>`;
+  if (R.other.length) h += `<div class="xb-rs">Other observations</div><ul>${R.other.map(e => `<li>${xbSent(e)}</li>`).join("")}</ul>`;
+  if (R.overall) h += `<div class="xb-rs">Overall comment</div><p>${xbSent({text: R.overall}, "your comment")}</p>`;
+  return h;
+}
+function xbText(R) {
+  const L = [R.trainee + " — " + R.head + (R.roles ? " · " + R.roles : ""), "", "SUMMARY", R.summary.map(e => e.text).join(" "), "", "COMPETENCIES"];
+  R.sections.forEach(s => { L.push(s.title + " — " + s.grade); s.parts.forEach(e => L.push(e.text)); s.notes.forEach(n => L.push("  " + n.text + " (" + n.ev.eventName + ")")); L.push(""); });
+  if (R.support.length) L.push("LEVEL OF SUPPORT", R.support.map(e => e.text).join(" "), "");
+  if (R.debrief.length) { L.push("DEBRIEF"); R.debrief.forEach(e => L.push("- " + e.text)); L.push(""); }
+  if (R.next.length) { L.push("FOR THE NEXT INSTRUCTOR"); R.next.forEach(e => L.push("- " + e.text)); L.push(""); }
+  if (R.other.length) { L.push("OTHER OBSERVATIONS"); R.other.forEach(e => L.push("- " + e.text)); L.push(""); }
+  if (R.overall) L.push("OVERALL COMMENT", R.overall);
+  return L.join("\n");
+}
+function xbEditedText(el) {
+  const c = el.cloneNode(true); c.querySelectorAll(".xb-tag").forEach(n => n.remove());
+  c.querySelectorAll(".xb-rc > b").forEach(n => n.insertAdjacentText("afterend", " — "));
+  c.querySelectorAll(".xb-rs").forEach(n => { n.textContent = n.textContent.toUpperCase(); n.insertAdjacentText("beforebegin", "\n"); });
+  c.querySelectorAll(".xb-rs,.xb-rc,.xb-rh,.xb-rm,p").forEach(n => n.insertAdjacentText("afterend", "\n"));
+  c.querySelectorAll("li").forEach(n => { n.insertAdjacentText("afterbegin", "- "); n.insertAdjacentText("afterend", "\n"); });
+  return c.textContent.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+/* What the generated text depended on: if this changes after the instructor edited, say so. */
+function xbBasis() { return JSON.stringify([S.debrief.dec, S.debrief.notes.map(n => [n.traineeId, n.type, n.text]), S.grades, S.report.labels]).length + ":" + S.debrief.notes.length; }
+function refreshReports() {
+  xbState();
+  activeTrainees().forEach(i => {
+    const id = tid(i), r = xbReport(id); if (!r) return;
+    // Generated and final text are taken from the same rendering, so comparing them shows only what the instructor changed.
+    const html = xbHTML(r.R), tmp = document.createElement("div"); tmp.innerHTML = html;
+    const gen = xbEditedText(tmp);
+    S.report.gen[id] = gen;
+    if (!S.report.edited[id]) { S.report.html[id] = html; S.report.final[id] = gen; S.report.basis[id] = xbBasis(); }
+  });
+  S.report.engine = REP_ENGINE; S.report.at = new Date().toISOString();
+}
+function renderReport() {
+  refreshReports(); save();
+  const tr = activeTrainees().filter(i => xbReport(tid(i)));
+  document.getElementById("repHead").textContent = [S.stype, S.date, S.icode].filter(Boolean).join(" · ") + (S.reqlos ? " — required support: " + S.reqlos : "");
+  const body = document.getElementById("repBody");
+  if (!tr.length) { body.innerHTML = '<div class="xb-empty">No observations recorded yet.</div>'; return; }
+  if (repT >= tr.length) repT = 0;
+  const id = tid(tr[repT]), edited = !!S.report.edited[id], stale = edited && S.report.basis[id] !== xbBasis();
+  const r = xbReport(id);
+  const checks = TMSR.checks(r.A, r.t, r.R, r.sel).filter(c => c.level !== "ok");
+  let h = `<div class="xb-chips">${tr.map((i, k) => `<button data-xrt="${k}" aria-pressed="${k === repT}">${xe(tname(i))}${S.report.edited[tid(i)] ? " ✎" : ""}</button>`).join("")}
+    <span class="xb-lab"><button data-xlab="ek" aria-pressed="${S.report.labels === "ek"}">Emirates</button><button data-xlab="iata" aria-pressed="${S.report.labels === "iata"}">IATA</button></span></div>
+    <div class="xb-tools"><label class="xb-sw"><input type="checkbox" id="xbTrail" ${repTrail ? "checked" : ""}> Show where each sentence comes from</label>${edited ? `<button class="btn ghost sm" id="xbRegen">Discard my edits and regenerate</button>` : ""}</div>`;
+  if (stale) h += `<div class="xb-banner">You changed the debrief or the grades after editing this report. Your edits are kept; regenerate to include the changes.</div>`;
+  else if (edited) h += `<div class="xb-banner xb-soft">Edited. Your version is what will be submitted, alongside the generated one.</div>`;
+  h += `<article class="xb-rep ${repTrail ? "xb-trail" : ""}" id="xbRep" contenteditable="true" spellcheck="true" aria-label="Report, editable">${S.report.html[id] || ""}</article>
+    <p class="xb-meta">Draft generated from your flags, notes and the debrief. Edit freely: it is your report (Handbook 15.5).</p>`;
+  if (checks.length) h += `<div class="xb-card"><div class="xb-h3" style="margin-top:0">Before you sign</div>${checks.map(c => `<div class="xb-chk"><span class="xb-cl xb-cl-${c.level}">${c.level === "warn" ? "Check" : "Note"}</span><span>${xe(c.text)}${c.ref ? ` <small>${xe(c.ref)}</small>` : ""}</span></div>`).join("")}</div>`;
+  body.innerHTML = h;
+}
+function finalizeReports() { if (typeof TMSR === "undefined") return; try { refreshReports(); } catch (e) {} }
+function copyReport() {
+  finalizeReports();
+  const txt = activeTrainees().map(i => S.report.final[tid(i)]).filter(Boolean).join("\n\n————————\n\n");
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => alert("Report copied to clipboard."), () => alert("Copy failed — select the text manually."));
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.xstep) { const box = b.closest(".xb-qs"); xbSteps[box.dataset.pt] = +b.dataset.xstep; xbApplySteps(); return; }
+  if (b.dataset.xdec) {
+    const D = xbState(), d = D.dec[b.dataset.xdec] = D.dec[b.dataset.xdec] || {};
+    if (b.dataset.where) d.where = d.where === b.dataset.where ? "" : b.dataset.where;
+    if (b.dataset.why) d.why = d.why === b.dataset.why ? "" : b.dataset.why;
+    save(); const y = window.scrollY; renderBriefScr(); window.scrollTo(0, y); return;
+  }
+  if (b.dataset.xfac) { const D = xbState(); D.fac[b.dataset.xfac] = D.fac[b.dataset.xfac] === b.dataset.v ? "" : b.dataset.v; save(); const y = window.scrollY; renderBriefScr(); window.scrollTo(0, y); return; }
+  if (b.dataset.xnt) { noteT = +b.dataset.xnt; renderNotes(); return; }
+  if (b.dataset.xty) { noteType = b.dataset.xty; renderNotes(); return; }
+  if (b.dataset.xdel) { const D = xbState(); D.notes = D.notes.filter(n => n.id !== b.dataset.xdel); save(); renderNotes(); return; }
+  if (b.id === "xbAdd") { addNote(); return; }
+  if (b.dataset.xrt) { repT = +b.dataset.xrt; renderReport(); return; }
+  if (b.dataset.xlab) { xbState(); S.report.labels = b.dataset.xlab; renderReport(); return; }
+  if (b.id === "xbRegen") {
+    const tr = activeTrainees(), id = tid(tr[repT] || 0);
+    if (!confirm("Discard your edits to this report and regenerate it?")) return;
+    delete S.report.edited[id]; renderReport(); return;
+  }
+});
+document.addEventListener("input", e => {
+  if (e.target.id !== "xbRep") return;
+  const tr = activeTrainees(), id = tid(tr[repT] || 0);
+  S.report.html[id] = e.target.innerHTML; S.report.final[id] = xbEditedText(e.target);
+  if (!S.report.edited[id]) { S.report.edited[id] = true; }
+  try { localStorage.setItem("tms_mvp5", JSON.stringify(S)); } catch (x) {}
+});
+document.addEventListener("change", e => { if (e.target.id === "xbTrail") { repTrail = e.target.checked; document.getElementById("xbRep").classList.toggle("xb-trail", repTrail); } });
+
 </script>
 <script>
 if("serviceWorker" in navigator){
