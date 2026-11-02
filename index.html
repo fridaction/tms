@@ -121,6 +121,14 @@
   .xb-cl-warn{background:var(--neg-soft);color:var(--neg)}.xb-cl-info{background:var(--std-soft);color:var(--std)}
   .xb-empty{font-size:13.5px;color:var(--muted);padding:18px;text-align:center;border:1px dashed var(--line);border-radius:12px}
   .xb-step[hidden],.xb-q[hidden]{display:none}
+  .xb-phase{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);margin:0 0 6px}
+  .xb-phase small{font-weight:500;letter-spacing:0;text-transform:none;color:var(--muted);margin-left:4px}
+  .xb-phase-out{margin:16px 2px 4px}
+  .xb-hint{display:block;font-size:11.5px;color:var(--muted);margin:2px 0 4px}
+  .xb-raise{margin:6px 0}.xb-raise>b{display:block;font-size:12.5px;color:var(--navy);margin-bottom:4px}
+  .xb-raise .xb-chips button{font-size:11.5px;padding:4px 9px}
+  .xb-ob{font-size:12.5px;color:var(--muted);margin:-2px 0 6px}
+  .xb-k-solo{background:var(--neg-soft);color:var(--neg)}.xb-k-raised{background:var(--std-soft);color:var(--std)}
 
   /* mvp9 */
   .vertag{font-size:10px;font-weight:600;opacity:.55;margin-left:6px}
@@ -471,7 +479,8 @@ const APP_DATE="01/11/2026";
 const APP_NEWS_VER="mvp13";
 const APP_NEWS=[
  "<b>Step 3 is now called Grade.</b> Nothing changes there: you still set the grades.",
- "<b>New step 4, Debrief.</b> It shows what to write on the whiteboard, then the points to cover — strengths first — each with an open question and, if needed, two more directive ones. For something to develop it suggests where the root cause may sit and why (Handbook ch. 13 and 14). Nothing there changes a grade.",
+ "<b>New step 4, Debrief.</b> It shows what to write on the whiteboard — competencies and behaviours, not events — then runs the debrief in three parts: the <b>same opening questions every session</b>, a body <b>by competency</b> built from what you observed, and the <b>same closing</b>. Tap what the crew brings up during the opening: it moves to the front.",
+ "Each point has an open question and, if needed, two more directive ones. For something to develop it suggests where the root cause may sit and why (Handbook ch. 13 and 14). Points are for the crew; a critical one (TEM flag, grade 1–2) is kept for one-to-one. Nothing on this screen changes a grade.",
  "<b>Note what comes up in the room</b>: the trainee's self-assessment, the root cause you agreed on, something new, the action for next time. It goes straight into the report.",
  "<b>Step 5, Report, now writes the report for you</b> from your flags, your notes and the debrief: summary, competencies, support, and what the next instructor needs to know. Edit it freely. When you submit, both the generated and your final version are sent, so we can see what you change and improve it."
 ];
@@ -1309,68 +1318,74 @@ function parseLos(s, name) {
   return LOS.includes(String(s).trim()) ? String(s).trim() : "";
 }
 
-/* ---------- 2. select the debrief points (crew level) ----------
-   Handbook ch.13: 3–4 key areas, ~20 min, strengths analysed too. */
+/* ---------- 2. select the debrief points ----------
+   The unit of the debrief is the COMPETENCY (with its OB); events are evidence inside it.
+   Crew points by default; a point is one-to-one only when it is critical (a TEM flag on
+   the event, or a grade of 1 or 2). Handbook ch.13: 3–4 key areas, strengths analysed too. */
+function topObs(obs, n) {
+  const cnt = {}; obs.forEach(o => { cnt[o.ob] = (cnt[o.ob] || 0) + 1; });
+  return Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a] || a.localeCompare(b, undefined, {numeric: true})).slice(0, n || 2);
+}
 function selectPoints(A) {
   const strScore = c => c.plusEv.length * 4 + c.plus.length + (c.grade ? c.grade - 3 : 0);
-  const gaps = [], strengths = [];
+  // An incident = one trainee on one event. Several competencies flagged on it stay ONE item:
+  // which competency it really belongs to is decided in the room (root cause, Handbook ch.14).
+  const incidents = [];
   A.trainees.forEach(t => {
-    const badComps = new Set();
-    // An incident = one trainee on one event. Several competencies flagged on it are ONE debrief point:
-    // choosing which competency it really belongs to is the root cause work (Handbook ch.14).
     uniq(t.obs.filter(o => o.val === "-").map(o => o.eventId)).forEach(eid => {
       const cs = FW.order.map(k => t.comps[k]).filter(c => c.minus.some(o => o.eventId === eid));
       const mn = cs.flatMap(c => c.minus.filter(o => o.eventId === eid));
       const safety = (A.S.tem || []).filter(f => f.traineeId === t.id && f.eventId === eid);
       const pattern = cs.filter(c => c.minusEv.length > 1);
-      cs.forEach(c => badComps.add(c.code));
-      cs.sort((a, b) => b.minus.length - a.minus.length || (a.grade || 9) - (b.grade || 9));
-      gaps.push({kind: "gap", t, key: eid, evs: [eid], cs, c: cs[0], mn, safety, pattern,
+      cs.sort((a, b) => b.minus.filter(o => o.eventId === eid).length - a.minus.filter(o => o.eventId === eid).length || (a.grade || 9) - (b.grade || 9) || b.minusEv.length - a.minusEv.length);
+      const critical = safety.length > 0 || cs.some(c => c.grade && c.grade <= 2);
+      incidents.push({t, key: eid, evs: [eid], cs, c: cs[0], mn, safety, pattern, critical,
         score: safety.length * 10 + pattern.length * 4 + cs.length * 3 + mn.length + (mn.some(o => o.text) ? 1 : 0) + (cs[0].grade ? 5 - cs[0].grade : 0)});
     });
-    FW.order.forEach(code => { const c = t.comps[code]; if (!badComps.has(code) && c.plus.length) strengths.push({kind: "strength", t, c, score: strScore(c)}); });
   });
-  gaps.sort((a, b) => b.score - a.score || A.evIdx[a.key] - A.evIdx[b.key]); strengths.sort((a, b) => b.score - a.score);
-  // Same competency above the standard for the whole crew = one crew point.
-  const merged = [];
-  strengths.forEach(p => {
-    const twin = merged.find(m => m.code === p.c.code);
-    if (twin) twin.items.push(p); else merged.push({kind: "strength", code: p.c.code, items: [p], score: p.score});
+  // Gap points: incidents grouped by their dominant competency (crew), or kept per trainee when critical.
+  const gp = {};
+  incidents.forEach(inc => {
+    const k = inc.c.code + (inc.critical ? ":" + inc.t.id : "");
+    const p = gp[k] = gp[k] || {kind: "gap", code: inc.c.code, mode: inc.critical ? "individual" : "crew", items: [], score: 0};
+    p.items.push(inc); p.score += inc.score + (inc.critical ? 100 : 0);
   });
-  merged.forEach(m => { m.score = m.items.reduce((s, p) => s + p.score, 0); });
-  merged.sort((a, b) => b.score - a.score);
-  // Two gaps at most; when both trainees have one, each gets their top one (Handbook 13.5: draw the whole crew in).
-  const pick = [];
-  if (gaps.length) pick.push(gaps[0]);
-  const other = gaps.find(g => g.t.id !== (gaps[0] || {}).t?.id);
-  if (other) pick.push(other); else if (gaps[1]) pick.push(gaps[1]);
-  const g = pick.map(p => ({kind: "gap", code: p.c.code, codes: p.cs.map(c => c.code), items: [p], score: p.score}));
-  // At most 2 strengths + 2 gaps; with no gap, up to 3 strengths + the independence point.
-  const s = merged.slice(0, g.length ? 2 : 3);
-  let points = s.concat(g);           // strengths first: that order is the method
-  if (!g.length) points.push({kind: "independence", code: null, items: A.trainees.map(t => ({t}))});
-  points = points.slice(0, 4).map((p, i) => Object.assign(p, {
-    id: (p.kind + "-" + (p.code || "los") + "-" + p.items.map(x => x.t.id + (x.key || "")).join("")).replace(/\W/g, ""),
-    decKey: p.kind === "gap" ? p.items[0].t.id + ":" + p.items[0].key : null, n: i + 1}));
+  const gaps = Object.values(gp).sort((a, b) => b.score - a.score);
+  const crit = gaps.filter(p => p.mode === "individual");
+  // Two gap points at most (critical ones always kept); the second goes to the other trainee if they have one (13.5: draw the whole crew in).
+  const g = crit.slice(), crewGaps = gaps.filter(p => p.mode === "crew");
+  while (g.length < 2 && crewGaps.length) {
+    const covered = new Set(g.flatMap(p => p.items.map(i => i.t.id)));
+    const nxt = crewGaps.find(p => p.items.some(i => !covered.has(i.t.id))) || crewGaps[0];
+    g.push(nxt); crewGaps.splice(crewGaps.indexOf(nxt), 1);
+  }
+  g.forEach(p => { p.items.sort((a, b) => b.score - a.score); p.codes = uniq(p.items.flatMap(i => i.cs.map(c => c.code))); p.obs = topObs(p.items.flatMap(i => i.mn.filter(o => COMPOF[o.ob] === p.code))); });
+  // Strength points: one per competency, for the whole crew.
+  const hasMinus = new Set(); A.trainees.forEach(t => FW.order.forEach(k => { if (t.comps[k].minus.length) hasMinus.add(t.id + k); }));
+  const gapCodes = new Set(g.map(p => p.code));
+  const sp = {};
+  A.trainees.forEach(t => FW.order.forEach(code => {
+    const c = t.comps[code];
+    if (!c.plus.length || hasMinus.has(t.id + code) || gapCodes.has(code)) return;
+    const p = sp[code] = sp[code] || {kind: "strength", code, mode: "crew", items: [], score: 0};
+    p.items.push({t, c}); p.score += strScore(c);
+  }));
+  const strengths = Object.values(sp).sort((a, b) => b.score - a.score);
+  strengths.forEach(p => { p.obs = topObs(p.items.flatMap(x => x.c.plus)); });
+  let points = strengths.slice(0, g.length ? 2 : 3).concat(g);
+  if (!g.length) points.push({kind: "independence", code: null, mode: "crew", items: A.trainees.map(t => ({t}))});
+  points.forEach(p => {
+    p.id = (p.kind + "-" + (p.code || "los") + (p.mode === "individual" ? "-" + p.items[0].t.id : "")).replace(/\W/g, "");
+    p.decKey = p.kind === "gap" ? p.id : null;
+  });
   const taken = new Set(points.flatMap(p => p.items.filter(x => x.c).flatMap(x => (x.cs || [x.c]).map(c => x.t.id + c.code))));
   const rest = [];
   A.trainees.forEach(t => FW.order.forEach(code => { const c = t.comps[code]; if (c.events.length && !taken.has(t.id + code)) rest.push({t, c}); }));
-  return {points, rest, gaps, nGaps: gaps.length, nStrengths: strengths.length};
+  return {points, rest, incidents, gaps: incidents, nGaps: incidents.length, nStrengths: strengths.length};
 }
 
 /* ---------- 3. the brief ---------- */
-function evList(A, ids) { return listJoin(ids.slice().sort((a, b) => A.evIdx[a] - A.evIdx[b]).map(id => A.evName[id] || "an unnamed event")); }
-
-function whoFirst(A, p, k) {
-  if (A.trainees.length < 2) return A.trainees[0] ? A.trainees[0].name : "";
-  if (p.items.length === 1 && p.items[0].c) {
-    const it = p.items[0];
-    const ev = p.kind === "gap" ? it.mn : it.c.plus;
-    const asPM = ev.length && ev.every(o => o.role === "PM");
-    return asPM ? it.t.name + " (was PM on this)" : it.t.name;
-  }
-  return A.trainees[k % 2].name;   // alternate who opens a shared point
-}
+function evList(A, ids) { return listJoin(uniq(ids).slice().sort((a, b) => A.evIdx[a] - A.evIdx[b]).map(id => A.evName[id] || "an unnamed event")); }
 
 function quotes(items) {
   const seen = new Set(), out = [];
@@ -1378,20 +1393,19 @@ function quotes(items) {
   return out;
 }
 
-/* Leads for the "where" question, strongest first: the same behaviour held up elsewhere
-   (capability is there, conditions changed), or failed elsewhere too (a pattern). */
+/* Leads for the "where" question: the same behaviour held up elsewhere (capability is there,
+   conditions changed), or failed elsewhere too (a pattern). Two at most. */
 function leads(A, it) {
   const out = [];
   it.cs.forEach(c => uniq(it.mn.filter(o => COMPOF[o.ob] === c.code).map(o => o.ob)).forEach(ob => {
     const bad = uniq(c.minus.filter(o => o.ob === ob).map(o => o.eventId));
     const good = uniq(c.plus.concat(c.std).filter(o => o.ob === ob && !bad.includes(o.eventId)).map(o => o.eventId));
     const elsewhere = bad.filter(e => !it.evs.includes(e));
-    if (good.length) out.push({kind: "swing", n: good.length, ob, comp: c.code, text: OBT[ob] + " held up on " + evList(A, good) + " but not here.",
+    if (good.length) out.push({kind: "swing", n: good.length, ob, comp: c.code, text: OBT[ob] + ": held up on " + evList(A, good) + ", not on " + evList(A, it.evs) + ".",
       ask: "You did this well on " + evList(A, good) + ". What was different on " + evList(A, it.evs) + "?"});
-    if (elsewhere.length) out.push({kind: "pattern", ob, comp: c.code, text: OBT[ob] + " was also below the standard on " + evList(A, elsewhere) + ".",
+    if (elsewhere.length) out.push({kind: "pattern", ob, comp: c.code, text: OBT[ob] + ": below the standard on " + evList(A, it.evs.concat(elsewhere)) + ".",
       ask: "This came up on " + evList(A, it.evs.concat(elsewhere)) + ". What do those moments have in common?"});
   }));
-  // Two leads at most: a pattern first, then the swing with the most evidence of capability.
   const pat = out.filter(l => l.kind === "pattern"), sw = out.filter(l => l.kind === "swing").sort((a, b) => b.n - a.n);
   return pat.slice(0, 1).concat(sw).slice(0, 2);
 }
@@ -1403,61 +1417,95 @@ function rootCause(A, it) {
     const cc = t.comps[cand];
     const there = cc.plus.concat(cc.minus, cc.std).filter(o => evs.includes(o.eventId));
     let seen;
-    if (cs.some(x => x.code === cand)) seen = "flagged below the standard here";
-    else if (cc.plus.some(o => evs.includes(o.eventId))) seen = "above the standard on this event: less likely";
-    else if (there.length) seen = "at the standard on this event";
-    else seen = "not observed on this event: ask";
+    if (cs.some(x => x.code === cand)) seen = "flagged below the standard at the same moment";
+    else if (cc.plus.some(o => evs.includes(o.eventId))) seen = "above the standard at that moment: less likely";
+    else if (there.length) seen = "at the standard at that moment";
+    else seen = "not observed at that moment: ask";
     const cue = CUE[cand] && CUE[cand].exec(text);
     return {code: cand, seen, cue: cue ? cue[0] : "", ask: ASK[cand].replace("{ev}", ev0),
-      rank: (cs.some(x => x.code === cand) ? 2 : 0) + (cue ? 2 : 0) - (/less likely/.test(seen) ? 2 : 0)};
+      rank: (cs.some(x => x.code === cand) ? 2 : 0) + (cand === c.code ? 1 : 0) + (cue ? 2 : 0) - (/less likely/.test(seen) ? 2 : 0)};
   }).sort((a, b) => b.rank - a.rank);
 }
 
 function ladder(A, p) {
-  const it = p.items[0];
   if (p.kind === "independence") {
     const t = A.trainees[0];
     return {high: "How much of today did you feel you did on your own?",
       mid: "Where in the session did you need me most, and where least?",
       low: "State the support planned (" + (t.req || "—") + ") and given (" + (t.given || "—") + "), then ask: what would you need to fly the next session with less help?"};
   }
-  const c = it.c, ids = p.kind === "gap" ? it.evs : uniq(p.items.flatMap(x => x.c.plusEv));
-  const evs = evList(A, ids), ev0 = A.evName[ids[0]] || "that event";
-  const q = quotes(p.kind === "gap" ? it.mn : p.items.flatMap(x => x.c.plus))[0];
+  const code = p.code, noun = FW.noun[code], ob = p.obs && p.obs[0] ? lc(OBT[p.obs[0]]) : "";
+  const ev = p.kind === "gap" ? p.items.flatMap(i => i.mn) : p.kind === "strength" ? p.items.flatMap(x => x.c.plus) : p.items.flatMap(x => x.c.plus.concat(x.c.minus, x.c.std));
+  const q = quotes(ev.filter(o => COMPOF[o.ob] === code))[0] || quotes(ev)[0];
+  const ev0 = q ? A.evName[q.eventId] : (ev[0] ? A.evName[ev[0].eventId] : "");
+  if (p.kind === "raised") return {
+    high: "You mentioned " + noun + ". Tell me more: what did you notice?",
+    mid: "Which moment are you thinking of, and what was happening then?",
+    low: (q ? "Share what you saw (" + ev0 + "): “" + q.text + "” " : "Share what you saw on " + noun + ". ") + "Then ask: what do you take from it for next time?"};
   if (p.kind === "strength") return {
-    high: "Looking back at " + evs + ", what went well for you?",
-    mid: "On " + ev0 + ", how did you " + FW.verb[c.code] + "? What were you paying attention to?",
-    low: (q ? "Recall the observation (" + (A.evName[q.eventId] || "") + "): “" + q.text + "” " : "Name what you saw on " + evs + ". ") + "Then ask: why did that work, and how would you repeat it on a different exercise?"};
+    high: "Let’s look at your " + noun + ". What worked well for you there today?",
+    mid: (ev0 ? "Take " + ev0 + ": h" : "H") + "ow did you " + FW.verb[code] + ", and what were you paying attention to?",
+    low: (q ? "Recall the observation (" + ev0 + "): “" + q.text + "” " : "Name what you saw" + (ob ? " on " + ob : "") + ". ") + "Then ask: why did that work, and how would you repeat it on a different exercise?"};
   return {
-    high: "Looking back at " + evs + ", what would you do differently?",
-    mid: "On " + ev0 + ", what was happening at that moment, and what were you trying to achieve?",
-    low: (q ? "State the observation: “" + q.text + "” " : "State what you saw on " + ev0 + ". ") + "Ask what the standard is at that point and what got in the way. Then summarise the issue and how it should be handled, and check: how will you approach it next time?"};
+    high: "Let’s look at " + noun + ". How do you think it went today?",
+    mid: (ev0 ? "Take " + ev0 + ": w" : "W") + "hat was happening when you had to " + FW.verb[code] + "?",
+    low: (q ? "State the observation (" + ev0 + "): “" + q.text + "” " : "State what you saw" + (ob ? " on " + ob : "") + ". ") + "Ask what the standard is" + (ob ? " for " + ob : "") + " and what got in the way. Then summarise the issue and how it should be handled, and check: how will you approach it next time?"};
 }
 
 function teaching(A, p, eventIds) {
   const ids = new Set(eventIds);
-  return p.items.flatMap(x => x.t.looseMoments).filter(m => ids.has(m.eventId));
+  return uniq(p.items.map(x => x.t)).flatMap(t => t.looseMoments).filter(m => ids.has(m.eventId));
 }
 
-function buildBrief(A, sel) {
-  const minutes = 20, n = sel.points.length;
-  const per = Math.max(3, Math.floor((minutes - 4) / Math.max(1, n)));
-  const pts = sel.points.map((p, k) => {
-    const it = p.items[0];
-    const gm = p.kind === "gap" ? it.mn : [];
-    const ev = p.kind === "gap" ? quotes(gm) : p.kind === "strength" ? quotes(p.items.flatMap(x => x.c.plus)) : [];
-    const ids = p.kind === "gap" ? uniq(gm.map(o => o.eventId)) : p.kind === "strength" ? uniq(p.items.flatMap(x => x.c.plusEv)) : [];
-    const obs = p.kind === "gap" ? uniq(gm.map(o => o.ob)) : p.kind === "strength" ? uniq(p.items.flatMap(x => x.c.plus.map(o => o.ob))) : [];
-    return Object.assign({}, p, {
-      who: whoFirst(A, p, k), minutes: per, quotes: ev, eventIds: ids, obs,
-      strength: ids.length > 1 ? "Pattern: " + plural(ids.length, "event") : ids.length ? "Single event" : "",
-      ladder: ladder(A, p), root: p.kind === "gap" ? rootCause(A, it) : null,
-      leads: p.kind === "gap" ? leads(A, it) : [],
+/* The opening and the closing are the same for every session; only the body adapts. */
+const OPENING = [
+  {key: "feel", q: "How do you feel the session went?"},
+  {key: "well", q: "What went well today?"},
+  {key: "diff", q: "What would you do differently?"},
+  {key: "help", q: "How much help did you need, and where?"}
+];
+function closing(A) {
+  return [
+    {key: "learn", q: "What are the key points you take away from today?"},
+    {key: "next", q: "What will you do differently next time?", hint: "Note the answer as an agreed action."},
+    {key: "support", q: "Next session: " + A.trainees.map(t => {
+      const ri = LOS.indexOf(t.req), gi = LOS.indexOf(t.given);
+      const aim = ri < 0 ? "" : gi < 0 ? t.req : gi > ri && ri < 3 ? LOS[ri + 1] : gi < ri ? t.req : (ri < 3 ? LOS[ri + 1] : "Nil");
+      return t.name + (aim ? " aims for " + aim + " support" : ": support to be set");
+    }).join("; ") + ".", hint: "Proposed from the support given today; adjust to the course plan."}
+  ];
+}
+
+/* raised: {traineeId: [competency codes]} tapped by the instructor during the opening. */
+function buildBrief(A, sel, raised) {
+  raised = raised || {};
+  const nameOf = id => (A.trainees.find(t => t.id === id) || {}).name;
+  const raisedBy = code => Object.keys(raised).filter(id => (raised[id] || []).includes(code)).map(nameOf).filter(Boolean);
+  let pts = sel.points.map(p => Object.assign({}, p));
+  // A competency the crew raised and that is not already a point becomes one (Handbook 13.5: follow their topics).
+  uniq(Object.values(raised).flat()).filter(code => FW.order.includes(code) && !pts.some(p => p.code === code || (p.codes || []).includes(code))).forEach(code => {
+    const items = A.trainees.filter(t => t.comps[code].events.length).map(t => ({t, c: t.comps[code]}));
+    pts.push({kind: "raised", code, mode: "crew", items, obs: topObs(items.flatMap(x => x.c.plus.concat(x.c.minus))), id: "raised-" + code});
+  });
+  pts.forEach(p => { p.raisedBy = p.code ? uniq(raisedBy(p.code).concat(...(p.codes || []).map(raisedBy))) : []; });
+  const rank = p => (p.mode === "individual" ? 50 : 0) + (p.raisedBy.length ? 0 : 10) + ({raised: 0, strength: 1, gap: 2, independence: 3}[p.kind]);
+  pts = pts.map((p, i) => [p, i]).sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1]).map(x => x[0]);
+  const crew = pts.filter(p => p.mode !== "individual");
+  const minutes = 20, per = Math.max(3, Math.floor((minutes - 8) / Math.max(1, crew.length)));
+  pts = pts.map((p, k) => {
+    const ev = p.kind === "gap" ? quotes(p.items.flatMap(i => i.mn)) : p.kind === "strength" ? quotes(p.items.flatMap(x => x.c.plus)) : p.kind === "raised" ? quotes(p.items.flatMap(x => x.c.minus.concat(x.c.plus, x.c.std))) : [];
+    const ids = uniq(ev.map(o => o.eventId).concat(p.kind === "gap" ? p.items.flatMap(i => i.evs) : []));
+    const who = p.raisedBy.length ? p.raisedBy[0] + " (raised it)" : p.kind === "gap" ? uniq(p.items.map(i => i.t.name)).join(" and ") + (p.items.every(i => i.mn.every(o => o.role === "PM")) ? " (was PM)" : "")
+      : A.trainees.length > 1 ? A.trainees[k % 2].name : (A.trainees[0] || {}).name || "";
+    return Object.assign(p, {n: k + 1, who, minutes: p.mode === "individual" ? 5 : per, quotes: ev, eventIds: ids,
+      title: p.code ? FW.ek[p.code][1] : "Support and independence",
+      ladder: ladder(A, p), root: p.kind === "gap" ? rootCause(A, p.items[0]) : null,
+      leads: p.kind === "gap" ? p.items.flatMap(i => leads(A, i)).slice(0, 2) : [],
       teach: teaching(A, p, ids)});
   });
   const otherTeach = A.trainees.flatMap(t => t.looseMoments.map(m => Object.assign({who: t.name}, m)))
     .filter(m => !pts.some(p => p.teach.some(x => x.momentId === m.momentId)));
-  return {minutes, per, points: pts, rest: sel.rest, otherTeach};
+  return {minutes, per, opening: OPENING, closing: closing(A), points: pts, rest: sel.rest, otherTeach};
 }
 
 /* ---------- 4. the report (one per trainee) ----------
@@ -1469,9 +1517,14 @@ function buildReport(A, t, sel, dec, labels, notes) {
   const blocks = [], E = (text, ev) => ({text, ev: ev || null});
   const cn = c => NAME[c][1] + " (" + NAME[c][0] + ")";
   const tPoints = sel.points.filter(p => p.items.some(x => x.t.id === t.id));
-  const groups = sel.gaps.filter(g => g.t.id === t.id);           // every incident, selected for the room or not
-  const decOf = g => dec[t.id + ":" + g.key] || {};
-  const whereOf = code => groups.filter(g => (decOf(g).where || g.c.code) === code && (decOf(g).where || decOf(g).why)).map(g => ({g, d: decOf(g)}));
+  const incs = sel.incidents.filter(g => g.t.id === t.id);         // every incident, debriefed or not
+  const pointOf = inc => sel.points.find(p => p.kind === "gap" && p.items.includes(inc));
+  const decOf = inc => { const p = pointOf(inc); return (p && dec[p.decKey]) || {}; };
+  // Competency-level view of the incidents: dominant competency -> incidents
+  const byComp = {}; incs.forEach(i => { (byComp[i.c.code] = byComp[i.c.code] || []).push(i); });
+  const debriefed = c => byComp[c].some(i => pointOf(i));
+  const gapComps = FW.order.filter(c => byComp[c]).sort((a, b) => (debriefed(b) - debriefed(a)) || (byComp[b].length - byComp[a].length));
+  const whereOf = code => uniq(incs.filter(i => (decOf(i).where || decOf(i).why) && (decOf(i).where || i.c.code) === code).map(pointOf)).map(p => ({p, d: dec[p.decKey]}));
   // Each instructor note appears once, under the competency where it weighs most (− before + before standard).
   const noteHome = {};
   ["-", "+", "0"].forEach(v => FW.order.forEach(code => { const c = t.comps[code];
@@ -1501,7 +1554,7 @@ function buildReport(A, t, sel, dec, labels, notes) {
     }
     const stdOnly = c.std.filter(o => !c.plus.some(p => p.ob === o.ob) && !c.minus.some(m => m.ob === o.ob));
     if (stdOnly.length) parts.push(E("At the standard on " + titles(stdOnly) + ".", tag(stdOnly)));
-    whereOf(code).forEach(w => parts.push(E("Root cause discussed in the debrief (" + evList(A, w.g.evs) + "): " + [NAME[w.d.where || w.g.c.code][1].toLowerCase(), w.d.why ? KUSA[w.d.why].name.toLowerCase() : ""].filter(Boolean).join(", ") + ".", {events: [], obs: [], debrief: true})));
+    whereOf(code).forEach(w => parts.push(E("Root cause discussed in the debrief: " + [NAME[w.d.where || w.p.code][1].toLowerCase(), w.d.why ? KUSA[w.d.why].name.toLowerCase() : ""].filter(Boolean).join(", ") + ".", {events: uniq(w.p.items.filter(i => i.t.id === t.id).flatMap(i => i.evs.map(e => A.evName[e]))), obs: [], debrief: true})));
     if (c.grade && c.grade <= 2) parts.push(E("Required standard not achieved: remedial training required.", {events: [], obs: [], grade: c.grade}));
     const notes = quotes(c.minus.concat(c.plus, c.std)).filter(o => noteHome[o.text] === code);
     return {code, title: cn(code), grade: c.grade ? c.grade + " – " + GR[c.grade] : "Not graded", parts,
@@ -1524,13 +1577,13 @@ function buildReport(A, t, sel, dec, labels, notes) {
 
   // For the next instructor
   const next = [];
-  groups.forEach(g => {
-    const d = decOf(g), mn = g.mn, evs = g.evs;
-    const inRoom = tPoints.some(p => p.kind === "gap" && p.items[0] === g);
-    const top = uniq(mn.map(o => o.ob)).map(k => lc(OBT[k])).slice(0, 2);
-    let s = (inRoom ? "Focus on " : "Also watch ") + evList(A, evs) + ": " + listJoin(top) + " (" + listJoin(g.cs.map(c => NAME[c.code][0])) + ").";
-    if (inRoom) s += d.why ? " Root cause: " + KUSA[d.why].name.toLowerCase() + " in " + NAME[d.where || g.c.code][1].toLowerCase() + ". Next step: " + KUSA[d.why].fix + "." : " Root cause not yet established: explore it before repeating the exercise.";
-    else s += g.pattern.length ? " Repeated on another event: debrief it next time." : " Not debriefed: check whether it repeats.";
+  gapComps.forEach(code => {
+    const list = byComp[code], mn = list.flatMap(i => i.mn.filter(o => COMPOF[o.ob] === code)), evs = uniq(list.flatMap(i => i.evs));
+    const p = uniq(list.map(pointOf)).filter(Boolean)[0], d = (p && dec[p.decKey]) || {};
+    const obs = topObs(mn.length ? mn : list.flatMap(i => i.mn)).map(k => lc(OBT[k]));
+    let s = (p ? "Focus on " : "Also watch ") + NAME[code][1].toLowerCase() + ": " + listJoin(obs) + " (" + evList(A, evs) + ").";
+    if (p) s += d.why ? " Root cause: " + KUSA[d.why].name.toLowerCase() + " in " + NAME[d.where || code][1].toLowerCase() + ". Next step: " + KUSA[d.why].fix + "." : " Root cause not yet established: explore it before repeating the exercise.";
+    else s += " Not debriefed: check whether it repeats.";
     next.push(E(s, {events: evs.map(id => A.evName[id]), obs: uniq(mn.map(o => o.ob))}));
   });
   if (ri >= 0 && gi >= 0) {
@@ -1549,8 +1602,7 @@ function buildReport(A, t, sel, dec, labels, notes) {
   const exNames = evNames.filter(n => !/brief|prep|cockpit|taxi/i.test(n));
   sum.push(E((A.meta.type ? A.meta.type + " covering " : "Session covering ") + listJoin((exNames.length ? exNames : evNames).slice(0, 4)) + ((exNames.length || evNames.length) > 4 ? ", among others" : "") + (t.given ? ", flown with " + t.given + " support" + (t.req && t.req !== t.given ? " (" + t.req + " planned)" : "") : "") + ".", {events: [], obs: [], los: true}));
   if (strengths.length) sum.push(E("Stood out: " + listJoin(strengths.map(c => FW.noun[c])) + ".", {events: uniq(strengths.flatMap(c => t.comps[c].plusEv.map(id => A.evName[id]))), obs: []}));
-  if (groups.length) { const top = groups.slice(0, 2), more = groups.length - top.length;
-    sum.push(E("To develop: " + listJoin(top.map(g => evList(A, g.evs) + " (" + listJoin(g.cs.map(c => FW.noun[c.code])) + ")")) + (more ? ", among others" : "") + ".", {events: uniq(groups.flatMap(g => g.evs.map(id => A.evName[id]))), obs: []})); }
+  if (gapComps.length) sum.push(E("To develop: " + listJoin(gapComps.slice(0, 3).map(c => FW.noun[c])) + (gapComps.length > 3 ? ", among others" : "") + ".", {events: uniq(incs.flatMap(i => i.evs.map(id => A.evName[id]))), obs: []}));
   else sum.push(E("Nothing was observed below the standard.", {events: [], obs: []}));
 
   // What came up in the debrief room (Handbook ch.15: the main areas of the debrief appear on the form)
@@ -1567,16 +1619,15 @@ function buildReport(A, t, sel, dec, labels, notes) {
    What the instructor writes up before the crew sits down: the agenda of the
    debrief in a few words, in the order it will be run. No grades, no codes. */
 function whiteboard(A, sel) {
-  const lines = sel.points.map(p => {
-    const it = p.items[0];
-    if (p.kind === "independence") return {kind: p.kind, text: "Doing it on your own", who: "", detail: ""};
-    if (p.kind === "gap") return {kind: p.kind, text: A.evName[it.key] || "Event", who: A.trainees.length > 1 ? it.t.name : "",
-      detail: "", };
-    const evs = uniq(p.items.flatMap(x => x.c.plusEv)).sort((a, b) => A.evIdx[a] - A.evIdx[b]).slice(0, 2).map(id => A.evName[id]);
-    return {kind: p.kind, text: FW.noun[p.code].charAt(0).toUpperCase() + FW.noun[p.code].slice(1), who: p.items.length < A.trainees.length ? p.items.map(x => x.t.name).join(", ") : "", detail: evs.join(", ")};
+  // Crew points only: a one-to-one point is not written up in front of the crew.
+  const cap = w => w.charAt(0).toUpperCase() + w.slice(1);
+  const lines = sel.points.filter(p => p.mode !== "individual").map(p => {
+    if (p.kind === "independence") return {kind: p.kind, text: "Doing it on your own", detail: ""};
+    return {kind: p.kind, text: cap(FW.noun[p.code]), detail: (p.obs || []).slice(0, 2).map(k => OBT[k]).join(" · ")};
   });
+  const oneToOne = sel.points.filter(p => p.mode === "individual").length;
   const support = A.trainees.map(t => ({who: t.name, req: t.req, given: t.given}));
-  return {title: [A.meta.type, A.meta.date].filter(Boolean).join(" · "), crew: A.trainees.map(t => t.name), lines, support};
+  return {title: [A.meta.type, A.meta.date].filter(Boolean).join(" · "), crew: A.trainees.map(t => t.name), lines, support, oneToOne};
 }
 
 /* ---------- 5. quality checks against the Handbook ---------- */
@@ -1612,7 +1663,7 @@ const REP_ENGINE = "r1";
 let xbSteps = {}, repT = 0, repTrail = false;
 const xe = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
 function xbState() {
-  S.debrief = S.debrief || {}; S.debrief.dec = S.debrief.dec || {}; S.debrief.fac = S.debrief.fac || {}; S.debrief.notes = S.debrief.notes || [];
+  S.debrief = S.debrief || {}; S.debrief.raised = S.debrief.raised || {}; S.debrief.dec = S.debrief.dec || {}; S.debrief.fac = S.debrief.fac || {}; S.debrief.notes = S.debrief.notes || [];
   S.report = S.report || {}; ["gen", "final", "html", "edited", "basis"].forEach(k => { S.report[k] = S.report[k] || {}; });
   S.report.labels = S.report.labels || "ek";
   return S.debrief;
@@ -1627,35 +1678,57 @@ const xbName = c => TMSR.FW[S.report.labels || "ek"][c][1];
 
 /* ---------- Debrief screen ---------- */
 function renderBriefScr() {
-  const {A, sel, B} = xbCompute();
+  const {A, sel} = xbCompute(), D = xbState();
+  D.raised = D.raised || {};
+  const B = TMSR.buildBrief(A, sel, D.raised);
   const box = document.getElementById("xbBody");
   if (!A.trainees.length) { box.innerHTML = '<div class="xb-empty">No observations yet. Capture and grade the session first.</div>'; renderNotes(); return; }
   const W = TMSR.whiteboard(A, sel);
   let h = `<div class="xb-board" aria-label="What to write on the whiteboard">
     <div class="xb-boardlab">Write on the board</div>
     <div class="xb-bt">${xe(W.crew.join(" · "))}<span>${xe(W.title)}</span></div><ol class="xb-bl">` +
-    W.lines.map(l => `<li class="xb-${l.kind}"><span class="xb-mk">${l.kind === "strength" ? "✓" : l.kind === "gap" ? "→" : "○"}</span>${xe(l.text)}${l.who ? ` <em>${xe(l.who)}</em>` : ""}${l.detail ? `<small>${xe(l.detail)}</small>` : ""}</li>`).join("") +
+    W.lines.map(l => `<li class="xb-${l.kind}"><span class="xb-mk">${l.kind === "strength" ? "✓" : l.kind === "gap" ? "→" : "○"}</span>${xe(l.text)}${l.detail ? `<small>${xe(l.detail)}</small>` : ""}</li>`).join("") +
     `</ol><div class="xb-sup">Support · ` + W.support.map(s => `${xe(s.who)}: ${xe(s.given || "?")}${s.req && s.req !== s.given ? ` <small>(${xe(s.req)} planned)</small>` : ""}`).join(" · ") + `</div></div>`;
-  h += `<p class="sub" style="margin:10px 0 4px">${B.minutes} minutes, ${B.points.length} points, strengths first. Open with self-assessment, then run each point from the top question (Handbook 13.4).</p>
-    <div class="xb-card"><div class="xb-q xb-hi"><span>Ask each trainee first</span>How much help did you need today, and where?</div>
-    <div class="xb-q xb-hi"><span>Then</span>How consistently could you do that again, and what could make it fail?</div></div>`;
-  B.points.forEach(p => { h += xbPoint(A, p); });
+  if (W.oneToOne) h += `<p class="xb-meta" style="margin:6px 2px">Not on the board: ${W.oneToOne === 1 ? "one point" : W.oneToOne + " points"} to cover one-to-one after the crew debrief.</p>`;
+
+  // 1. Opening — the same for every session
+  h += `<div class="xb-card"><div class="xb-phase">1 · Opening <small>same every session · about 5 min</small></div>
+    ${B.opening.map(o => `<div class="xb-q xb-hi">${xe(o.q)}</div>`).join("")}
+    <i class="xb-hint">Ask, then wait. Let the crew talk before you add anything (13.6).</i>
+    <div class="xb-h3">What did they bring up? <small>tap while they talk — optional</small></div>` +
+    A.trainees.map(t => `<div class="xb-raise"><b>${xe(t.name)}</b><div class="xb-chips">` +
+      TMSR.FW.order.map(c => `<button data-xraise="${t.id}" data-c="${c}" aria-pressed="${(D.raised[t.id] || []).includes(c)}" title="${xe(xbName(c))}">${xe(xbLetter(c))} · ${xe(TMSR.FW.noun[c])}</button>`).join("") +
+    `</div></div>`).join("") + `<p class="xb-meta" style="margin:6px 0 0">What they raise moves to the front of the body. You add what they did not see at the end (13.5).</p></div>`;
+
+  // 2. Body — adapts to the observations
+  const crew = B.points.filter(p => p.mode !== "individual"), solo = B.points.filter(p => p.mode === "individual");
+  h += `<div class="xb-phase xb-phase-out">2 · By competency <small>${crew.length} point${crew.length > 1 ? "s" : ""} with the crew · about ${B.per} min each</small></div>`;
+  crew.forEach(p => { h += xbPoint(A, p); });
   const rest = B.rest.filter(r => !r.c.minus.length);
   if (rest.length) {
     const byT = {}; rest.forEach(r => { (byT[r.t.name] = byT[r.t.name] || []).push(r.c.code); });
-    h += `<div class="xb-card"><div class="xb-h3">Everything else was at the standard — say it in one sentence</div>` +
+    h += `<div class="xb-card"><div class="xb-h3" style="margin-top:0">Everything else was at the standard — say it in one sentence</div>` +
       Object.entries(byT).map(([n, cs]) => `<p class="xb-p"><b>${xe(n)}</b>: ${xe(cs.map(xbName).join(", "))}.</p>`).join("") + `</div>`;
+  }
+  // 3. Closing — the same for every session
+  h += `<div class="xb-card"><div class="xb-phase">3 · Closing <small>same every session</small></div>` +
+    B.closing.map(c => `<div class="xb-q xb-hi">${xe(c.q)}${c.hint ? `<i>${xe(c.hint)}</i>` : ""}</div>`).join("") + `</div>`;
+  if (solo.length) {
+    h += `<div class="xb-phase xb-phase-out">One-to-one <small>critical point: a TEM flag or a grade of 1–2</small></div>`;
+    solo.forEach(p => { h += xbPoint(A, p); });
   }
   box.innerHTML = h; xbApplySteps(); renderNotes();
 }
 function xbPoint(A, p) {
-  const it = p.items[0], D = xbState();
-  const lab = {strength: "Strength", gap: "To develop", independence: "Independence"}[p.kind];
-  let title = p.kind === "gap" ? xe(A.evName[it.key] || "Event") + ` <small>${xe(it.t.name)} · ${p.codes.map(xbLetter).join(" ")}</small>`
-    : p.kind === "strength" ? xe(xbName(p.code)) + ` <small>${xe(p.items.map(x => x.t.name).join(" and "))}</small>` : "Support and independence";
-  let h = `<div class="xb-card"><div class="xb-ph"><span class="xb-num">${p.n}</span><span class="xb-kind xb-k-${p.kind}">${lab}</span><span class="xb-meta">${p.minutes} min · first to answer: ${xe(p.who)}</span></div><div class="xb-title">${title}</div>`;
+  const D = xbState();
+  const lab = {strength: "Strength", gap: "To develop", independence: "Independence", raised: "They raised it"}[p.kind];
+  const names = [...new Set(p.items.map(x => x.t.name))];
+  const obLine = (p.obs || []).slice(0, 2).map(k => TMSR.OBT[k]).join(" · ");
+  let h = `<div class="xb-card"><div class="xb-ph"><span class="xb-num">${p.n}</span><span class="xb-kind xb-k-${p.kind}">${lab}</span>${p.mode === "individual" ? `<span class="xb-kind xb-k-solo">One-to-one</span>` : ""}${p.raisedBy.length && p.kind !== "raised" ? `<span class="xb-kind xb-k-raised">Raised by ${xe(p.raisedBy.join(", "))}</span>` : ""}<span class="xb-meta">${p.minutes} min · first to answer: ${xe(p.who)}</span></div>
+    <div class="xb-title">${p.code ? xe(xbName(p.code)) + ` <small>${xe(xbLetter(p.code))}${names.length && p.kind !== "independence" ? " · " + xe(names.join(" and ")) : ""}</small>` : "Support and independence"}</div>
+    ${obLine ? `<div class="xb-ob">${xe(obLine)}</div>` : ""}`;
   if (p.kind === "independence") h += `<p class="xb-p">Nothing was observed below the standard: the debrief is about how much the crew did on their own.</p>`;
-  const qh = o => `<div class="xb-quote xb-${o.val === "+" ? "plus" : o.val === "-" ? "minus" : "std"}">“${xe(o.text.replace(/\.$/, ""))}”<small>${xe(A.evName[o.eventId] || "")} · ${xe(TMSR.OBT[o.ob] || o.ob)}</small></div>`;
+  const qh = o => `<div class="xb-quote xb-${o.val === "+" ? "plus" : o.val === "-" ? "minus" : "std"}">“${xe(o.text.replace(/\.$/, ""))}”<small>${xe(A.evName[o.eventId] || "")}${A.trainees.length > 1 ? "" : ""} · ${xe(TMSR.OBT[o.ob] || o.ob)}</small></div>`;
   h += p.quotes.slice(0, 2).map(qh).join("");
   if (p.quotes.length > 2) h += `<details class="xb-more"><summary>More notes</summary>${p.quotes.slice(2).map(qh).join("")}</details>`;
   const L = p.ladder;
@@ -1796,6 +1869,11 @@ document.addEventListener("click", e => {
     const D = xbState(), d = D.dec[b.dataset.xdec] = D.dec[b.dataset.xdec] || {};
     if (b.dataset.where) d.where = d.where === b.dataset.where ? "" : b.dataset.where;
     if (b.dataset.why) d.why = d.why === b.dataset.why ? "" : b.dataset.why;
+    save(); const y = window.scrollY; renderBriefScr(); window.scrollTo(0, y); return;
+  }
+  if (b.dataset.xraise) {
+    const D = xbState(), list = D.raised[b.dataset.xraise] = D.raised[b.dataset.xraise] || [], c = b.dataset.c;
+    if (list.includes(c)) list.splice(list.indexOf(c), 1); else list.push(c);
     save(); const y = window.scrollY; renderBriefScr(); window.scrollTo(0, y); return;
   }
   if (b.dataset.xfac) { const D = xbState(); D.fac[b.dataset.xfac] = D.fac[b.dataset.xfac] === b.dataset.v ? "" : b.dataset.v; save(); const y = window.scrollY; renderBriefScr(); window.scrollTo(0, y); return; }
