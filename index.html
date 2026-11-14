@@ -129,6 +129,24 @@
   .xb-raise .xb-chips button{font-size:11.5px;padding:4px 9px}
   .xb-ob{font-size:12.5px;color:var(--muted);margin:-2px 0 6px}
   .xb-k-solo{background:var(--neg-soft);color:var(--neg)}.xb-k-raised{background:var(--std-soft);color:var(--std)}
+  /* mvp14 — one card at a time */
+  .xb-dots{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0 10px}
+  .xb-dots button{border:1.5px solid var(--line);background:#fff;border-radius:20px;padding:4px 11px;font:inherit;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}
+  .xb-dots button[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+  .xb-dots button.xb-solo{border-style:dashed}
+  .xb-stage{min-height:200px}
+  .xb-nav{display:flex;justify-content:space-between;gap:8px;margin:12px 0 4px}
+  .xb-nav .btn[disabled]{opacity:.35}
+  .xb-oq{margin:6px 0 4px;padding-left:22px;font-size:16px;font-weight:650;color:var(--navy);line-height:1.45}
+  .xb-oq li{padding:3px 0}
+  .xb-who{font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 4px;padding-top:10px;border-top:1px solid var(--line)}
+  .xb-fl{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin:8px 0 0;text-transform:none;letter-spacing:0}
+  .xb-fl textarea,.xb-reptext{display:block;width:100%;margin-top:4px;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit;font-size:14px;color:var(--ink);background:#fff;resize:vertical}
+  .xb-reptext{font-size:14.5px;line-height:1.55;min-height:260px;overflow:hidden}
+  .xb-link{background:none;border:0;padding:6px 0;font:inherit;font-size:13px;color:var(--blue);cursor:pointer}
+  .xb-center{text-align:center}.xb-center .btn{margin:6px 0}
+  .xb-card .xb-title{font-size:18px;margin-top:8px}
+  .xb-qs .xb-q.xb-hi{font-size:16px}
 
   /* mvp9 */
   .vertag{font-size:10px;font-weight:600;opacity:.55;margin-left:6px}
@@ -355,18 +373,9 @@
   <!-- DEBRIEF (mvp13) -->
   <div class="scr" id="brief">
     <h2>Debrief</h2>
-    <p class="sub">Write the board, run the debrief from the questions, and note what comes up. Nothing on this screen changes a grade.</p>
+    <p class="sub">One step at a time: the board, the opening, each point, the closing. Nothing here changes a grade.</p>
     <div id="xbBody"></div>
-    <div class="xb-card">
-      <div class="xb-h3" style="margin-top:0">What came up in the debrief</div>
-      <p class="xb-meta" style="margin:0 0 8px">Self-assessment, the root cause you agreed on, something new, the action for next time. It all goes into the report.</p>
-      <div class="xb-chips" id="xbNoteWho"></div>
-      <div class="xb-chips" id="xbNoteType"></div>
-      <textarea id="xbNoteTxt" placeholder="e.g. He felt rushed on the windshear and lost track of the AP."></textarea>
-      <div style="margin:8px 0 10px"><button class="btn sm" id="xbAdd">Add to the report</button></div>
-      <div id="xbNoteList"></div>
-    </div>
-    <div class="navbtns"><button class="btn ghost" onclick="go('debrief')">← Grade</button><button class="btn" onclick="go('report')">Report →</button></div>
+
   </div>
 
   <!-- REPORT -->
@@ -472,17 +481,15 @@ Object.entries(OBDATA).forEach(([k,[,obs]])=>{if(obs.length)CIDX[k]=String(obs[0
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
 const KW=[["support",["8.4","5.1"]],["assistance",["8.4","5.1"]],["centerline",["4.1","4.5"]],["center line",["4.1","4.5"]],["centre line",["4.1","4.5"]],["aiming point",["4.5","4.1"]],["landing",["4.1","4.5"]],["decrab",["4.1","4.3"]],["trim",["4.6","4.1"]],["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp13";
-const APP_DATE="01/11/2026";
+const APP_VER="mvp14";
+const APP_DATE="05/11/2026";
 /* The "what's new" screen fires on APP_NEWS_VER, not APP_VER, so a fix that
    changes nothing an instructor can see does not interrupt them again. */
-const APP_NEWS_VER="mvp13";
+const APP_NEWS_VER="mvp14";
 const APP_NEWS=[
  "<b>Step 3 is now called Grade.</b> Nothing changes there: you still set the grades.",
- "<b>New step 4, Debrief.</b> It shows what to write on the whiteboard — competencies and behaviours, not events — then runs the debrief in three parts: the <b>same opening questions every session</b>, a body <b>by competency</b> built from what you observed, and the <b>same closing</b>. Tap what the crew brings up during the opening: it moves to the front.",
- "Each point has an open question and, if needed, two more directive ones. For something to develop it suggests where the root cause may sit and why (Handbook ch. 13 and 14). Points are for the crew; a critical one (TEM flag, grade 1–2) is kept for one-to-one. Nothing on this screen changes a grade.",
- "<b>Note what comes up in the room</b>: the trainee's self-assessment, the root cause you agreed on, something new, the action for next time. It goes straight into the report.",
- "<b>Step 5, Report, now writes the report for you</b> from your flags, your notes and the debrief: summary, competencies, support, and what the next instructor needs to know. Edit it freely. When you submit, both the generated and your final version are sent, so we can see what you change and improve it."
+ "<b>New step 4, Debrief — one step at a time.</b> What to write on the board, then the opening (the same questions every session), one card per competency point with one question (step down if needed), and the closing. Note what comes up as you go.",
+ "<b>Step 5, Report.</b> Tap <b>Write the draft</b>: a synthesis of the session per competency, written in your style from your grades, flags and debrief notes. Edit it and sign it. Both the draft and your final version are sent with the session."
 ];
 let S=blank();let capOpen=new Set();
 function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],moments:[],tem:[],temOn:true,grades:{},actuallos:"",overall:"",debrief:{dec:{},fac:{},notes:[]},report:{gen:{},final:{},html:{},edited:{},basis:{},labels:"ek"}};}
@@ -1157,7 +1164,8 @@ function exportJSON(){save();const b=new Blob([JSON.stringify(S,null,2)],{type:"
   a.download=["session",clean(S.stype),clean(tname(0)),stamp].filter(Boolean).join("_")+".json";
   a.click();}
 function submitPilot(){finalizeReports();save();
-  if(PILOT_ENDPOINT){const payload=Object.assign({submittedAt:new Date().toISOString()},S);
+  if(PILOT_ENDPOINT){const payload=compactPayload(JSON.parse(JSON.stringify(Object.assign({submittedAt:new Date().toISOString()},S))));
+    if(JSON.stringify(payload).length>50000){exportJSON();alert("This session is too large to submit online. It has been saved as a file instead — please email it to the pilot coordinator.");return;}
     fetch(PILOT_ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).then(()=>alert("Session submitted. Thank you!")).catch(()=>alert("Submit failed — check connection/endpoint."));return;}
   exportJSON();
   if(PILOT_EMAIL){const subj=encodeURIComponent("TMS pilot session — "+(tname(0)));
@@ -1650,102 +1658,162 @@ function checks(A, t, rep, sel) {
   return out;
 }
 
-return {analyse, selectPoints, buildBrief, buildReport, whiteboard, checks, FW, OBT, KUSA, LOS, TRITE, clean};
+
+/* ---------- 6. synthesis for the written report ----------
+   The report is a synthesis of the whole session, competency by competency. The
+   in-the-moment notes are raw evidence (they may contradict each other between events);
+   the instructor's grade is the judgment the text must follow. */
+const SHORT = {KNO:"Knowledge",PRO:"Procedures",COM:"Communication",FPA:"Automation",FPM:"Manual Flying",LTW:"Leadership & Teamwork",PSD:"Problem Solving & Decision Making",SAW:"Situational Awareness",WLM:"Workload Management"};
+function trendOf(A, c) {
+  const seq = c.events.slice().sort((a, b) => A.evIdx[a] - A.evIdx[b]).map(e => c.minusEv.includes(e) ? "-" : c.plusEv.includes(e) ? "+" : "0");
+  if (!seq.includes("-")) return seq.includes("+") ? (seq.length > 1 && seq.filter(x => x === "+").length > 1 ? "consistently above the standard" : "above the standard at times") : "steady at the standard";
+  const nMinus = seq.filter(x => x === "-").length, first = seq.indexOf("-"), last = seq.lastIndexOf("-");
+  if (nMinus > 1) return "below the standard more than once";
+  if (last < seq.length - 1 && first === last) return first === 0 ? "a weaker start, then at or above the standard" : "one lapse, otherwise at or above the standard";
+  return seq.length > 1 ? "at the standard, then below it late in the session" : "below the standard";
+}
+function reportInput(A, t, sel, notes, opts) {
+  opts = opts || {};
+  notes = (notes || []).filter(n => n.traineeId === t.id && String(n.text || "").trim());
+  const mom = (A.S.moments || []).filter(m => m.traineeId === t.id && String(m.text || "").trim())
+    .sort((a, b) => (A.evIdx[a.eventId] || 0) - (A.evIdx[b.eventId] || 0));
+  const comps = FW.order.filter(code => t.comps[code].events.length || t.comps[code].grade).map(code => {
+    const c = t.comps[code], obsOf = v => uniq(c[v].map(o => o.ob)).map(k => OBT[k]);
+    const myNotes = mom.filter(m => (m.obCodes || []).some(k => COMPOF[k] === code) || c.plus.concat(c.minus, c.std).some(o => o.momentId === m.id));
+    const tem = c.safety.length > 0;
+    const must = c.minus.length > 0 || (c.grade && (c.grade <= 2 || c.grade === 5)) || tem;
+    const concrete = tem || (c.grade && c.grade <= 2) || c.minusEv.length > 1;
+    return {competency: SHORT[code], code, grade: c.grade || null, gradeMeaning: c.grade ? {5:"exemplary",4:"above the standard",3:"meets the standard",2:"below the standard",1:"well below the standard"}[c.grade] : "not graded",
+      howOften: c.often || null, trend: trendOf(A, c),
+      aboveStandard: obsOf("plus"), belowStandard: obsOf("minus"), atStandard: obsOf("std").filter(x => !obsOf("plus").includes(x) && !obsOf("minus").includes(x)).slice(0, 6),
+      exercises: uniq(c.events.slice().sort((a, b) => A.evIdx[a] - A.evIdx[b]).map(e => A.evName[e])),
+      notes: myNotes.map(m => (A.evName[m.eventId] ? A.evName[m.eventId] + ": " : "") + clean(m.text)),
+      must, concreteDetailAllowed: concrete,
+      relevance: (must ? 100 : 0) + c.plus.length * 3 + myNotes.length * 2 + c.events.length + (c.grade && c.grade !== 3 ? 2 : 0)};
+  }).sort((a, b) => b.relevance - a.relevance);
+  const loose = mom.filter(m => !(m.obCodes || []).length && !t.obs.some(o => o.momentId === m.id)).map(m => (A.evName[m.eventId] ? A.evName[m.eventId] + ": " : "") + clean(m.text));
+  return {
+    session: {type: A.meta.type, exercises: uniq((A.S.events || []).map(e => A.evName[e.id])), role: t.roles.join("/")},
+    trainee: t.name,
+    support: {required: t.req || null, given: t.given || null,
+      reading: (() => { const ri = LOS.indexOf(t.req), gi = LOS.indexOf(t.given); return ri < 0 || gi < 0 ? "" : gi > ri ? "needed less support than planned" : gi < ri ? "needed more support than planned" : "support as planned"; })()},
+    competencies: comps.map(({relevance, code, ...x}) => x),
+    otherNotes: loose,
+    debrief: notes.map(n => ({kind: {self: "trainee self-assessment", cause: "root cause agreed", obs: "raised in the debrief", action: "agreed action for next time"}[n.type] || n.type, text: clean(n.text)})),
+    rootCauses: sel.points.filter(p => p.kind === "gap" && p.items.some(i => i.t.id === t.id) && opts.dec && opts.dec[p.decKey] && (opts.dec[p.decKey].where || opts.dec[p.decKey].why))
+      .map(p => { const d = opts.dec[p.decKey]; return {competency: SHORT[p.code], sits: d.where ? SHORT[d.where] : null, why: d.why ? KUSA[d.why].name : null}; }),
+    instructorOverallRemark: t.overall || null
+  };
+}
+
+return {reportInput, SHORT, analyse, selectPoints, buildBrief, buildReport, whiteboard, checks, FW, OBT, KUSA, LOS, TRITE, clean};
 
 })();
 </script>
 <script>
-/* ===== mvp13 — Debrief screen (whiteboard, brief, notes from the room) and
-   generated report (editable; the generated and the final text both travel
-   with the session so the generator can be tuned on what instructors change).
-   Nothing on these screens writes a grade. ===== */
-const REP_ENGINE = "r1";
-let xbSteps = {}, repT = 0, repTrail = false;
+/* ===== mvp14 — Debrief, one card at a time; report drafted by Claude =====
+   Debrief: board → opening (same every session) → one card per competency point →
+   closing (same every session) → one-to-one points. Nothing here writes a grade.
+   Report: a synthesis of the session per competency, drafted through the collector
+   (Claude), then edited and signed by the instructor. Both texts travel with the session. */
+const DRAFT_KEY = "tms-draft-7Hq2";
+let xbIdx = 0, xbSteps = {}, xbCause = {}, xbSess = "", repT = 0, repBusy = false, repErr = "";
 const xe = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
 function xbState() {
-  S.debrief = S.debrief || {}; S.debrief.raised = S.debrief.raised || {}; S.debrief.dec = S.debrief.dec || {}; S.debrief.fac = S.debrief.fac || {}; S.debrief.notes = S.debrief.notes || [];
-  S.report = S.report || {}; ["gen", "final", "html", "edited", "basis"].forEach(k => { S.report[k] = S.report[k] || {}; });
+  S.debrief = S.debrief || {}; S.debrief.raised = S.debrief.raised || {}; S.debrief.dec = S.debrief.dec || {};
+  S.debrief.fac = S.debrief.fac || {}; S.debrief.notes = S.debrief.notes || [];
+  S.report = S.report || {}; ["gen", "final", "edited"].forEach(k => { S.report[k] = S.report[k] || {}; });
   S.report.labels = S.report.labels || "ek";
+  const key = [S.date, S.stype, (S.trainees || []).map(t => t.name).join()].join("|");
+  if (key !== xbSess) { xbSess = key; xbIdx = 0; xbSteps = {}; xbCause = {}; }
   return S.debrief;
 }
-function xbCompute() {
-  xbState();
-  const A = TMSR.analyse(S), sel = TMSR.selectPoints(A), B = TMSR.buildBrief(A, sel);
-  return {A, sel, B};
-}
+function xbCompute() { xbState(); const A = TMSR.analyse(S), sel = TMSR.selectPoints(A); return {A, sel}; }
 const xbLetter = c => TMSR.FW[S.report.labels || "ek"][c][0];
-const xbName = c => TMSR.FW[S.report.labels || "ek"][c][1];
+const xbName = c => TMSR.SHORT[c];
+function noteGet(key, tid) { const n = xbState().notes.find(x => x.key === key && x.traineeId === tid); return n ? n.text : ""; }
+function noteSet(key, tid, type, text) {
+  const D = xbState(), i = D.notes.findIndex(x => x.key === key && x.traineeId === tid);
+  if (!String(text).trim()) { if (i >= 0) D.notes.splice(i, 1); return; }
+  if (i >= 0) { D.notes[i].text = text; D.notes[i].type = type; } else D.notes.push({id: uid(), key, t: new Date().toISOString(), traineeId: tid, type, text});
+}
 
-/* ---------- Debrief screen ---------- */
+/* ---------- Debrief: cards ---------- */
+function xbCards(A, sel) {
+  const B = TMSR.buildBrief(A, sel, S.debrief.raised);
+  const crew = B.points.filter(p => p.mode !== "individual"), solo = B.points.filter(p => p.mode === "individual");
+  return {B, cards: [{k: "board", lab: "Board"}, {k: "open", lab: "Opening"}]
+    .concat(crew.map((p, i) => ({k: "pt", p, lab: String(i + 1)})))
+    .concat([{k: "close", lab: "Closing"}])
+    .concat(solo.map((p, i) => ({k: "pt", p, lab: "1:1" + (solo.length > 1 ? " " + (i + 1) : "")})))};
+}
 function renderBriefScr() {
-  const {A, sel} = xbCompute(), D = xbState();
-  D.raised = D.raised || {};
-  const B = TMSR.buildBrief(A, sel, D.raised);
-  const box = document.getElementById("xbBody");
-  if (!A.trainees.length) { box.innerHTML = '<div class="xb-empty">No observations yet. Capture and grade the session first.</div>'; renderNotes(); return; }
+  const {A, sel} = xbCompute(), box = document.getElementById("xbBody");
+  if (!A.trainees.length) { box.innerHTML = '<div class="xb-empty">No observations yet. Capture and grade the session first.</div>'; return; }
+  const {B, cards} = xbCards(A, sel);
+  if (xbIdx >= cards.length) xbIdx = cards.length - 1;
+  const c = cards[xbIdx];
+  let h = `<div class="xb-dots" role="tablist">${cards.map((x, i) => `<button data-xgo="${i}" aria-selected="${i === xbIdx}" class="${x.k === "pt" && x.p.mode === "individual" ? "xb-solo" : ""}">${xe(x.lab)}</button>`).join("")}</div><div class="xb-stage">`;
+  if (c.k === "board") h += xbBoard(A, sel);
+  else if (c.k === "open") h += xbOpen(A, B);
+  else if (c.k === "close") h += xbClose(A, B);
+  else h += xbPoint(A, c.p, cards.filter(x => x.k === "pt" && x.p.mode === c.p.mode).length);
+  h += `</div><div class="xb-nav"><button class="btn ghost" data-xgo="${xbIdx - 1}" ${xbIdx ? "" : "disabled"}>← Back</button>` +
+    (xbIdx < cards.length - 1 ? `<button class="btn" data-xgo="${xbIdx + 1}">Next: ${xe(cards[xbIdx + 1].k === "pt" ? (cards[xbIdx + 1].p.code ? xbName(cards[xbIdx + 1].p.code) : "Independence") : cards[xbIdx + 1].lab)} →</button>` : `<button class="btn" onclick="go('report')">Write the report →</button>`) + `</div>`;
+  box.innerHTML = h; xbApplySteps();
+}
+function xbBoard(A, sel) {
   const W = TMSR.whiteboard(A, sel);
-  let h = `<div class="xb-board" aria-label="What to write on the whiteboard">
-    <div class="xb-boardlab">Write on the board</div>
+  return `<div class="xb-board"><div class="xb-boardlab">Write on the board</div>
     <div class="xb-bt">${xe(W.crew.join(" · "))}<span>${xe(W.title)}</span></div><ol class="xb-bl">` +
     W.lines.map(l => `<li class="xb-${l.kind}"><span class="xb-mk">${l.kind === "strength" ? "✓" : l.kind === "gap" ? "→" : "○"}</span>${xe(l.text)}${l.detail ? `<small>${xe(l.detail)}</small>` : ""}</li>`).join("") +
-    `</ol><div class="xb-sup">Support · ` + W.support.map(s => `${xe(s.who)}: ${xe(s.given || "?")}${s.req && s.req !== s.given ? ` <small>(${xe(s.req)} planned)</small>` : ""}`).join(" · ") + `</div></div>`;
-  if (W.oneToOne) h += `<p class="xb-meta" style="margin:6px 2px">Not on the board: ${W.oneToOne === 1 ? "one point" : W.oneToOne + " points"} to cover one-to-one after the crew debrief.</p>`;
-
-  // 1. Opening — the same for every session
-  h += `<div class="xb-card"><div class="xb-phase">1 · Opening <small>same every session · about 5 min</small></div>
-    ${B.opening.map(o => `<div class="xb-q xb-hi">${xe(o.q)}</div>`).join("")}
-    <i class="xb-hint">Ask, then wait. Let the crew talk before you add anything (13.6).</i>
-    <div class="xb-h3">What did they bring up? <small>tap while they talk — optional</small></div>` +
-    A.trainees.map(t => `<div class="xb-raise"><b>${xe(t.name)}</b><div class="xb-chips">` +
-      TMSR.FW.order.map(c => `<button data-xraise="${t.id}" data-c="${c}" aria-pressed="${(D.raised[t.id] || []).includes(c)}" title="${xe(xbName(c))}">${xe(xbLetter(c))} · ${xe(TMSR.FW.noun[c])}</button>`).join("") +
-    `</div></div>`).join("") + `<p class="xb-meta" style="margin:6px 0 0">What they raise moves to the front of the body. You add what they did not see at the end (13.5).</p></div>`;
-
-  // 2. Body — adapts to the observations
-  const crew = B.points.filter(p => p.mode !== "individual"), solo = B.points.filter(p => p.mode === "individual");
-  h += `<div class="xb-phase xb-phase-out">2 · By competency <small>${crew.length} point${crew.length > 1 ? "s" : ""} with the crew · about ${B.per} min each</small></div>`;
-  crew.forEach(p => { h += xbPoint(A, p); });
-  const rest = B.rest.filter(r => !r.c.minus.length);
-  if (rest.length) {
-    const byT = {}; rest.forEach(r => { (byT[r.t.name] = byT[r.t.name] || []).push(r.c.code); });
-    h += `<div class="xb-card"><div class="xb-h3" style="margin-top:0">Everything else was at the standard — say it in one sentence</div>` +
-      Object.entries(byT).map(([n, cs]) => `<p class="xb-p"><b>${xe(n)}</b>: ${xe(cs.map(xbName).join(", "))}.</p>`).join("") + `</div>`;
-  }
-  // 3. Closing — the same for every session
-  h += `<div class="xb-card"><div class="xb-phase">3 · Closing <small>same every session</small></div>` +
-    B.closing.map(c => `<div class="xb-q xb-hi">${xe(c.q)}${c.hint ? `<i>${xe(c.hint)}</i>` : ""}</div>`).join("") + `</div>`;
-  if (solo.length) {
-    h += `<div class="xb-phase xb-phase-out">One-to-one <small>critical point: a TEM flag or a grade of 1–2</small></div>`;
-    solo.forEach(p => { h += xbPoint(A, p); });
-  }
-  box.innerHTML = h; xbApplySteps(); renderNotes();
+    `</ol><div class="xb-sup">Support · ` + W.support.map(s => `${xe(s.who)}: ${xe(s.given || "?")}${s.req && s.req !== s.given ? ` <small>(${xe(s.req)} planned)</small>` : ""}`).join(" · ") + `</div></div>` +
+    (W.oneToOne ? `<p class="xb-meta">Not on the board: ${W.oneToOne === 1 ? "one point" : W.oneToOne + " points"} for one-to-one after the crew debrief.</p>` : "");
 }
-function xbPoint(A, p) {
-  const D = xbState();
-  const lab = {strength: "Strength", gap: "To develop", independence: "Independence", raised: "They raised it"}[p.kind];
-  const names = [...new Set(p.items.map(x => x.t.name))];
-  const obLine = (p.obs || []).slice(0, 2).map(k => TMSR.OBT[k]).join(" · ");
-  let h = `<div class="xb-card"><div class="xb-ph"><span class="xb-num">${p.n}</span><span class="xb-kind xb-k-${p.kind}">${lab}</span>${p.mode === "individual" ? `<span class="xb-kind xb-k-solo">One-to-one</span>` : ""}${p.raisedBy.length && p.kind !== "raised" ? `<span class="xb-kind xb-k-raised">Raised by ${xe(p.raisedBy.join(", "))}</span>` : ""}<span class="xb-meta">${p.minutes} min · first to answer: ${xe(p.who)}</span></div>
-    <div class="xb-title">${p.code ? xe(xbName(p.code)) + ` <small>${xe(xbLetter(p.code))}${names.length && p.kind !== "independence" ? " · " + xe(names.join(" and ")) : ""}</small>` : "Support and independence"}</div>
-    ${obLine ? `<div class="xb-ob">${xe(obLine)}</div>` : ""}`;
-  if (p.kind === "independence") h += `<p class="xb-p">Nothing was observed below the standard: the debrief is about how much the crew did on their own.</p>`;
-  const qh = o => `<div class="xb-quote xb-${o.val === "+" ? "plus" : o.val === "-" ? "minus" : "std"}">“${xe(o.text.replace(/\.$/, ""))}”<small>${xe(A.evName[o.eventId] || "")}${A.trainees.length > 1 ? "" : ""} · ${xe(TMSR.OBT[o.ob] || o.ob)}</small></div>`;
-  h += p.quotes.slice(0, 2).map(qh).join("");
-  if (p.quotes.length > 2) h += `<details class="xb-more"><summary>More notes</summary>${p.quotes.slice(2).map(qh).join("")}</details>`;
-  const L = p.ladder;
-  h += `<div class="xb-qs" data-pt="${p.id}"><div class="xb-q xb-hi"><span>High · the crew discovers</span>${xe(L.high)}<i>Then wait: let the silence work (13.6).</i></div>
-    <button class="xb-step" data-xstep="1">Step down: guide more ↓</button><div class="xb-q" data-lvl="1" hidden><span>Intermediate · you guide</span>${xe(L.mid)}</div>
-    <button class="xb-step" data-xstep="2" hidden>Step down: lead step by step ↓</button><div class="xb-q" data-lvl="2" hidden><span>Low · you lead</span>${xe(L.low)}</div></div>`;
+function xbField(key, t, type, label, ph) {
+  return `<label class="xb-fl">${xe(label)}<textarea data-xnote="${key}" data-tid="${t.id}" data-type="${type}" rows="2" placeholder="${xe(ph)}">${xe(noteGet(key, t.id))}</textarea></label>`;
+}
+function xbOpen(A, B) {
+  const D = xbState(), planned = [...new Set(B.points.filter(p => p.code).map(p => p.code))];
+  return `<div class="xb-card"><div class="xb-phase">Opening <small>same every session</small></div>
+    <ol class="xb-oq">${B.opening.map(o => `<li>${xe(o.q)}</li>`).join("")}</ol>
+    <i class="xb-hint">Ask, then wait. Let them talk before you add anything.</i>` +
+    A.trainees.map(t => `<div class="xb-who">${xe(t.name)}</div>
+      <div class="xb-chips"><span class="xb-meta">Mentioned:</span>${planned.map(c => `<button data-xraise="${t.id}" data-c="${c}" aria-pressed="${(D.raised[t.id] || []).includes(c)}">${xe(xbName(c))}</button>`).join("")}</div>` +
+      xbField("open", t, "self", "Their view, in a few words", "e.g. Felt rushed on the cockpit prep")).join("") + `</div>`;
+}
+function xbClose(A, B) {
+  return `<div class="xb-card"><div class="xb-phase">Closing <small>same every session</small></div>
+    <ol class="xb-oq">${B.closing.map(c => `<li>${xe(c.q)}</li>`).join("")}</ol>` +
+    A.trainees.map(t => `<div class="xb-who">${xe(t.name)}</div>` + xbField("close", t, "action", "Agreed for next time", "e.g. Review the line-up flows before the next session")).join("") + `</div>`;
+}
+function xbPoint(A, p, n) {
+  const D = xbState(), lab = {strength: "Strength", gap: "To develop", independence: "Independence", raised: "They raised it"}[p.kind];
+  const ts = [...new Map(p.items.map(x => [x.t.id, x.t])).values()];
+  const q = p.quotes[0], L = p.ladder;
+  let h = `<div class="xb-card"><div class="xb-ph"><span class="xb-kind xb-k-${p.kind}">${lab}</span>${p.mode === "individual" ? `<span class="xb-kind xb-k-solo">One-to-one</span>` : ""}${p.raisedBy.length && p.kind !== "raised" ? `<span class="xb-kind xb-k-raised">They raised it</span>` : ""}</div>
+    <div class="xb-title">${p.code ? xe(xbName(p.code)) : "Support and independence"}</div>
+    ${p.obs && p.obs.length ? `<div class="xb-ob">${xe(p.obs.slice(0, 2).map(k => TMSR.OBT[k]).join(" · "))}</div>` : ""}
+    <div class="xb-meta">${xe(ts.map(t => t.name).join(" and "))} · first to answer: ${xe(p.who)}</div>`;
+  if (q) h += `<div class="xb-quote xb-${q.val === "+" ? "plus" : q.val === "-" ? "minus" : "std"}">“${xe(q.text.replace(/\.$/, ""))}”<small>${xe(A.evName[q.eventId] || "")}</small></div>`;
+  h += `<div class="xb-qs" data-pt="${p.id}"><div class="xb-q xb-hi">${xe(L.high)}</div>
+    <button class="xb-step" data-xstep="1">Step down ↓</button><div class="xb-q" data-lvl="1" hidden>${xe(L.mid)}</div>
+    <button class="xb-step" data-xstep="2" hidden>Step down ↓</button><div class="xb-q" data-lvl="2" hidden>${xe(L.low)}</div></div>`;
   if (p.kind === "gap") {
-    const d = D.dec[p.decKey] || {};
-    if (p.leads.length) h += p.leads.map(l => `<div class="xb-lead"><b>${l.kind === "swing" ? "Capability shown" : "Pattern"}</b> ${xe(l.text)}<span>${xe(l.ask)}</span></div>`).join("");
-    h += `<div class="xb-h3">Where does it sit? <small>Handbook 14 · pick after the discussion</small></div><div class="xb-cands">` +
-      p.root.map(r => `<button class="xb-cand" data-xdec="${p.decKey}" data-where="${r.code}" aria-pressed="${d.where === r.code}"><b>${xe(xbLetter(r.code))}</b><span>${xe(xbName(r.code))}${r.cue ? ` <em>note: “${xe(r.cue)}”</em>` : ""}<small>${xe(r.seen)}</small><i>${xe(r.ask)}</i></span></button>`).join("") + `</div>`;
-    h += `<div class="xb-h3">Why? <small>Handbook 13</small></div><div class="xb-kusa">` +
-      Object.entries(TMSR.KUSA).map(([k, v]) => `<button data-xdec="${p.decKey}" data-why="${k}" aria-pressed="${d.why === k}"><b>${v.name}</b><span>${xe(v.ask)}</span></button>`).join("") + `</div>`;
+    const d = D.dec[p.decKey] || {}, open = xbCause[p.id] || d.where || d.why;
+    h += `<button class="xb-link" data-xcause="${p.id}">${open ? "Hide the cause ↑" : "Explore the cause ↓"}</button>`;
+    if (open) {
+      if (p.leads[0]) h += `<div class="xb-lead">${xe(p.leads[0].ask)}</div>`;
+      h += `<div class="xb-h3">Where does it sit?</div><div class="xb-chips">` +
+        p.root.slice(0, 3).map(r => `<button data-xdec="${p.decKey}" data-where="${r.code}" aria-pressed="${d.where === r.code}" title="${xe(r.ask)}">${xe(xbName(r.code))}</button>`).join("") + `</div>
+        <div class="xb-h3">Why?</div><div class="xb-chips">` +
+        Object.entries(TMSR.KUSA).map(([k, v]) => `<button data-xdec="${p.decKey}" data-why="${k}" aria-pressed="${d.why === k}">${v.name}</button>`).join("") + `</div>` +
+        (d.why ? `<p class="xb-meta">Ask: ${xe(TMSR.KUSA[d.why].ask)}</p>` : "");
+    }
   }
-  if (p.teach.length) h += `<div class="xb-h3">Add if they don’t raise it</div><ul class="xb-ul">${p.teach.map(m => `<li>${xe(m.text)}</li>`).join("")}</ul>`;
+  h += ts.map(t => xbField("pt-" + p.id, t, p.kind === "gap" ? "cause" : "obs", ts.length > 1 ? "What came up · " + t.name : "What came up", "Optional")).join("");
   const f = D.fac[p.id] || "";
-  h += `<div class="xb-fac"><span>Facilitation reached</span>${[["H", "High"], ["I", "Intermediate"], ["L", "Low"]].map(([k, n]) => `<button data-xfac="${p.id}" data-v="${k}" aria-pressed="${f === k}">${n}</button>`).join("")}</div></div>`;
+  h += `<div class="xb-fac"><span>Facilitation reached</span>${[["H", "High"], ["I", "Intermediate"], ["L", "Low"]].map(([k, nm]) => `<button data-xfac="${p.id}" data-v="${k}" aria-pressed="${f === k}">${nm}</button>`).join("")}</div></div>`;
   return h;
 }
 function xbApplySteps() {
@@ -1755,148 +1823,127 @@ function xbApplySteps() {
     b.querySelectorAll("[data-xstep]").forEach(s => { s.hidden = +s.dataset.xstep !== n + 1; });
   });
 }
-/* notes from the room */
-let noteType = "self", noteT = 0;
-const NOTE_TYPES = [["self", "Self-assessment"], ["cause", "Root cause"], ["obs", "Observation"], ["action", "Agreed action"]];
-function renderNotes() {
-  const D = xbState(), tr = activeTrainees();
-  if (noteT >= tr.length) noteT = 0;
-  document.getElementById("xbNoteWho").innerHTML = tr.map((i, k) => `<button data-xnt="${k}" aria-pressed="${k === noteT}">${xe(tname(i))}</button>`).join("");
-  document.getElementById("xbNoteType").innerHTML = NOTE_TYPES.map(([k, n]) => `<button data-xty="${k}" aria-pressed="${k === noteType}">${n}</button>`).join("");
-  const lab = Object.fromEntries(NOTE_TYPES);
-  const list = D.notes.slice().reverse();
-  document.getElementById("xbNoteList").innerHTML = list.length ? list.map(n => {
-    const t = S.trainees.find(x => x.id === n.traineeId);
-    return `<div class="momrow"><div class="mtxt"><b>${xe(lab[n.type] || n.type)}</b> · ${xe(t ? (t.name || "") : "")}<br>${xe(n.text)}</div><button class="btn ghost sm" data-xdel="${n.id}" aria-label="Delete note">✕</button></div>`;
-  }).join("") : `<div class="xb-meta">Nothing yet. Anything you add here goes into the report.</div>`;
-}
-function addNote() {
-  const ta = document.getElementById("xbNoteTxt"), txt = ta.value.trim(); if (!txt) return;
-  const tr = activeTrainees();
-  xbState().notes.push({id: uid(), t: new Date().toISOString(), traineeId: tid(tr[noteT] || 0), type: noteType, text: txt});
-  ta.value = ""; save(); renderNotes();
-}
 
-/* ---------- Report screen ---------- */
-function xbReport(t) {
-  const {A, sel} = xbCompute(), tr = A.trainees.find(x => x.id === t);
-  return tr ? {A, sel, t: tr, R: TMSR.buildReport(A, tr, sel, S.debrief.dec, S.report.labels, S.debrief.notes)} : null;
+/* ---------- Report ---------- */
+function repInput(id) {
+  const {A, sel} = xbCompute(), t = A.trainees.find(x => x.id === id);
+  return t ? TMSR.reportInput(A, t, sel, S.debrief.notes, {dec: S.debrief.dec}) : null;
 }
-function xbSent(e, tagOverride) {
-  const ev = e.ev || {}, tags = (ev.events || []).filter(Boolean);
-  const tag = tagOverride || (tags.length ? tags.join(" · ") : ev.los ? "support record" : ev.debrief ? "debrief" : ev.validity ? "framework" : ev.grade ? "grade" : "session record");
-  return `<span class="xb-s">${xe(e.text)}<span class="xb-tag" contenteditable="false">${xe(tag)}</span></span> `;
+function chosenFor(id, input) {
+  S.report.chosen = S.report.chosen || {};
+  if (!S.report.chosen[id]) {
+    const must = input.competencies.filter(c => c.must).map(c => c.competency);
+    S.report.chosen[id] = must.concat(input.competencies.filter(c => !must.includes(c.competency)).map(c => c.competency)).slice(0, Math.max(3, must.length));
+  }
+  return S.report.chosen[id];
 }
-function xbHTML(R) {
-  let h = `<div class="xb-rh">${xe(R.trainee)}</div><div class="xb-rm">${xe(R.head)}${R.roles ? " · " + xe(R.roles) : ""}</div>`;
-  h += `<div class="xb-rs">Summary</div><p>${R.summary.map(e => xbSent(e)).join("")}</p>`;
-  h += `<div class="xb-rs">Competencies</div>`;
-  R.sections.forEach(s => {
-    const g = parseInt(s.grade, 10);
-    h += `<div class="xb-rc"><b>${xe(s.title)}</b><span class="xb-g ${g <= 2 ? "xb-glo" : g >= 4 ? "xb-ghi" : ""}">${xe(s.grade)}</span></div><p>${s.parts.map(e => xbSent(e)).join("")}</p>`;
-    if (s.notes.length) h += `<ul>${s.notes.map(n => `<li class="xb-note">${xbSent({text: n.text + " (" + n.ev.eventName + ")"}, "instructor note")}</li>`).join("")}</ul>`;
-  });
-  if (R.support.length) h += `<div class="xb-rs">Level of support</div><p>${R.support.map(e => xbSent(e)).join("")}</p>`;
-  if (R.debrief.length) h += `<div class="xb-rs">Debrief</div><ul>${R.debrief.map(e => `<li>${xbSent(e)}</li>`).join("")}</ul>`;
-  if (R.next.length) h += `<div class="xb-rs">For the next instructor</div><ul>${R.next.map(e => `<li>${xbSent(e)}</li>`).join("")}</ul>`;
-  if (R.other.length) h += `<div class="xb-rs">Other observations</div><ul>${R.other.map(e => `<li>${xbSent(e)}</li>`).join("")}</ul>`;
-  if (R.overall) h += `<div class="xb-rs">Overall comment</div><p>${xbSent({text: R.overall}, "your comment")}</p>`;
-  return h;
+function draftReport(id, prev) {
+  if (repBusy) return;
+  const input = repInput(id); if (!input) return;
+  const order = input.competencies.map(c => c.competency);
+  input.chosenCompetencies = chosenFor(id, input).slice().sort((a, b) => order.indexOf(a) - order.indexOf(b));
+  if (!input.chosenCompetencies.length) { repErr = "Choose at least one competency."; renderReport(); return; }
+  const other = activeTrainees().map(i => tid(i)).find(x => x !== id && S.report.final[x]);
+  if (!PILOT_ENDPOINT) { repErr = "No collector configured."; renderReport(); return; }
+  repBusy = true; repErr = ""; renderReport();
+  fetch(PILOT_ENDPOINT, {method: "POST", body: JSON.stringify({action: "draftReport", k: DRAFT_KEY, input, otherTraineeDraft: other ? S.report.final[other] : ""})})
+    .then(r => r.json()).then(res => {
+      repBusy = false;
+      if (!res || !res.ok) { if (prev) S.report.final[id] = prev; repErr = (res && res.error) || "No draft came back."; renderReport(); return; }
+      S.report.gen[id] = res.text; S.report.final[id] = res.text; S.report.edited[id] = false;
+      S.report.engine = "llm:" + (res.model || "?"); S.report.at = new Date().toISOString(); save(); renderReport();
+    }).catch(() => { repBusy = false; if (prev) S.report.final[id] = prev; repErr = "Could not reach the drafting service. Check the connection and try again, or write the report below."; renderReport(); });
 }
-function xbText(R) {
-  const L = [R.trainee + " — " + R.head + (R.roles ? " · " + R.roles : ""), "", "SUMMARY", R.summary.map(e => e.text).join(" "), "", "COMPETENCIES"];
-  R.sections.forEach(s => { L.push(s.title + " — " + s.grade); s.parts.forEach(e => L.push(e.text)); s.notes.forEach(n => L.push("  " + n.text + " (" + n.ev.eventName + ")")); L.push(""); });
-  if (R.support.length) L.push("LEVEL OF SUPPORT", R.support.map(e => e.text).join(" "), "");
-  if (R.debrief.length) { L.push("DEBRIEF"); R.debrief.forEach(e => L.push("- " + e.text)); L.push(""); }
-  if (R.next.length) { L.push("FOR THE NEXT INSTRUCTOR"); R.next.forEach(e => L.push("- " + e.text)); L.push(""); }
-  if (R.other.length) { L.push("OTHER OBSERVATIONS"); R.other.forEach(e => L.push("- " + e.text)); L.push(""); }
-  if (R.overall) L.push("OVERALL COMMENT", R.overall);
-  return L.join("\n");
-}
-function xbEditedText(el) {
-  const c = el.cloneNode(true); c.querySelectorAll(".xb-tag").forEach(n => n.remove());
-  c.querySelectorAll(".xb-rc > b").forEach(n => n.insertAdjacentText("afterend", " — "));
-  c.querySelectorAll(".xb-rs").forEach(n => { n.textContent = n.textContent.toUpperCase(); n.insertAdjacentText("beforebegin", "\n"); });
-  c.querySelectorAll(".xb-rs,.xb-rc,.xb-rh,.xb-rm,p").forEach(n => n.insertAdjacentText("afterend", "\n"));
-  c.querySelectorAll("li").forEach(n => { n.insertAdjacentText("afterbegin", "- "); n.insertAdjacentText("afterend", "\n"); });
-  return c.textContent.replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
-}
-/* What the generated text depended on: if this changes after the instructor edited, say so. */
-function xbBasis() { return JSON.stringify([S.debrief.dec, S.debrief.notes.map(n => [n.traineeId, n.type, n.text]), S.grades, S.report.labels]).length + ":" + S.debrief.notes.length; }
-function refreshReports() {
-  xbState();
-  activeTrainees().forEach(i => {
-    const id = tid(i), r = xbReport(id); if (!r) return;
-    // Generated and final text are taken from the same rendering, so comparing them shows only what the instructor changed.
-    const html = xbHTML(r.R), tmp = document.createElement("div"); tmp.innerHTML = html;
-    const gen = xbEditedText(tmp);
-    S.report.gen[id] = gen;
-    if (!S.report.edited[id]) { S.report.html[id] = html; S.report.final[id] = gen; S.report.basis[id] = xbBasis(); }
-  });
-  S.report.engine = REP_ENGINE; S.report.at = new Date().toISOString();
+function writingAid(input) {
+  return `<details class="xb-more"><summary>What the draft is built from</summary><ul class="xb-ul">` +
+    input.competencies.slice(0, 5).map(c => `<li><b>${xe(c.competency)}</b> — ${xe(c.gradeMeaning)}; ${xe(c.trend)}${c.aboveStandard.length ? `; above: ${xe(c.aboveStandard.slice(0, 2).join(", "))}` : ""}${c.belowStandard.length ? `; below: ${xe(c.belowStandard.join(", "))}` : ""}</li>`).join("") +
+    (input.support.reading ? `<li><b>Support</b> — ${xe(input.support.required || "?")} planned, ${xe(input.support.given || "?")} given: ${xe(input.support.reading)}</li>` : "") + `</ul></details>`;
 }
 function renderReport() {
-  refreshReports(); save();
-  const tr = activeTrainees().filter(i => xbReport(tid(i)));
+  xbState();
   document.getElementById("repHead").textContent = [S.stype, S.date, S.icode].filter(Boolean).join(" · ") + (S.reqlos ? " — required support: " + S.reqlos : "");
-  const body = document.getElementById("repBody");
+  const body = document.getElementById("repBody"), tr = activeTrainees().filter(i => repInput(tid(i)));
   if (!tr.length) { body.innerHTML = '<div class="xb-empty">No observations recorded yet.</div>'; return; }
   if (repT >= tr.length) repT = 0;
-  const id = tid(tr[repT]), edited = !!S.report.edited[id], stale = edited && S.report.basis[id] !== xbBasis();
-  const r = xbReport(id);
-  const checks = TMSR.checks(r.A, r.t, r.R, r.sel).filter(c => c.level !== "ok");
-  let h = `<div class="xb-chips">${tr.map((i, k) => `<button data-xrt="${k}" aria-pressed="${k === repT}">${xe(tname(i))}${S.report.edited[tid(i)] ? " ✎" : ""}</button>`).join("")}
-    <span class="xb-lab"><button data-xlab="ek" aria-pressed="${S.report.labels === "ek"}">Emirates</button><button data-xlab="iata" aria-pressed="${S.report.labels === "iata"}">IATA</button></span></div>
-    <div class="xb-tools"><label class="xb-sw"><input type="checkbox" id="xbTrail" ${repTrail ? "checked" : ""}> Show where each sentence comes from</label>${edited ? `<button class="btn ghost sm" id="xbRegen">Discard my edits and regenerate</button>` : ""}</div>`;
-  if (stale) h += `<div class="xb-banner">You changed the debrief or the grades after editing this report. Your edits are kept; regenerate to include the changes.</div>`;
-  else if (edited) h += `<div class="xb-banner xb-soft">Edited. Your version is what will be submitted, alongside the generated one.</div>`;
-  h += `<article class="xb-rep ${repTrail ? "xb-trail" : ""}" id="xbRep" contenteditable="true" spellcheck="true" aria-label="Report, editable">${S.report.html[id] || ""}</article>
-    <p class="xb-meta">Draft generated from your flags, notes and the debrief. Edit freely: it is your report (Handbook 15.5).</p>`;
-  if (checks.length) h += `<div class="xb-card"><div class="xb-h3" style="margin-top:0">Before you sign</div>${checks.map(c => `<div class="xb-chk"><span class="xb-cl xb-cl-${c.level}">${c.level === "warn" ? "Check" : "Note"}</span><span>${xe(c.text)}${c.ref ? ` <small>${xe(c.ref)}</small>` : ""}</span></div>`).join("")}</div>`;
+  const id = tid(tr[repT]), input = repInput(id), text = S.report.final[id];
+  let h = `<div class="xb-chips">${tr.map((i, k) => `<button data-xrt="${k}" aria-pressed="${k === repT}">${xe(tname(i))}${S.report.final[tid(i)] ? " ✓" : ""}</button>`).join("")}</div>`;
+  const chosen = chosenFor(id, input);
+  h += `<div class="xb-card"><div class="xb-h3" style="margin-top:0">Competencies in the report <small>suggested from your grades and flags — tap to change</small></div><div class="xb-chips">` +
+    input.competencies.map(c => `<button data-xcomp="${xe(c.competency)}" aria-pressed="${chosen.includes(c.competency)}" title="${xe(c.gradeMeaning)}">${xe(c.competency)}${c.must ? " •" : ""}</button>`).join("") +
+    `</div><p class="xb-meta" style="margin:0">• has something to report on (below the standard, a 1–2 or a 5). Change the choice, then write a new draft.</p></div>`;
+  if (repErr) h += `<div class="xb-banner">${xe(repErr)}</div>`;
+  if (text == null || text === "") {
+    h += `<div class="xb-card xb-center"><p class="xb-p">The draft is a synthesis of the session per competency, written from your grades, your flags and what came up in the debrief. You edit it and sign it.</p>
+      <button class="btn" id="xbDraft" ${repBusy ? "disabled" : ""}>${repBusy ? "Writing the draft…" : "Write the draft"}</button>
+      <p class="xb-meta">Needs a connection · about 10 seconds</p></div>`;
+    h += `<label class="xb-fl">Or write it yourself<textarea id="xbRepText" rows="10" placeholder="CBTA – Knowledge&#10;…"></textarea></label>`;
+  } else {
+    h += `<textarea id="xbRepText" class="xb-reptext" rows="18" spellcheck="true" aria-label="Report">${xe(text)}</textarea>
+      <div class="xb-tools"><span class="xb-meta">${S.report.edited[id] ? "Edited by you" : "Draft — read it, change what you want"}</span>
+      <button class="btn ghost sm" id="xbRedraft" ${repBusy ? "disabled" : ""}>${repBusy ? "Writing…" : "Write a new draft"}</button></div>`;
+  }
+  h += writingAid(input);
   body.innerHTML = h;
+  const ta = document.getElementById("xbRepText"); if (ta && ta.classList.contains("xb-reptext")) { ta.style.height = "auto"; ta.style.height = (ta.scrollHeight + 4) + "px"; }
 }
-function finalizeReports() { if (typeof TMSR === "undefined") return; try { refreshReports(); } catch (e) {} }
+function finalizeReports() {}
 function copyReport() {
-  finalizeReports();
-  const txt = activeTrainees().map(i => S.report.final[tid(i)]).filter(Boolean).join("\n\n————————\n\n");
+  const txt = activeTrainees().map(i => { const t = S.report.final[tid(i)]; return t ? tname(i) + "\n" + t : ""; }).filter(Boolean).join("\n\n————————\n\n");
+  if (!txt) { alert("No report written yet."); return; }
   (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => alert("Report copied to clipboard."), () => alert("Copy failed — select the text manually."));
 }
 
 document.addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.xgo != null) { const i = +b.dataset.xgo; if (i >= 0) { xbIdx = i; renderBriefScr(); window.scrollTo(0, 0); } return; }
   if (b.dataset.xstep) { const box = b.closest(".xb-qs"); xbSteps[box.dataset.pt] = +b.dataset.xstep; xbApplySteps(); return; }
+  if (b.dataset.xcause) { xbCause[b.dataset.xcause] = !xbCause[b.dataset.xcause]; renderBriefScr(); return; }
+  if (b.dataset.xraise) {
+    const D = xbState(), list = D.raised[b.dataset.xraise] = D.raised[b.dataset.xraise] || [], c = b.dataset.c;
+    if (list.includes(c)) list.splice(list.indexOf(c), 1); else list.push(c);
+    save(); renderBriefScr(); return;
+  }
   if (b.dataset.xdec) {
     const D = xbState(), d = D.dec[b.dataset.xdec] = D.dec[b.dataset.xdec] || {};
     if (b.dataset.where) d.where = d.where === b.dataset.where ? "" : b.dataset.where;
     if (b.dataset.why) d.why = d.why === b.dataset.why ? "" : b.dataset.why;
-    save(); const y = window.scrollY; renderBriefScr(); window.scrollTo(0, y); return;
+    save(); renderBriefScr(); return;
   }
-  if (b.dataset.xraise) {
-    const D = xbState(), list = D.raised[b.dataset.xraise] = D.raised[b.dataset.xraise] || [], c = b.dataset.c;
+  if (b.dataset.xfac) { const D = xbState(); D.fac[b.dataset.xfac] = D.fac[b.dataset.xfac] === b.dataset.v ? "" : b.dataset.v; save(); renderBriefScr(); return; }
+  if (b.dataset.xcomp) {
+    const id = tid(activeTrainees()[repT] || 0), input = repInput(id), list = chosenFor(id, input), c = b.dataset.xcomp;
     if (list.includes(c)) list.splice(list.indexOf(c), 1); else list.push(c);
-    save(); const y = window.scrollY; renderBriefScr(); window.scrollTo(0, y); return;
+    save(); renderReport(); return;
   }
-  if (b.dataset.xfac) { const D = xbState(); D.fac[b.dataset.xfac] = D.fac[b.dataset.xfac] === b.dataset.v ? "" : b.dataset.v; save(); const y = window.scrollY; renderBriefScr(); window.scrollTo(0, y); return; }
-  if (b.dataset.xnt) { noteT = +b.dataset.xnt; renderNotes(); return; }
-  if (b.dataset.xty) { noteType = b.dataset.xty; renderNotes(); return; }
-  if (b.dataset.xdel) { const D = xbState(); D.notes = D.notes.filter(n => n.id !== b.dataset.xdel); save(); renderNotes(); return; }
-  if (b.id === "xbAdd") { addNote(); return; }
-  if (b.dataset.xrt) { repT = +b.dataset.xrt; renderReport(); return; }
-  if (b.dataset.xlab) { xbState(); S.report.labels = b.dataset.xlab; renderReport(); return; }
-  if (b.id === "xbRegen") {
-    const tr = activeTrainees(), id = tid(tr[repT] || 0);
-    if (!confirm("Discard your edits to this report and regenerate it?")) return;
-    delete S.report.edited[id]; renderReport(); return;
+  if (b.dataset.xrt) { repT = +b.dataset.xrt; repErr = ""; renderReport(); return; }
+  if (b.id === "xbDraft") { draftReport(tid(activeTrainees()[repT] || 0)); return; }
+  if (b.id === "xbRedraft") {
+    const id = tid(activeTrainees()[repT] || 0);
+    if (S.report.edited[id] && !confirm("Replace your edited report with a new draft?")) return;
+    const prev = S.report.final[id]; S.report.final[id] = ""; draftReport(id, prev); return;
   }
 });
 document.addEventListener("input", e => {
-  if (e.target.id !== "xbRep") return;
-  const tr = activeTrainees(), id = tid(tr[repT] || 0);
-  S.report.html[id] = e.target.innerHTML; S.report.final[id] = xbEditedText(e.target);
-  if (!S.report.edited[id]) { S.report.edited[id] = true; }
-  try { localStorage.setItem("tms_mvp5", JSON.stringify(S)); } catch (x) {}
+  const el = e.target;
+  if (el.dataset && el.dataset.xnote) { noteSet(el.dataset.xnote, el.dataset.tid, el.dataset.type, el.value); try { localStorage.setItem("tms_mvp5", JSON.stringify(S)); } catch (x) {} return; }
+  if (el.id === "xbRepText") {
+    const id = tid(activeTrainees()[repT] || 0);
+    S.report.final[id] = el.value; S.report.edited[id] = true;
+    if (el.classList.contains("xb-reptext")) { el.style.height = "auto"; el.style.height = (el.scrollHeight + 4) + "px"; }
+    try { localStorage.setItem("tms_mvp5", JSON.stringify(S)); } catch (x) {}
+  }
 });
-document.addEventListener("change", e => { if (e.target.id === "xbTrail") { repTrail = e.target.checked; document.getElementById("xbRep").classList.toggle("xb-trail", repTrail); } });
+document.addEventListener("change", e => { if (e.target.id === "xbRepText" && !e.target.classList.contains("xb-reptext")) renderReport(); });
+
+/* Google Sheets refuses a cell over 50,000 characters, and the collector stores the
+   whole session in one cell. The report travels as plain text only. */
+const PAYLOAD_MAX = 48000;
+function compactPayload(P) {
+  const R = P.report || {};
+  P.report = {engine: R.engine || "", labels: R.labels || "ek", at: R.at || "", chosen: R.chosen || {}, edited: R.edited || {}, final: R.final || {}, gen: R.gen || {}};
+  if (JSON.stringify(P).length > PAYLOAD_MAX) { P.report.gen = {}; P.report.genDropped = true; }
+  return P;
+}
 
 </script>
 <script>
