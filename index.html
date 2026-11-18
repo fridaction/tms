@@ -65,6 +65,14 @@
   .xb-quote small{display:block;font-size:11.5px;color:var(--muted)}
   .xb-plus{border-left-color:var(--pos)}.xb-minus{border-left-color:var(--amber)}
   .xb-more summary{font-size:12.5px;color:var(--blue);cursor:pointer;margin:4px 0}
+  .xb-nsel{margin-top:10px;border-top:1px solid var(--line);padding-top:6px}
+  .xb-ng{margin:6px 0 8px}
+  .xb-nt{position:relative;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px 6px 30px;margin:4px 0;font:inherit;font-size:12.5px;line-height:1.35;color:var(--navy);cursor:pointer;display:block}
+  .xb-nt span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .xb-nt::before{content:"";position:absolute;left:9px;top:8px;width:12px;height:12px;border:1.5px solid var(--muted);border-radius:3px;background:#fff}
+  .xb-nt[aria-pressed="true"]{border-color:var(--navy);background:#eef3fa}
+  .xb-nt[aria-pressed="true"] span{-webkit-line-clamp:unset}
+  .xb-nt[aria-pressed="true"]::before{background:var(--navy);border-color:var(--navy)}
   .xb-qs{border:1px solid var(--line);border-radius:10px;margin:10px 0 4px;overflow:hidden}
   .xb-q{padding:9px 11px;border-top:1px solid var(--line);font-size:14px}
   .xb-q:first-child{border-top:0}
@@ -481,15 +489,15 @@ Object.entries(OBDATA).forEach(([k,[,obs]])=>{if(obs.length)CIDX[k]=String(obs[0
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
 const KW=[["support",["8.4","5.1"]],["assistance",["8.4","5.1"]],["centerline",["4.1","4.5"]],["center line",["4.1","4.5"]],["centre line",["4.1","4.5"]],["aiming point",["4.5","4.1"]],["landing",["4.1","4.5"]],["decrab",["4.1","4.3"]],["trim",["4.6","4.1"]],["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp14";
-const APP_DATE="05/11/2026";
+const APP_VER="mvp15";
+const APP_DATE="18/11/2026";
 /* The "what's new" screen fires on APP_NEWS_VER, not APP_VER, so a fix that
    changes nothing an instructor can see does not interrupt them again. */
-const APP_NEWS_VER="mvp14";
+const APP_NEWS_VER="mvp15";
 const APP_NEWS=[
- "<b>Step 3 is now called Grade.</b> Nothing changes there: you still set the grades.",
- "<b>New step 4, Debrief — one step at a time.</b> What to write on the board, then the opening (the same questions every session), one card per competency point with one question (step down if needed), and the closing. Note what comes up as you go.",
- "<b>Step 5, Report.</b> Tap <b>Write the draft</b>: a synthesis of the session per competency, written in your style from your grades, flags and debrief notes. Edit it and sign it. Both the draft and your final version are sent with the session."
+ "<b>Report: the draft is now written from the OBs you flagged.</b> Your in-the-moment notes are no longer used by default.",
+ "<b>Want a note in the report?</b> Under the competencies, open <b>Your notes in the report</b> and tick the one or two that matter, then write a new draft.",
+ "<b>A more natural report</b> in simple English, addressed to the trainee, the next instructor and management. All nine competencies can be chosen."
 ];
 let S=blank();let capOpen=new Set();
 function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],moments:[],tem:[],temOn:true,grades:{},actuallos:"",overall:"",debrief:{dec:{},fac:{},notes:[]},report:{gen:{},final:{},html:{},edited:{},basis:{},labels:"ek"}};}
@@ -1687,11 +1695,11 @@ function reportInput(A, t, sel, notes, opts) {
       howOften: c.often || null, trend: trendOf(A, c),
       aboveStandard: obsOf("plus"), belowStandard: obsOf("minus"), atStandard: obsOf("std").filter(x => !obsOf("plus").includes(x) && !obsOf("minus").includes(x)).slice(0, 6),
       exercises: uniq(c.events.slice().sort((a, b) => A.evIdx[a] - A.evIdx[b]).map(e => A.evName[e])),
-      notes: myNotes.map(m => (A.evName[m.eventId] ? A.evName[m.eventId] + ": " : "") + clean(m.text)),
+      notes: myNotes.map(m => ({id: m.id, text: (A.evName[m.eventId] ? A.evName[m.eventId] + ": " : "") + clean(m.text)})),
       must, concreteDetailAllowed: concrete,
       relevance: (must ? 100 : 0) + c.plus.length * 3 + myNotes.length * 2 + c.events.length + (c.grade && c.grade !== 3 ? 2 : 0)};
   }).sort((a, b) => b.relevance - a.relevance);
-  const loose = mom.filter(m => !(m.obCodes || []).length && !t.obs.some(o => o.momentId === m.id)).map(m => (A.evName[m.eventId] ? A.evName[m.eventId] + ": " : "") + clean(m.text));
+  const loose = mom.filter(m => !(m.obCodes || []).length && !t.obs.some(o => o.momentId === m.id)).map(m => ({id: m.id, text: (A.evName[m.eventId] ? A.evName[m.eventId] + ": " : "") + clean(m.text)}));
   return {
     session: {type: A.meta.type, exercises: uniq((A.S.events || []).map(e => A.evName[e.id])), role: t.roles.join("/")},
     trainee: t.name,
@@ -1829,6 +1837,28 @@ function repInput(id) {
   const {A, sel} = xbCompute(), t = A.trainees.find(x => x.id === id);
   return t ? TMSR.reportInput(A, t, sel, S.debrief.notes, {dec: S.debrief.dec}) : null;
 }
+/* mvp15 — the report is written from the flagged OBs. The instructor's in-the-moment notes
+   are NOT sent unless ticked here: many were cleared in the debrief or do not matter for the
+   objectives. Keys are "<competency>|<momentId>" or "other|<momentId>"; unticked by default. */
+let repNotesOpen = false;
+function notesSel(id) { S.report.notesSel = S.report.notesSel || {}; return S.report.notesSel[id] = S.report.notesSel[id] || []; }
+function applyNotesSel(id, input) {
+  const ns = notesSel(id);
+  input.competencies.forEach(c => { c.notes = (c.notes || []).filter(n => ns.includes(c.competency + "|" + n.id)).map(n => n.text); });
+  input.otherNotes = (input.otherNotes || []).filter(n => ns.includes("other|" + n.id)).map(n => n.text);
+  return input;
+}
+function notesPicker(id, input, chosen) {
+  const groups = input.competencies.filter(c => chosen.includes(c.competency) && c.notes.length).map(c => ({k: c.competency, label: c.competency, notes: c.notes}))
+    .concat(input.otherNotes.length ? [{k: "other", label: "Other notes", notes: input.otherNotes}] : []);
+  const keys = groups.flatMap(g => g.notes.map(n => g.k + "|" + n.id)); if (!keys.length) return "";
+  const ns = notesSel(id), on = keys.filter(k => ns.includes(k)).length;
+  return `<details class="xb-more xb-nsel"${repNotesOpen ? " open" : ""}><summary>Your notes in the report — ${on ? on + " added" : "none added"}</summary>
+    <p class="xb-meta" style="margin:2px 0 6px">The report is written from the OBs you flagged. Tick a note only if it matters for the report.</p>` +
+    groups.map(g => `<div class="xb-ng"><div class="xb-meta"><b>${xe(g.label)}</b></div>` + g.notes.map(n => { const k = g.k + "|" + n.id; return `<button class="xb-nt" data-xnsel="${xe(k)}" aria-pressed="${ns.includes(k)}"><span>${xe(n.text)}</span></button>`; }).join("") + `</div>`).join("") +
+    `</details>`;
+}
+document.addEventListener("toggle", e => { if (e.target.classList && e.target.classList.contains("xb-nsel")) repNotesOpen = e.target.open; }, true);
 function chosenFor(id, input) {
   S.report.chosen = S.report.chosen || {};
   if (!S.report.chosen[id]) {
@@ -1842,6 +1872,7 @@ function draftReport(id, prev) {
   const input = repInput(id); if (!input) return;
   const order = input.competencies.map(c => c.competency);
   input.chosenCompetencies = chosenFor(id, input).slice().sort((a, b) => order.indexOf(a) - order.indexOf(b));
+  applyNotesSel(id, input);
   if (!input.chosenCompetencies.length) { repErr = "Choose at least one competency."; renderReport(); return; }
   const other = activeTrainees().map(i => tid(i)).find(x => x !== id && S.report.final[x]);
   if (!PILOT_ENDPOINT) { repErr = "No collector configured."; renderReport(); return; }
@@ -1870,7 +1901,7 @@ function renderReport() {
   const chosen = chosenFor(id, input);
   h += `<div class="xb-card"><div class="xb-h3" style="margin-top:0">Competencies in the report <small>suggested from your grades and flags — tap to change</small></div><div class="xb-chips">` +
     input.competencies.map(c => `<button data-xcomp="${xe(c.competency)}" aria-pressed="${chosen.includes(c.competency)}" title="${xe(c.gradeMeaning)}">${xe(c.competency)}${c.must ? " •" : ""}</button>`).join("") +
-    `</div><p class="xb-meta" style="margin:0">• has something to report on (below the standard, a 1–2 or a 5). Change the choice, then write a new draft.</p></div>`;
+    `</div><p class="xb-meta" style="margin:0">• has something to report on (below the standard, a 1–2 or a 5). Change the choice, then write a new draft.</p>${notesPicker(id, input, chosen)}</div>`;
   if (repErr) h += `<div class="xb-banner">${xe(repErr)}</div>`;
   if (text == null || text === "") {
     h += `<div class="xb-card xb-center"><p class="xb-p">The draft is a synthesis of the session per competency, written from your grades, your flags and what came up in the debrief. You edit it and sign it.</p>
@@ -1910,6 +1941,11 @@ document.addEventListener("click", e => {
     save(); renderBriefScr(); return;
   }
   if (b.dataset.xfac) { const D = xbState(); D.fac[b.dataset.xfac] = D.fac[b.dataset.xfac] === b.dataset.v ? "" : b.dataset.v; save(); renderBriefScr(); return; }
+  if (b.dataset.xnsel != null) {
+    const id = tid(activeTrainees()[repT] || 0), l = notesSel(id), k = b.dataset.xnsel;
+    if (l.includes(k)) l.splice(l.indexOf(k), 1); else l.push(k);
+    repNotesOpen = true; save(); renderReport(); return;
+  }
   if (b.dataset.xcomp) {
     const id = tid(activeTrainees()[repT] || 0), input = repInput(id), list = chosenFor(id, input), c = b.dataset.xcomp;
     if (list.includes(c)) list.splice(list.indexOf(c), 1); else list.push(c);
@@ -1940,7 +1976,7 @@ document.addEventListener("change", e => { if (e.target.id === "xbRepText" && !e
 const PAYLOAD_MAX = 48000;
 function compactPayload(P) {
   const R = P.report || {};
-  P.report = {engine: R.engine || "", labels: R.labels || "ek", at: R.at || "", chosen: R.chosen || {}, edited: R.edited || {}, final: R.final || {}, gen: R.gen || {}};
+  P.report = {engine: R.engine || "", labels: R.labels || "ek", at: R.at || "", chosen: R.chosen || {}, notesSel: R.notesSel || {}, edited: R.edited || {}, final: R.final || {}, gen: R.gen || {}};
   if (JSON.stringify(P).length > PAYLOAD_MAX) { P.report.gen = {}; P.report.genDropped = true; }
   return P;
 }
