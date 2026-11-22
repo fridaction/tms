@@ -259,7 +259,15 @@
   .oftenwhy{color:var(--muted);margin:4px 0 10px 0;line-height:1.45}
   .oftenwhy:empty{margin:0}
   .sg.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .focuspick{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .fchip{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    min-width:52px;height:38px;padding:0 8px;border:1.5px solid #cdd7e4;border-radius:9px;
+    background:#fff;color:var(--navy);font-weight:800;font-size:12px;line-height:1;cursor:pointer}
+  .fchip .fnum{font-size:9px;font-weight:700;opacity:.55;letter-spacing:.5px}
+  .fchip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .fchip.on .fnum{opacity:.7}
 </style>
+
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -323,14 +331,43 @@
       <div><label>Session type</label><input type="text" id="stype" placeholder="e.g. FFS 4" oninput="save()"></div>
       <div><label>Date</label><input type="date" id="date" oninput="save()" onchange="save()"></div>
     </div>
+    <!-- Device: a condition of the competency model (GM p.9 — "aircraft, FSTD,
+         tool, system, or equipment"), not a detail. The same go-around produced
+         manual-flying OBs on 23% of occasions in the full-flight simulator and
+         0% on the procedure trainer: what is observable depends on the machine.
+         It lived inside the free-text session type, where nothing could read it. -->
+    <div class="row">
+      <div><label>Device</label>
+        <select id="device" onchange="save()">
+          <option value="">— not stated —</option>
+          <option value="FFS">FFS — full flight simulator</option>
+          <option value="FTD">FTD — flight training device</option>
+          <option value="APT">APT — procedure trainer / flat panel</option>
+          <option value="CLASSROOM">Classroom / CBT</option>
+          <option value="AIRCRAFT">Aircraft</option>
+        </select>
+        <div class="small" style="margin-top:4px">What the device cannot show cannot be assessed — IATA GM §8.2.3.</div></div>
+    </div>
     <div class="row">
       <div><label>Safety margin (TEM) assessed this session?</label>
         <select id="temon" onchange="save();renderTem()"><option value="1">Yes — scenario / LOE / line-oriented</option><option value="0">No — psychomotor practice, the instructor manages TEM</option></select>
         <div class="small" style="margin-top:4px">IATA GM §8.3 — when TEM is not assessed, the grade is the lower of How Many and How Often only.</div></div>
     </div>
     <div class="row">
-      <div><label>Instructor code (anonymous, e.g. INS-01)</label><input type="text" id="icode" placeholder="e.g. INS-01" oninput="save()"></div>
+      <div><label>Instructor code (anonymous, e.g. INS-01)</label>
+        <input type="text" id="icode" placeholder="e.g. INS-01" list="icodes" oninput="save()" onblur="normIcode()">
+        <datalist id="icodes"></datalist></div>
     </div>
+    <!-- Session focus — IATA GM §8.1: "the trainer guidance may indicate
+         competencies that may be irrelevant to be assessed or recorded".
+         Declaring it does NOT filter anything: the capture stays open and an OB
+         marked outside the focus is kept, because the trainee showed a
+         behaviour. What the focus buys is a closing check — a competency the
+         session set out to assess should not end with nothing against it.
+         Leaving it empty is a normal answer, not an omission. -->
+    <label style="margin-top:12px">Session focus <span class="small" style="font-weight:400">— the competencies this session sets out to assess (optional)</span></label>
+    <div id="focusPick" class="focuspick"></div>
+    <div class="small" id="focusHint" style="margin-top:4px"></div>
     <label>Events of the session</label>
     <div class="row"><div style="flex:3"><input type="text" id="evname" placeholder="Add an event (e.g. EFATO)" onkeydown="if(event.key==='Enter')addEvent()"></div>
       <button class="btn" style="flex:0" onclick="addEvent()">Add</button></div>
@@ -489,18 +526,59 @@ Object.entries(OBDATA).forEach(([k,[,obs]])=>{if(obs.length)CIDX[k]=String(obs[0
 const OFTEN=[["Rarely",1],["Occasionally",2],["Regularly",3],["Consistently",4],["Always",5]];
 const KW=[["support",["8.4","5.1"]],["assistance",["8.4","5.1"]],["centerline",["4.1","4.5"]],["center line",["4.1","4.5"]],["centre line",["4.1","4.5"]],["aiming point",["4.5","4.1"]],["landing",["4.1","4.5"]],["decrab",["4.1","4.3"]],["trim",["4.6","4.1"]],["windshear",["4.1","4.4","6.6","7.3"]],["wind shear",["4.1","4.4","6.6","7.3"]],["upset",["4.1","4.3","6.3","8.1"]],["stall",["4.1","4.3","7.2"]],["recover",["6.9","4.1"]],["tcas",["6.6","7.3","4.2"]],["resolution advisory",["6.6","7.3"]],["traffic",["7.3","7.1"]],["depress",["1.2","7.5","6.6"]],["oxygen",["1.4","7.5"]],["emergency descent",["6.6","4.4","2.9"]],["fire",["1.2","6.1","6.6"]],["smoke",["1.2","6.6","7.5"]],["divert",["6.5","6.6","7.6"]],["diversion",["6.5","6.6","7.6"]],["fuel",["6.5","7.6","8.2"]],["holding",["3.1","8.2","7.6"]],["lvo",["1.6","3.5","7.4"]],["cat ii",["1.6","3.5","7.4"]],["cat iii",["1.6","3.5","7.4"]],["autoland",["3.5","3.6","4.7"]],["rnp",["3.1","3.4","1.6"]],["minima",["1.6","6.6","7.4"]],["stabilis",["4.4","6.6","7.2"]],["stabiliz",["4.4","6.6","7.2"]],["unstable",["4.4","6.6","5.10"]],["flare",["4.1","4.5"]],["decrab",["4.1","4.3"]],["crosswind",["4.1","4.3"]],["touchdown",["4.1","4.5"]],["go-around",["6.6","4.4"]],["go around",["6.6","4.4"]],["missed approach",["6.6","4.4"]],["rejected",["6.6","1.2"]],["rto",["6.6","1.2"]],["rotation",["4.1","4.5"]],["efato",["6.1","4.1","4.3"]],["engine",["6.1","4.1"]],["failure",["6.1","7.6"]],["single-engine",["4.1","4.3","6.1"]],["asymmetr",["4.1","4.3"]],["rudder",["4.1","4.3"]],["thrust",["4.1","1.2"]],["power setting",["4.1","4.3"]],["checklist",["1.2","8.8"]],["call-out",["2.9","1.3"]],["callout",["2.9","1.3"]],["call out",["2.9","1.3"]],["sop",["1.3","1.2"]],["procedure",["1.2","1.3"]],["flow",["1.2","1.4"]],["ecam",["1.2","1.4"]],["qrh",["1.1","1.2"]],["memory item",["1.2","1.1"]],["mel",["1.1","0.4","6.5"]],["where to find",["1.1","0.5"]],["find the information",["0.5","1.1"]],["locate",["1.1","0.5"]],["source",["0.5"]],["gear",["1.4","1.2"]],["flap",["1.4","1.2"]],["systems",["1.4","1.5","7.1"]],["deviation",["4.2","7.2"]],["altitude",["4.2","7.2","3.2"]],["energy",["7.2","4.2"]],["speed",["7.2","4.2"]],["raw data",["4.3","4.1"]],["raw-data",["4.3","4.1"]],["manual",["4.1","4.3"]],["handling",["4.1","4.5"]],["automation",["3.5","3.6"]],["autopilot",["3.5","3.6"]],["fms",["3.1","1.5"]],["fma",["3.6","4.7","1.5"]],["mode",["3.6","4.7"]],["guidance",["4.6","4.7"]],["brief",["2.3","8.2","7.6"]],["atc",["2.9","2.3","7.3"]],["clearance",["2.9","7.4"]],["readback",["2.9","2.4"]],["phraseolog",["2.9"]],["communicat",["2.3","2.4"]],["confirm",["2.4","8.7"]],["listen",["2.5"]],["question",["2.6"]],["escalat",["2.7"]],["datalink",["2.10"]],["crm",["5.4","5.2"]],["crew",["5.4","5.2"]],["teamwork",["5.2","5.4"]],["leadership",["5.2","5.7"]],["initiative",["5.2","5.7"]],["instruction",["5.9"]],["intervention",["5.10"]],["support to",["8.4","5.1"]],["support the",["8.4","5.1"]],["supporting",["8.4","5.1"]],["supported",["8.4","5.1"]],["offered",["8.4"]],["helped",["8.4"]],["assisted",["8.4"]],["seeks help",["8.6"]],["asked for",["8.6"]],["requested assist",["8.6"]],["accepts",["8.6","5.4"]],["input from",["5.4"]],["inputs from",["5.4"]],["tasksharing",["8.5","8.2"]],["task sharing",["8.5","8.2"]],["task-sharing",["8.5","8.2"]],["decision",["6.6","6.5"]],["decide",["6.6","6.5"]],["option",["6.5"]],["threat",["6.1","7.6"]],["error",["6.1","8.7"]],["adapt",["6.7","6.8"]],["resilien",["6.9"]],["monitor",["7.1","1.5"]],["scan",["7.1","1.5"]],["aware",["7.1","7.3"]],["situational",["7.1","7.3"]],["weather",["7.3","0.3"]],["terrain",["7.3","7.6"]],["runway",["7.3","4.4"]],["contaminat",["7.3","0.1"]],["verify",["8.8","7.4"]],["cross-check",["8.7"]],["crosscheck",["8.7"]],["workload",["8.2","8.1"]],["prioriti",["8.2","8.1"]],["delegat",["8.5"]],["time",["8.3"]],["calm",["8.1"]],["self-control",["8.1"]],["stress",["8.1","8.9"]],["distract",["8.9"]],["interrupt",["8.9"]],["contingency",["7.6"]],["plan",["8.2","7.6","5.3"]],["performance",["0.1","7.4"]],["knowledge",["0.1","0.7"]],["prepared",["0.2","0.7"]],["preparation",["1.2","8.2"]],["taxi",["4.1","7.3"]],["understanding",["0.7","1.7"]],["understood",["0.7","1.7"]],["tracking",["3.4","4.5","4.2"]],["discuss",["5.3","2.3"]],["share the",["5.3","2.3"]],["consideration",["6.5"]],["considers",["6.5"]],["pace",["8.3"]],["awareness",["7.1","7.3"]],["review",["6.7","7.4"]],["calculation",["0.1","7.4"]]];
 
-const APP_VER="mvp15";
-const APP_DATE="18/11/2026";
+const APP_VER="mvp16";
+const APP_DATE="21/11/2026";
 /* The "what's new" screen fires on APP_NEWS_VER, not APP_VER, so a fix that
    changes nothing an instructor can see does not interrupt them again. */
-const APP_NEWS_VER="mvp15";
+const APP_NEWS_VER="mvp16";
 const APP_NEWS=[
- "<b>Report: the draft is now written from the OBs you flagged.</b> Your in-the-moment notes are no longer used by default.",
- "<b>Want a note in the report?</b> Under the competencies, open <b>Your notes in the report</b> and tick the one or two that matter, then write a new draft.",
- "<b>A more natural report</b> in simple English, addressed to the trainee, the next instructor and management. All nine competencies can be chosen."
+ "<b>Session focus.</b> At setup you can now say which competencies the session sets out to assess. It changes nothing while you capture \u2014 everything is still proposed, and marking an OB outside the focus is kept, because the trainee showed a behaviour. Leaving it empty is a valid answer.",
+ "<b>Device.</b> FFS, FTD, APT, classroom or aircraft, as its own field. The same go-around gave manual-flying OBs on 23% of occasions in the full simulator and 0% on the procedure trainer \u2014 what the device can show decides what can be assessed (IATA GM \u00a78.2.3).",
+ "<b>Instructor code</b> is tidied as you type and remembers what this device has used. Four people had produced seven spellings, and each one split the data."
 ];
 let S=blank();let capOpen=new Set();
-function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",events:[],curEvent:null,curT:0,dbT:0,obs:[],moments:[],tem:[],temOn:true,grades:{},actuallos:"",overall:"",debrief:{dec:{},fac:{},notes:[]},report:{gen:{},final:{},html:{},edited:{},basis:{},labels:"ek"}};}
+function blank(){return{appVer:APP_VER,icode:"",actuallosByT:{},overallByT:{},pf0:0,trainees:[{id:uid(),name:""},{id:uid(),name:""}],pf:0,evPf:{},reqlos:"Medium",stype:"",date:"",device:"",focus:[],events:[],curEvent:null,curT:0,dbT:0,obs:[],moments:[],tem:[],temOn:true,grades:{},actuallos:"",overall:"",debrief:{dec:{},fac:{},notes:[]},report:{gen:{},final:{},html:{},edited:{},basis:{},labels:"ek"}};}
+
+/* --- Session focus ---------------------------------------------------------
+   A declared intention, nothing more. It never hides an OB and never changes a
+   suggestion: on 15 session types of the pilot, every competency a programme
+   declared as focus was marked — 50 out of 50 — while the app had never shown
+   that programme to the instructor. The declaration predicts the behaviour, so
+   it is worth recording; filtering on it would only make the data agree with
+   itself. */
+/* Own label map: the focus picker must not depend on the report module,
+   which lives in a later script block. */
+const FOCUSLBL={KNO:"Knowledge",PRO:"Procedures",COM:"Communication",FPA:"Automation",FPM:"Manual Flying",LTW:"Leadership & Teamwork",PSD:"Problem Solving & Decision Making",SAW:"Situational Awareness",WLM:"Workload Management"};
+function focusList(){return Array.isArray(S.focus)?S.focus:(S.focus=[]);}
+function toggleFocus(c){const f=focusList(),i=f.indexOf(c);if(i>=0)f.splice(i,1);else f.push(c);save();renderFocus();}
+function renderFocus(){
+  const box=document.getElementById("focusPick");if(!box)return;
+  const f=focusList();
+  box.innerHTML=Object.keys(OBDATA).map(function(k){
+    const on=f.indexOf(k)>=0;
+    return '<button type="button" class="fchip'+(on?' on':'')+'" onclick="toggleFocus(\''+k+'\')">'
+      +'<span class="fnum">'+(CIDX[k]||"")+'</span>'+k+'</button>';}).join("");
+  const h=document.getElementById("focusHint");
+  if(h)h.innerHTML=f.length
+    ? "Focus: <b>"+f.map(function(k){return FOCUSLBL[k]||k;}).join(" · ")+"</b>. You can still mark anything else — the focus only asks that these do not end up empty."
+    : "No focus declared — that is a valid answer. Nothing changes in the capture.";
+}
+/* Instructor codes drifted into 7 spellings for about 4 people ("INS 01",
+   "INS 1", "INS", "INS-03"), and each variant silently splits the data.
+   Normalise the obvious, and offer what this device has already used. */
+function normIcode(){
+  const el=document.getElementById("icode");if(!el)return;
+  const v=String(el.value||"").trim().toUpperCase().replace(/\s+/g," ").replace(/\s*-\s*/g,"-");
+  el.value=v;S.icode=v;
+  try{const seen=JSON.parse(localStorage.getItem("tms_icodes")||"[]");
+    if(v&&seen.indexOf(v)<0){seen.push(v);localStorage.setItem("tms_icodes",JSON.stringify(seen.slice(-12)));}}catch(e){}
+  fillIcodes();save();
+}
+function fillIcodes(){
+  const dl=document.getElementById("icodes");if(!dl)return;
+  let seen=[];try{seen=JSON.parse(localStorage.getItem("tms_icodes")||"[]");}catch(e){}
+  dl.innerHTML=seen.map(function(v){return '<option value="'+v+'">';}).join("");
+}
 function hasB(){return (S.trainees[1].name||"").trim()!=="";}
 
 /* --- PF/PM is a property of (trainee x event), not a global toggle ---------
@@ -540,6 +618,7 @@ function save(){
   const pfSel=+val("pf");if(S.pf0==null)S.pf0=S.pf||0;
   if(pfSel!==S.pf0){S.pf0=pfSel;S.pf=pfSel;syncObsRoles();}
   S.reqlos=val("reqlos");S.stype=val("stype");S.date=isoToDMY(val("date"));S.icode=val("icode")||S.icode||"";S.appVer=APP_VER;
+  {const dv=val("device");if(dv!=="")S.device=dv;else if(S.device==null)S.device="";}
   {const tv=val("temon");if(tv!=="")S.temOn=(tv==="1");}
   S.actuallosByT=S.actuallosByT||{};S.overallByT=S.overallByT||{};
   S.actuallosByT[tid(S.dbT)]=val("actuallos");S.overallByT[tid(S.dbT)]=val("overall");
@@ -1197,6 +1276,9 @@ function fillSetup(){
   /* Sessions are almost always logged the day they are flown — start on today. */
   document.getElementById("date").value=S.date?dmyToISO(S.date):todayISO();
   var ic=document.getElementById("icode");if(ic)ic.value=S.icode||"";
+  fillIcodes();
+  var dv=document.getElementById("device");if(dv)dv.value=S.device||"";
+  renderFocus();
   var tm=document.getElementById("temon");if(tm)tm.value=(S.temOn===false)?"0":"1";
   var al=document.getElementById("actuallos");if(al)al.value=(S.actuallosByT||{})[tid(S.dbT)]||"";
   var ov=document.getElementById("overall");if(ov)ov.value=(S.overallByT||{})[tid(S.dbT)]||"";
@@ -1325,7 +1407,11 @@ function analyse(S) {
       req, given, overall: ((S.overallByT || {})[t.id] || "").trim(),
       roles: uniq(obs.map(o => o.role).filter(Boolean))};
   });
-  return {S, evName, evIdx, trainees, meta: {type: S.stype || "", date: S.date || "", instr: S.icode || "", req: S.reqlos || "", nEvents: (S.events || []).length, temOn: !!S.temOn}};
+  /* The report now knows what the session set out to assess, so it can say
+     whether the intention was met instead of only listing what was marked.
+     Empty focus is normal and the draft must not invent one. */
+  return {S, evName, evIdx, trainees, meta: {type: S.stype || "", date: S.date || "", instr: S.icode || "", req: S.reqlos || "", nEvents: (S.events || []).length, temOn: !!S.temOn,
+    device: S.device || "", focus: (Array.isArray(S.focus) ? S.focus : []).map(function(k){return SHORT[k] || k;})}};
 }
 function parseLos(s, name) {
   if (!s) return "";
